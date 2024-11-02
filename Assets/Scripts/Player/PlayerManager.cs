@@ -11,7 +11,6 @@ public class PlayerManager : MonoBehaviour
     {
         START,
         END,
-        NULL,
         SIZE,
     }
 
@@ -29,7 +28,7 @@ void Start()
     AddFunction(Two);
     if (stateCount < (int)PlayerState.SIZE)
     {
-        Debug.Log("PlayerState‚É‘Î‰ž‚·‚éŠÖ”‚Ì‘ã“ü‚ª‘«‚è‚Ä‚È‚¢‚æBGameManager");
+        Debug.Log("PlayerState‚É‘Î‰ž‚·‚éŠÖ”‚Ì‘ã“ü‚ª‘«‚è‚Ä‚¢‚Ü‚¹‚ñBGameManager");
     }
 }
 
@@ -37,7 +36,7 @@ void Start()
 void Update()
 {
     StateFunctions[(int)state]();
-    if (Input.GetKeyDown(KeyCode.Alpha1)) { state = PlayerState.NULL; }
+    if (Input.GetKeyDown(KeyCode.Alpha1)) { state = PlayerState.START; }
     if (Input.GetKeyDown(KeyCode.Alpha2)) { state = PlayerState.END; }
     
 }   
