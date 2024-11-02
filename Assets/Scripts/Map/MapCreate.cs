@@ -11,8 +11,8 @@ public class MapCreate : MonoBehaviour
 {
     const int height = 9;
     const int width = 9;
-    const int mapHeight =4;
-    const int mapWidth = 4;
+    const int mapHeight = 20;
+    const int mapWidth = 10;
     float massSizeY;
     float massSizeX;
     int mapNumber = 0;
@@ -21,32 +21,27 @@ public class MapCreate : MonoBehaviour
     [SerializeField] TextAsset consoleMapCSV;
     [SerializeField] TextAsset doorMapCSV;
     [SerializeField] GameObject[] mapObjects;
-    List<int> pieceNumbers = new List<int>();
-   [SerializeField] int pieceCounter = 0;
-
+    List<string[]> pieceData;
+    const int handSize = 8;
+    int pieceCount = 0;
+    [SerializeField] GameObject[] handPiecePos;
+ 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        massSizeY = mapObjects[0].transform.localScale.y;
-        massSizeX = mapObjects[0].transform.localScale.x;
-        List<string[]> piece = new List<string[]>();
-        piece = PieceCsvReader(neutralMapCSV);
-        for(int i=0;i<pieceCounter;i++)
-        {
-            pieceNumbers.Add(i);
-        }
+        pieceData = new List<string[]>();
+        pieceData = PieceCsvReader(neutralMapCSV);
         for (int i = 0; i < mapHeight; i++)
         {
             for (int j = 0; j < mapWidth; j++)
             {
-                int pieceNumber=Random.Range(0, pieceNumbers.Count);
-                PieceCreater(piece, j, i,pieceNumbers[pieceNumber]);
-                pieceNumbers.RemoveAt(pieceNumber);
+                int pieceNumber=Random.Range(0,pieceCount);
+                PieceCreator(pieceData, j, i,pieceNumber,1);
             }
         }
-        MakeOuterWall();
+       // MakeOuterWall();
     }
 
     /// <summary>
@@ -63,9 +58,9 @@ public class MapCreate : MonoBehaviour
         {
             string line = reader.ReadLine();
             mapLineDatas.Add(line.Split(','));
-            if (line[0]=='E')
+            if (line[0] == 'E')
             {
-                pieceCounter++;
+                pieceCount++;
             }
         }
         return mapLineDatas;
@@ -79,7 +74,8 @@ public class MapCreate : MonoBehaviour
     /// <param name="x">生成するピースの横位置</param>
     /// <param name="y">生成するピースの縦位置</param>
     /// <param name="pieceNumber">生成したいピースの番号</param>
-    private void PieceCreater(List<string[]> piece,int x, int y,int pieceNumber) 
+    /// <param name="pieceSize">生成したいピースのサイズ</param>
+    private void PieceCreator(List<string[]> piece,int x, int y,int pieceNumber,float pieceSize) 
     {
         const int pieceColum = 11;
         for (int i = 0; i < height; i++)
@@ -88,9 +84,10 @@ public class MapCreate : MonoBehaviour
             {
                 string str = piece[i+pieceColum*pieceNumber][j][0].ToString();
                 int number = int.Parse(str);
-                Instantiate(mapObjects[number], new Vector3(transform.position.x + (j + width * x)*massSizeX, transform.position.y - (i + height * y)*massSizeY, 0), Quaternion.identity);
-                
-               
+                float posX = transform.position.x + (j + width * x) * pieceSize;
+                float posY = transform.position.y - (i + height * y) * pieceSize;
+                Instantiate(mapObjects[number], new Vector3(posX, 
+                    posY,0), Quaternion.identity);
             }
         }
     }

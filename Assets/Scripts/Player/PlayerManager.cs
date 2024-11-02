@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
     {
         START,
         END,
+        NULL,
         SIZE,
     }
 
@@ -36,15 +37,16 @@ void Start()
 void Update()
 {
     StateFunctions[(int)state]();
-    if (Input.GetKeyDown(KeyCode.Alpha1)) { state = PlayerState.START; }
+    if (Input.GetKeyDown(KeyCode.Alpha1)) { state = PlayerState.NULL; }
     if (Input.GetKeyDown(KeyCode.Alpha2)) { state = PlayerState.END; }
-}
+    
+}   
 
 
     /// <summary>
-    /// 
+    /// ステート管理を行う配列に引数として渡した関数を代入する関数です
     /// </summary>
-    /// <param name="function"></param>
+    /// <param name="function">代入したい関数</param>
     void AddFunction(StateFunction function)
     {
         if (stateCount >= (int)PlayerState.SIZE)
@@ -56,11 +58,12 @@ void Update()
 
     private void One()
     {
-        
+        Debug.Log(1);
     }
     private void Two()
     {
-
+        Debug.Log(2);
     }
 
 }
+　　
