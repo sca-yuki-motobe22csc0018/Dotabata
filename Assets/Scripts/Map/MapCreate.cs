@@ -23,7 +23,9 @@ public class MapCreate : MonoBehaviour
     [SerializeField] GameObject[] mapObjects;
     List<string[]> pieceData;
     const int handSize = 8;
+    public int HandSize { get { return handSize; } }
     int pieceCount = 0;
+    public int PieceCount { get{ return pieceCount; } }
     [SerializeField] GameObject[] handPiecePos;
  
 
@@ -64,7 +66,6 @@ public class MapCreate : MonoBehaviour
             }
         }
         return mapLineDatas;
-      
     }
 
     /// <summary>
@@ -88,6 +89,31 @@ public class MapCreate : MonoBehaviour
                 float posY = transform.position.y - (i + height * y) * pieceSize;
                 Instantiate(mapObjects[number], new Vector3(posX, 
                     posY,0), Quaternion.identity);
+            }
+        }
+    }
+    /// <summary>
+    /// ピースを所定の位置に生成する関数
+    /// </summary>
+    /// <param name="piece">全てのピースのデータが格納されているデータ(読み取ったCSV)</param>
+    /// <param name="x">生成するピースの横位置</param>
+    /// <param name="y">生成するピースの縦位置</param>
+    /// <param name="pieceNumber">生成したいピースの番号</param>
+    /// <param name="pieceSize">生成したいピースのサイズ</param>
+    /// <param name="parent">生成したオブジェクトの親オブジェクトとなるオブジェクト</param>
+    public void PieceCreator(List<string[]> piece, int x, int y, int pieceNumber, float pieceSize,GameObject parent)
+    {
+        const int pieceColum = 11;
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                string str = piece[i + pieceColum * pieceNumber][j][0].ToString();
+                int number = int.Parse(str);
+                float posX = parent.transform.position.x;
+                float posY = parent.transform.position.y;
+                Instantiate(mapObjects[number], new Vector3(posX,
+                    posY, 0), Quaternion.identity);
             }
         }
     }
