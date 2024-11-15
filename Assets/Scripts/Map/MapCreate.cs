@@ -7,6 +7,9 @@ using System.Linq;
 /// <summary>
 /// íSìñ:åFíJ
 /// </summary>
+//bool a ÇÃèÍèäÇÕå„Ç≈StateÇ…ïœçX
+
+
 public class MapCreate : MonoBehaviour
 {
     const int height = 13;
@@ -18,14 +21,15 @@ public class MapCreate : MonoBehaviour
     [SerializeField] TextAsset doorMapCSV;
     [SerializeField] GameObject[] mapObjects;
     [SerializeField] GameObject[] noColliderMapObjects;
+    [SerializeField] GameObject handBackGround;
     [SerializeField] GameObject handWindow;
     SelectHand selectHand;
-    private List<string[]> pieceData;
+    public   List<string[]> pieceData;
 
     public List<string[]> PieceData { get { return pieceData; } }
     
     private bool makeMap;
-    public bool MakeMap { set { makeMap = value; } }
+    public bool MakeMap { get { return makeMap; } set { makeMap = value; } }
     const int handSize = 8;
     public int HandSize { get { return handSize; } }
     int pieceCount = 0;
@@ -36,21 +40,19 @@ public class MapCreate : MonoBehaviour
     public int MapNumber { get { return mapNumber; } set { mapNumber = value; } }
 
 
-
     private void Awake()
     {
         pieceData = new List<string[]>();
         pieceData = PieceCsvReader(neutralMapCSV);
-        
+        selectHand = handBackGround.GetComponent<SelectHand>();
+        makeMap = false;
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        selectHand=handWindow.GetComponent<SelectHand>();
-        makeMap = false;
-        pieceData = new List<string[]>();
-        pieceData = PieceCsvReader(neutralMapCSV);
+       
 
        // MakeOuterWall();
     }
@@ -58,11 +60,18 @@ public class MapCreate : MonoBehaviour
     private void Update()
     {
         mapNumber = selectHand.GetMakeNumber;
-        if(makeMap)
+        if(makeMap&&ch.a)
         {
             PieceCreator(pieceData, mapNumber, 1,setPosition);
+            makeMap = false;
+            ch.a = false;
         }
-       
+        else if(!ch.a)
+        {
+            makeMap = false;
+        }
+        handWindow.SetActive(ch.a);
+
     }
 
     /// <summary>
@@ -134,7 +143,7 @@ public class MapCreate : MonoBehaviour
                 string str = piece[i + pieceColum * pieceNumber][j][0].ToString();
                 Debug.Log(str);
                 int number = int.Parse(str);
-                float posX = (transform.position.x + (j + width) * pieceSize) - width - width / 2 +createPos.x;
+                float posX = (transform.position.x + (j + width) * pieceSize) - width - width / 2 + createPos.x;
                 float posY = (transform.position.y - (i + height) * pieceSize) + height + height / 2 + createPos.y;
                 if (necessityCollider)
                 {
