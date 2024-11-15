@@ -20,6 +20,6 @@ public class DefaultTileManager : EventSet
     {
         mapCreate.SetPosition = this.transform.position;
         mapCreate.MakeMap = true;
-        Debug.Log("1");
+        Destroy(this.gameObject);
     }
 }
