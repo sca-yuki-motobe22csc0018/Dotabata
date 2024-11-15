@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// ’S“–:ŒF’J
+/// </summary>
 public class EventSet : MonoBehaviour
 {
     public delegate void SetEvent();

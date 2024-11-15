@@ -4,13 +4,17 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// ’S“–:ŒF’J
+/// </summary>
+
 public class SelectHand : MonoBehaviour
 {
     [SerializeField] private int selectNumber;//‘I‘ğ‚µ‚½èD@èD‚Ì‚Ç‚ê‚ğ¶¬‚·‚é‚©
     [SerializeField] private int[] handsNumber = new int[8];//‚Á‚Ä‚¢‚éèD@‘I‘ğ‚µ‚½èD‚ÍCSV‚Ì‰½”Ô–Ú‚Ìƒf[ƒ^‚È‚Ì‚©
     [SerializeField] private GameObject[] hands = new GameObject[8];
     [SerializeField] private GameObject MapCreator;
-    private const float size=1.0f;
+    private const float size = 1.0f;
     private int makeNumber;
     MapCreate MC;
     public int GetMakeNumber { get { return makeNumber; } }
