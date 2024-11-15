@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// ’S“–:ŒF’J
+/// </summary>
+
 public class DefaultTileManager : EventSet
 {
     private GameObject mapCreator;
