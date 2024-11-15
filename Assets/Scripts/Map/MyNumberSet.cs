@@ -42,10 +42,8 @@ public class MyNumberSet : EventSet, IPointerClickHandler
             for (int i = 0; i < this.transform.childCount; i++)
             {
                 sr = this.transform.GetChild(i).GetComponent<SpriteRenderer>();
-                if(int.Parse(this.name)!=sh.SelectNumber)
-                {
-                    sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.0f);
-                }
+                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.0f);
+                
                 sr = backGround.GetComponent<SpriteRenderer>();
                 if (sr.color.a == 0.0f)
                 {

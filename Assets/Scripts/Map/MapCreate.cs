@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using System.Linq;
+using UnityEditor.Build.Content;
 
 /// <summary>
 /// ’S“–:ŒF’J
@@ -12,6 +13,7 @@ using System.Linq;
 
 public class MapCreate : MonoBehaviour
 {
+    delegate void function();
     const int height = 13;
     const int width = 13;
     [SerializeField] int mapNumber = 0;
@@ -23,6 +25,8 @@ public class MapCreate : MonoBehaviour
     [SerializeField] GameObject[] noColliderMapObjects;
     [SerializeField] GameObject handBackGround;
     [SerializeField] GameObject handWindow;
+    [SerializeField] GameObject cameraObject;
+    private Camera camera;
     SelectHand selectHand;
     public   List<string[]> pieceData;
 
@@ -46,31 +50,20 @@ public class MapCreate : MonoBehaviour
         pieceData = PieceCsvReader(neutralMapCSV);
         selectHand = handBackGround.GetComponent<SelectHand>();
         makeMap = false;
-
+        camera=cameraObject.GetComponent<Camera>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-       
-
+        GameObject GM = GameObject.Find("GameManager").gameObject;
+        PlayerManager PM=GM.GetComponent<PlayerManager>();
+        PM.AddFunction(MapCreater);
        // MakeOuterWall();
     }
 
     private void Update()
     {
-        mapNumber = selectHand.GetMakeNumber;
-        if(makeMap&&ch.a)
-        {
-            PieceCreator(pieceData, mapNumber, 1,setPosition);
-            makeMap = false;
-            ch.a = false;
-        }
-        else if(!ch.a)
-        {
-            makeMap = false;
-        }
-        handWindow.SetActive(ch.a);
 
     }
 
@@ -158,10 +151,29 @@ public class MapCreate : MonoBehaviour
                     posY, 0), Quaternion.identity);
                     obj.transform.parent = parent.transform;
                 }
-
-
             }
         }
         makeMap = false;
     }
+
+
+    private void MapCreater()
+    {
+        camera.fieldOfView= 100;
+        mapNumber = selectHand.GetMakeNumber;
+        if (makeMap) 
+        {
+            PieceCreator(pieceData, mapNumber, 1, setPosition);
+            makeMap = false;
+            StartCoroutine(delay());
+        }
+        handWindow.SetActive(PlayerManager.state==PlayerManager.PlayerState.MapCreate);
+    }
+
+    IEnumerator delay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        PlayerManager.state = PlayerManager.PlayerState.PlayerMove;
+    }
+
 }

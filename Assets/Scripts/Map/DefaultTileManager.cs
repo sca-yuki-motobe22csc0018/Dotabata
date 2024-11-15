@@ -28,7 +28,7 @@ public class DefaultTileManager : EventSet, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(eventData.pointerId==-1&&mapCreate.MapNumber>=0)
+        if(eventData.pointerId==-1&&PlayerManager.state==PlayerManager.PlayerState.MapCreate)
         {
             mapCreate.SetPosition = this.transform.position;
             mapCreate.MakeMap = true;
