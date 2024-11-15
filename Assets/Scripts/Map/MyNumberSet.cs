@@ -9,23 +9,52 @@ using UnityEngine.EventSystems;
 
 public class MyNumberSet : EventSet, IPointerClickHandler
 {
-    SelectHand sH;
+    SelectHand sh;
     GameObject backGround;
     bool leftClick;
+    SpriteRenderer sr;
+    Collider2D collider;
+
+    
+    void Awake()
+    {
+        collider = GetComponent<Collider2D>();
+    }
+    void OnEnable()
+    {
+        collider.enabled = true;
+    }
     // Start is called before the first frame update
     void Start()
     {
         backGround = GameObject.Find("BackGround");
-        sH=backGround.GetComponent<SelectHand>();
+        sh=backGround.GetComponent<SelectHand>();
         SetEvent setEvent = new SetEvent(PointerClick);
         SetEventType(click,setEvent);
-        Debug.Log(sH);
         leftClick = false;
     }
 
     private void Update()
     {
         leftClick = Input.GetMouseButtonDown(0);
+        if(sh.SelectNumber>=0)
+        {
+            for (int i = 0; i < this.transform.childCount; i++)
+            {
+                sr = this.transform.GetChild(i).GetComponent<SpriteRenderer>();
+                if(int.Parse(this.name)!=sh.SelectNumber)
+                {
+                    sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.0f);
+                }
+                sr = backGround.GetComponent<SpriteRenderer>();
+                if (sr.color.a == 0.0f)
+                {
+                   
+                    StartCoroutine(delay());
+                }
+            }
+        }
+       
     }
 
     public void PointerClick()
@@ -42,8 +71,14 @@ public class MyNumberSet : EventSet, IPointerClickHandler
     {
         if (eventData.pointerId == -1)
         {
-            sH.SetSelectNumber = int.Parse(this.name);
-            Debug.Log(name);
+            sh.SelectNumber = int.Parse(this.name);
         }
+    }
+
+    private IEnumerator delay()
+    {
+        yield return new WaitForSeconds(0.1f);
+        collider.enabled = false;
+
     }
 }

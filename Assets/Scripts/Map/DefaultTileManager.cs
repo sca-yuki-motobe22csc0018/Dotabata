@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// ’S“–:ŒF’J
 /// </summary>
 
-public class DefaultTileManager : EventSet
+public class DefaultTileManager : EventSet, IPointerClickHandler
 {
     private GameObject mapCreator;
     
@@ -22,8 +23,17 @@ public class DefaultTileManager : EventSet
 
     public void PointerClick()
     {
-        mapCreate.SetPosition = this.transform.position;
-        mapCreate.MakeMap = true;
-        Destroy(this.gameObject);
+      
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.pointerId==-1&&mapCreate.MapNumber>=0)
+        {
+            mapCreate.SetPosition = this.transform.position;
+            mapCreate.MakeMap = true;
+            Destroy(this.gameObject);
+        }
+       
     }
 }
