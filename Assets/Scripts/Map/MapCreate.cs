@@ -64,7 +64,10 @@ public class MapCreate : MonoBehaviour
 
     private void Update()
     {
-
+        for(int i = 0;i<8;i++)
+        {
+            handPiecePos[i].SetActive(PlayerManager.state == PlayerManager.PlayerState.MapCreate);
+        }
     }
 
     /// <summary>

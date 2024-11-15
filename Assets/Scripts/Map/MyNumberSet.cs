@@ -23,6 +23,11 @@ public class MyNumberSet : EventSet, IPointerClickHandler
     void OnEnable()
     {
         collider.enabled = true;
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            sr = this.transform.GetChild(i).GetComponent<SpriteRenderer>();
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f);
+        }
     }
     // Start is called before the first frame update
     void Start()
@@ -32,6 +37,8 @@ public class MyNumberSet : EventSet, IPointerClickHandler
         SetEvent setEvent = new SetEvent(PointerClick);
         SetEventType(click,setEvent);
         leftClick = false;
+       
+     
     }
 
     private void Update()
@@ -52,7 +59,7 @@ public class MyNumberSet : EventSet, IPointerClickHandler
                 }
             }
         }
-       
+        this.gameObject.SetActive(PlayerManager.state == PlayerManager.PlayerState.MapCreate);
     }
 
     public void PointerClick()

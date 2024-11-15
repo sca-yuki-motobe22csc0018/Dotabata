@@ -40,7 +40,7 @@ public class SelectHand : MonoBehaviour
         makeNumber = 0;
         handsWindow.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         HandMake();
-        handsWindow.transform.localScale = new Vector3(0.4f, 0.4f, 0);
+        handsWindow.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
     }
     private void Update()
     {
