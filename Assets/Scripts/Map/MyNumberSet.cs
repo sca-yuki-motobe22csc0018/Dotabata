@@ -5,13 +5,15 @@ using UnityEngine;
 public class MyNumberSet : EventSet
 {
     SelectHand sH;
+    GameObject backGround;
     // Start is called before the first frame update
     void Start()
     {
-        sH=transform.parent.GetComponent<SelectHand>();
+        backGround = GameObject.Find("BackGround");
+        sH=backGround.GetComponent<SelectHand>();
         SetEvent setEvent = new SetEvent(PointerClick);
         SetEventType(click,setEvent);
-
+        Debug.Log(sH);
     }
 
     public void PointerClick()
@@ -19,10 +21,6 @@ public class MyNumberSet : EventSet
         sH.SetSelectNumber=int.Parse(this.name);
     }
 
-    public void PointrerEnter()
-    {
-        sH.SetSelectNumber = -1;//‰½‚à‘I‘ð‚µ‚Ä‚¢‚È‚¢
-    }
 
 
 
