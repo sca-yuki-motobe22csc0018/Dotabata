@@ -58,7 +58,7 @@ public class MapCreate : MonoBehaviour
     {
         GameObject GM = GameObject.Find("GameManager").gameObject;
         PlayerManager PM=GM.GetComponent<PlayerManager>();
-        PM.AddFunction(MapCreater);
+        PM.AddFunction(MapCreater,1);
        // MakeOuterWall();
     }
 
@@ -68,6 +68,7 @@ public class MapCreate : MonoBehaviour
         {
             handPiecePos[i].SetActive(PlayerManager.state == PlayerManager.PlayerState.MapCreate);
         }
+        handWindow.SetActive(PlayerManager.state == PlayerManager.PlayerState.MapCreate);
     }
 
     /// <summary>
@@ -162,7 +163,7 @@ public class MapCreate : MonoBehaviour
 
     private void MapCreater()
     {
-        camera.fieldOfView= 100;
+        camera.orthographicSize= 10;
         mapNumber = selectHand.GetMakeNumber;
         if (makeMap) 
         {
@@ -170,7 +171,7 @@ public class MapCreate : MonoBehaviour
             makeMap = false;
             StartCoroutine(delay());
         }
-        handWindow.SetActive(PlayerManager.state==PlayerManager.PlayerState.MapCreate);
+        
     }
 
     IEnumerator delay()
