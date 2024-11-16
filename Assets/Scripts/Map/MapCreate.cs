@@ -163,7 +163,7 @@ public class MapCreate : MonoBehaviour
 
     private void MapCreater()
     {
-        camera.orthographicSize= 10;
+        camera.orthographicSize= 15;
         mapNumber = selectHand.GetMakeNumber;
         if (makeMap) 
         {

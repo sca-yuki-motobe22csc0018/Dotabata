@@ -59,6 +59,7 @@ public class SelectHand : MonoBehaviour
     {
         for (int i=0;i<hands.Length;i++)
         {
+            Debug.Log(MC);
             MC.PieceCreator(MC.PieceData, handsNumber[i], size,hands[i].transform.position, hands[i],false);
         }
     }
