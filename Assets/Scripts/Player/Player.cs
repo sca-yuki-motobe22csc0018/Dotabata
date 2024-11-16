@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -48,6 +49,8 @@ public class Player : MonoBehaviour
         {
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
         }
+        camera.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+        
     }
     float EaseOutCirc(float t)
     {
@@ -59,7 +62,7 @@ public class Player : MonoBehaviour
     void PlayerUpdate()
     {
         rb.constraints = RigidbodyConstraints2D.None;
-        cam.orthographicSize= 5;
+        cam.orthographicSize= 2;
         onClickingTimeer += Time.deltaTime;
         aerodynamicDragTimeer += Time.deltaTime * aerodynamicDragLevel;
         rb.velocity = velocity * EaseOutCirc(aerodynamicDragTimeer);
