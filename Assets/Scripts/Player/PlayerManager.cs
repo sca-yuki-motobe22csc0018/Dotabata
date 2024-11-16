@@ -26,7 +26,6 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         StateFunctions = new StateFunction[(int)PlayerState.SIZE];
-        AddFunction(One);
     }
     // Start is called before the first frame update
     void Start()
@@ -34,16 +33,13 @@ public class PlayerManager : MonoBehaviour
     camera=cameraObject.GetComponent<Camera>();
     state = PlayerState.PlayerMove ;
    
-    if (stateCount < (int)PlayerState.SIZE-1)
-    {
-        Debug.Log("PlayerStateに対応する関数の代入が足りていません。GameManager");
-    }
+   
 }
 
 // Update is called once per frame
 void Update()
 {
-    StateFunctions[(int)state]();
+        StateFunctions[(int)state]();
         Debug.Log(state);
         if(state==PlayerState.PlayerMove)
         {
@@ -70,6 +66,14 @@ void Update()
         StateFunctions[stateCount++] = function;
     }
 
+    /// <summary>
+    /// ステート管理を行う配列に引数として渡した関数を代入する関数です
+    /// </summary>
+    /// <param name="function">代入したい関数</param>
+    public void AddFunction(StateFunction function,int number)
+    {
+        StateFunctions[number] = function; 
+    }
     private void One()
     {
         camera.fieldOfView = 10;
