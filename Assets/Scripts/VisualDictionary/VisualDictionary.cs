@@ -51,6 +51,9 @@ public class VisualDictionary : MonoBehaviour
         pageUpdate();
     }
 
+    /// <summary>
+    /// 鉱石ボタンを押したときの処理
+    /// </summary>
     public void pushOreButton_1()
     {
         detailsCanvas.SetActive(true);
@@ -67,6 +70,9 @@ public class VisualDictionary : MonoBehaviour
         detailsCanvas.SetActive(true);
     }
 
+    /// <summary>
+    /// ページの更新
+    /// </summary>
     public void pageUpdate()
     {
         NowPageText.text = page_Now + " / " + page_Max;
