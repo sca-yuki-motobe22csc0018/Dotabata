@@ -39,12 +39,13 @@ void Update()
 {
         StateFunctions[(int)state]();
         Debug.Log(state);
-        if(state==PlayerState.PlayerMove)
+        if(Input.GetMouseButtonDown(1))
         {
-            if(Input.GetMouseButton(1))
-            {
-                state= PlayerState.MapCreate;
-            }
+            state++;
+        }
+        if((int)state==(int)PlayerState.SIZE)
+        {
+            state=0;
         }
     
 }   
