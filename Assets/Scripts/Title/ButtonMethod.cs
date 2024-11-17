@@ -6,11 +6,21 @@ using UnityEngine.UI;
 
 public class ButtonMethod : MonoBehaviour
 {
-    [SerializeField] private Scene scenes;
+    [SerializeField] private string mainSceneName;
+    [SerializeField] private string librarySceneName;
 
     public void OnClickStartButton()
     {
-        SceneManager.LoadScene("MapTest");
+        SceneManager.LoadScene(mainSceneName);
     }
 
+    public void OnClickLibraryButton()
+    {
+        SceneManager.LoadScene(librarySceneName);
+    }
+
+    public void OnClickExitButton()
+    {
+        Application.Quit();
+    }
 }
