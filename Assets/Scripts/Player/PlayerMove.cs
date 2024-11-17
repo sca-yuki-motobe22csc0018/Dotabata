@@ -76,6 +76,10 @@ public class PlayerMove : MonoBehaviour
     {
         cam.orthographicSize = 3;
         camera.transform.position = new Vector3(transform.position.x, transform.position.y, -10.0f);
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("Title");
+        }
         if (gaugeImage != null)
         {
             gaugeImage.fillAmount = fillAmount;
