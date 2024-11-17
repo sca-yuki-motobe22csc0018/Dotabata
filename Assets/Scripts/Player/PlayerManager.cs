@@ -29,12 +29,10 @@ public class PlayerManager : MonoBehaviour
     }
     // Start is called before the first frame update
     void Start()
-{
-    camera=cameraObject.GetComponent<Camera>();
-    state = PlayerState.PlayerMove ;
-   
-   
-}
+    {
+        camera=cameraObject.GetComponent<Camera>();
+        state = PlayerState.PlayerMove ;
+    }
 
 // Update is called once per frame
 void Update()

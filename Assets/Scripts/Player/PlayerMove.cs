@@ -5,12 +5,12 @@ using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
     float x = 0;
     float y = 0;
-    private Vector3 StartPosition = new Vector3(0, 0, 0);
     Vector3 dir = Vector3.zero;
     public float speed;
     public float BoundForce;
@@ -40,7 +40,6 @@ public class PlayerMove : MonoBehaviour
         move = false;
         PowerTimer = 0;
         rb = GetComponent<Rigidbody2D>();
-        this.transform.position = StartPosition;
     }
 
     // Update is called once per frame
@@ -136,9 +135,12 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter2D(Collider2D coll)
     {
-        
-
+        if(coll.gameObject.CompareTag("Goal"))
+        {
+            SceneManager.LoadScene("Title");
+        }
     }
+   
 }
