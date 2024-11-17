@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class VisualDictionary : MonoBehaviour
@@ -104,5 +105,10 @@ public class VisualDictionary : MonoBehaviour
             oreNumberText[1].text = "No." + ((page_Now * 3) - 1).ToString("D3");
             oreNumberText[2].text = "No." + (page_Now * 3).ToString("D3");
         }
+    }
+
+    public void GoTitle()
+    {
+        SceneManager.LoadScene("Title");
     }
 }
