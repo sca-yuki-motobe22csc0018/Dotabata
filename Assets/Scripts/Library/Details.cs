@@ -48,12 +48,12 @@ public class Details : MonoBehaviour
             //名前テキスト
             NameText.text = "アメジスト";
             //効果テキスト
-            EffectText[0].text = "・aaaa";
+            EffectText[0].text = "・効果";
             EffectText[1].text = "・";
             EffectText[2].text = "・";
             EffectText[3].text = "・";
             //説明テキスト
-            ExplanationText[0].text = "a";
+            ExplanationText[0].text = "説明";
             ExplanationText[1].text = "a";
             ExplanationText[2].text = "a";
             ExplanationText[3].text = "a";
@@ -63,12 +63,12 @@ public class Details : MonoBehaviour
             //名前テキスト
             NameText.text = "ルビー";
             //効果テキスト
-            EffectText[0].text = "・iiii";
+            EffectText[0].text = "・効果";
             EffectText[1].text = "・";
             EffectText[2].text = "・";
             EffectText[3].text = "・";
             //説明テキスト
-            ExplanationText[0].text = "a";
+            ExplanationText[0].text = "説明";
             ExplanationText[1].text = "a";
             ExplanationText[2].text = "a";
             ExplanationText[3].text = "a";
@@ -78,12 +78,12 @@ public class Details : MonoBehaviour
             //名前テキスト
             NameText.text = "サファイア";
             //効果テキスト
-            EffectText[0].text = "・iiii";
+            EffectText[0].text = "・効果";
             EffectText[1].text = "・";
             EffectText[2].text = "・";
             EffectText[3].text = "・";
             //説明テキスト
-            ExplanationText[0].text = "a";
+            ExplanationText[0].text = "説明";
             ExplanationText[1].text = "a";
             ExplanationText[2].text = "a";
             ExplanationText[3].text = "a";
@@ -93,12 +93,12 @@ public class Details : MonoBehaviour
             //名前テキスト
             NameText.text = "トパーズ";
             //効果テキスト
-            EffectText[0].text = "・iiii";
+            EffectText[0].text = "・効果";
             EffectText[1].text = "・";
             EffectText[2].text = "・";
             EffectText[3].text = "・";
             //説明テキスト
-            ExplanationText[0].text = "a";
+            ExplanationText[0].text = "説明";
             ExplanationText[1].text = "a";
             ExplanationText[2].text = "a";
             ExplanationText[3].text = "a";
@@ -108,12 +108,12 @@ public class Details : MonoBehaviour
             //名前テキスト
             NameText.text = "黒曜石";
             //効果テキスト
-            EffectText[0].text = "・iiii";
+            EffectText[0].text = "・効果";
             EffectText[1].text = "・";
             EffectText[2].text = "・";
             EffectText[3].text = "・";
             //説明テキスト
-            ExplanationText[0].text = "a";
+            ExplanationText[0].text = "説明";
             ExplanationText[1].text = "a";
             ExplanationText[2].text = "a";
             ExplanationText[3].text = "a";
@@ -123,12 +123,12 @@ public class Details : MonoBehaviour
             //名前テキスト
             NameText.text = "鉱石名";
             //効果テキスト
-            EffectText[0].text = "・iiii";
+            EffectText[0].text = "・効果";
             EffectText[1].text = "・";
             EffectText[2].text = "・";
             EffectText[3].text = "・";
             //説明テキスト
-            ExplanationText[0].text = "a";
+            ExplanationText[0].text = "説明";
             ExplanationText[1].text = "a";
             ExplanationText[2].text = "a";
             ExplanationText[3].text = "a";
