@@ -25,6 +25,8 @@ public class PlayerTitleMotioner : MonoBehaviour
     private BackGroundScroller bgs;
     private float fallSpeed;
 
+    private Vector3 lastPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +35,7 @@ public class PlayerTitleMotioner : MonoBehaviour
         lastMotionNumber = 0;
         isMotionStarted = false;
         bgs = GameObject.Find("BackGroundObject").GetComponent<BackGroundScroller>();
+        lastPosition = parent.transform.localPosition;
     }
 
     //Update is called once per frame
@@ -42,7 +45,17 @@ public class PlayerTitleMotioner : MonoBehaviour
         parent.transform.localPosition =
             parent.transform.localPosition + new Vector3(0, fallSpeed) * Time.deltaTime;
 
+        float der= lastPosition.x - parent.transform.localPosition.x;
 
+        if (der<0.0f)
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(0,180.0f,0));
+        }
+        else if(der>0.0f)
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0.0f, 0));
+        }
+        lastPosition = parent.transform.localPosition;
 
         if (!isMotionStarted)
         {
