@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerTitleMotioner : MonoBehaviour
@@ -8,6 +9,7 @@ public class PlayerTitleMotioner : MonoBehaviour
         FLOATING=0,
         MOVE,
         HOP,
+        SLEEP,
         SIZE
     }
     private MotionState motionState;
@@ -25,8 +27,11 @@ public class PlayerTitleMotioner : MonoBehaviour
     private BackGroundScroller bgs;
     private float fallSpeed;
 
-    private Vector3 lastPosition;
+    Quaternion direntionRight = Quaternion.Euler(new Vector3(0, 180, 0));
+    Quaternion directionLeft = Quaternion.Euler(new Vector3(0, 0, 0));
 
+    [SerializeField]
+    private GameObject[] syomome;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +40,6 @@ public class PlayerTitleMotioner : MonoBehaviour
         lastMotionNumber = 0;
         isMotionStarted = false;
         bgs = GameObject.Find("BackGroundObject").GetComponent<BackGroundScroller>();
-        lastPosition = parent.transform.localPosition;
     }
 
     //Update is called once per frame
@@ -44,18 +48,6 @@ public class PlayerTitleMotioner : MonoBehaviour
         fallSpeed = bgs.ScrollSpeed;
         parent.transform.localPosition =
             parent.transform.localPosition + new Vector3(0, fallSpeed) * Time.deltaTime;
-
-        float der= lastPosition.x - parent.transform.localPosition.x;
-
-        if (der<0.0f)
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(0,180.0f,0));
-        }
-        else if(der>0.0f)
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0.0f, 0));
-        }
-        lastPosition = parent.transform.localPosition;
 
         if (!isMotionStarted)
         {
@@ -83,6 +75,13 @@ public class PlayerTitleMotioner : MonoBehaviour
                         StartCoroutine(Motion_Hop(randHops, randTime));
                     }
                     break;
+
+                case MotionState.SLEEP:
+                    {
+                        float rand = Random.Range(1.0f, 4.0f);
+                        StartCoroutine (Motion_Sleep(rand));
+                    }
+                    break;
             }
         }
     }
@@ -100,6 +99,27 @@ public class PlayerTitleMotioner : MonoBehaviour
         lastMotionNumber = rand;
     }
 
+    private IEnumerator Motion_Sleep(float time)
+    {
+        isMotionStarted = true;
+
+        for(int i = 0; i < 2; i++)
+        {
+            yield return new WaitForSeconds(0.5f);
+            float t = 0.0f;
+            bool isEnd = false;
+            while (!isEnd)
+            {
+                if (t >= 1.0f) isEnd = true;
+
+                t += Time.deltaTime;
+                parent.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 25.0f / Mathf.PI) * EaseInOutCirc(t));
+                syomome[0].transform.localScale = new Vector3(0,0.5f,0) * EaseInOutCirc(t);
+                syomome[1].transform.localScale = new Vector3(0, 0.5f, 0) * EaseInOutCirc(t);
+                yield return null;
+            }
+        }
+    }
     private IEnumerator Motion_Floating(float time)
     {
         isMotionStarted = true;
@@ -112,7 +132,7 @@ public class PlayerTitleMotioner : MonoBehaviour
 
             t += Time.deltaTime;
             float x = transform.position.x;
-            float y = parent.transform.position.y + Mathf.Sin(t*Mathf.PI) * floatHeight;
+            float y = parent.transform.position.y + Mathf.Sin(t * Mathf.PI) * floatHeight;
             transform.position = new Vector2(x, y);
 
             yield return null;
@@ -132,6 +152,9 @@ public class PlayerTitleMotioner : MonoBehaviour
             Random.Range(-800.0f, 200.0f),
             Random.Range(-600.0f, 150.0f));
         Vector3 targetVec = target - parent.transform.localPosition;
+
+        if (targetVec.x < 0) parent.transform.rotation = directionLeft;
+        else parent.transform.rotation = direntionRight;
 
         StartCoroutine(Motion_Floating(time));
         while (!isEnd)
@@ -167,5 +190,13 @@ public class PlayerTitleMotioner : MonoBehaviour
             yield return null;
         }
         isMotionStarted = false;
+    }
+
+    private float EaseInOutCirc(float t)
+    {
+        float c1 = 4.0f * t;
+        float c2 = 4.0f * (t - 1.0f);
+
+        return t < 0.5f ? c1 * c1 : c2 * c2;
     }
 }
