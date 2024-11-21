@@ -13,6 +13,7 @@ using UnityEditor.Build.Content;
 
 public class MapCreate : MonoBehaviour
 {
+
     delegate void function();
     const int height = 13;
     const int width = 13;
@@ -110,12 +111,19 @@ public class MapCreate : MonoBehaviour
             for (int j = 0; j < width; j++)
             {
                 string str = piece[i+pieceColum*pieceNumber][j][0].ToString();
-                Debug.Log(str);
                 int number = int.Parse(str);
                 float posX = (transform.position.x + (j + width) * pieceSize)-width-width/2+createPos.x;
                 float posY = (transform.position.y - (i + height) * pieceSize)+height+height/2+createPos.y;
-                Instantiate(mapObjects[number], new Vector3(posX, 
+                GameObject obj = Instantiate(mapObjects[number], new Vector3(posX, 
                     posY,0), Quaternion.identity);
+                if (number == 2)
+                {
+                    Ore ore = obj.GetComponent<Ore>();
+                    Ore.OreInfo Info = ore.Info;
+                    Info.number = number - 2;
+                    ore.Info = Info;
+
+                }
             }
         }
         makeMap = false;
@@ -138,7 +146,6 @@ public class MapCreate : MonoBehaviour
             for (int j = 0; j < width; j++)
             {
                 string str = piece[i + pieceColum * pieceNumber][j][0].ToString();
-                Debug.Log(str);
                 int number = int.Parse(str);
                 float posX = (transform.position.x + (j + width) * pieceSize) - width - width / 2 + createPos.x;
                 float posY = (transform.position.y - (i + height) * pieceSize) + height + height / 2 + createPos.y;
@@ -148,6 +155,14 @@ public class MapCreate : MonoBehaviour
                     posY, 0), Quaternion.identity);
                     obj.transform.parent = parent.transform;
                     //Instantiateで親を設定すると比率を再度調整しないといけなくなるためこの方法で親を設定
+                    if (number == 2)
+                    {
+                        Ore ore = obj.GetComponent<Ore>();
+                        Ore.OreInfo Info=ore.Info;
+                        Info.number = number-2;//鉱石のCSVの番号が2~だが、鉱石番号は0からにしたいので2を引く
+                        ore.Info = Info;
+
+                    }
                 }
                 else
                 {
@@ -155,6 +170,7 @@ public class MapCreate : MonoBehaviour
                     posY, 0), Quaternion.identity);
                     obj.transform.parent = parent.transform;
                 }
+               
             }
         }
         makeMap = false;
@@ -180,4 +196,8 @@ public class MapCreate : MonoBehaviour
         PlayerManager.state = PlayerManager.PlayerState.PlayerMove;
     }
 
+    private void OreDataSet()
+    {
+
+    }
 }
