@@ -21,6 +21,8 @@ public class VisualDictionary : MonoBehaviour
     const int page_Min = 1;
     int page_Now = 1;
 
+    public GameObject yakiimo;
+
     void Start()
     {
         pageCanvas.SetActive(true);
@@ -32,7 +34,8 @@ public class VisualDictionary : MonoBehaviour
 
     void Update()
     {
-        
+        float sin = Mathf.Sin(Time.time);
+        yakiimo.transform.position += new Vector3(0, sin/8, 0); 
     }
 
     /// <summary>
