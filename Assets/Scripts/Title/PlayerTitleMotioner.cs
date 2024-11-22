@@ -1,5 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerTitleMotioner : MonoBehaviour
@@ -31,7 +34,23 @@ public class PlayerTitleMotioner : MonoBehaviour
     Quaternion directionLeft = Quaternion.Euler(new Vector3(0, 0, 0));
 
     [SerializeField]
-    private GameObject[] syomome;
+    private GameObject[] eyes;
+
+    [SerializeField]
+    private GameObject[] ears;
+
+    [SerializeField]
+    private GameObject[] elbows;
+
+    [SerializeField]
+    private GameObject[] hands;
+
+    [SerializeField]
+    private GameObject[] wings;
+    
+    [SerializeField]
+    private GameObject[] tail;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,12 +59,12 @@ public class PlayerTitleMotioner : MonoBehaviour
         lastMotionNumber = 0;
         isMotionStarted = false;
         bgs = GameObject.Find("BackGroundObject").GetComponent<BackGroundScroller>();
+        fallSpeed = bgs.ScrollSpeed;
     }
 
     //Update is called once per frame
     void Update()
     {
-        fallSpeed = bgs.ScrollSpeed;
         parent.transform.localPosition =
             parent.transform.localPosition + new Vector3(0, fallSpeed) * Time.deltaTime;
 
@@ -102,22 +121,97 @@ public class PlayerTitleMotioner : MonoBehaviour
     private IEnumerator Motion_Sleep(float time)
     {
         isMotionStarted = true;
+        float t = 0.0f;
+        bool isEnd = false;
+        Vector3 defScale = eyes[0].transform.localScale;
 
         for(int i = 0; i < 2; i++)
         {
             yield return new WaitForSeconds(0.5f);
-            float t = 0.0f;
-            bool isEnd = false;
+            t = 0.0f;
+            isEnd = false;
             while (!isEnd)
             {
                 if (t >= 1.0f) isEnd = true;
 
                 t += Time.deltaTime;
-                parent.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 25.0f / Mathf.PI) * EaseInOutCirc(t));
-                syomome[0].transform.localScale = new Vector3(0,0.5f,0) * EaseInOutCirc(t);
-                syomome[1].transform.localScale = new Vector3(0, 0.5f, 0) * EaseInOutCirc(t);
+                parent.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 25.0f) * EaseInReturn(t));
+                eyes[0].transform.localScale = new Vector3(defScale.x, defScale.y * (1-EaseInReturn(t)));
+                eyes[1].transform.localScale = new Vector3(defScale.x, defScale.y * (1-EaseInReturn(t)));
                 yield return null;
             }
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        t = 0.0f;
+        isEnd = false;
+
+        List<GameObject[]> bodyParts = new List<GameObject[]>
+        {
+            ears,
+            elbows,
+            hands,
+            wings,
+            tail
+        };
+
+        List<Quaternion> defRots = new List<Quaternion>();
+        for(int i=0; i < bodyParts.Count; i++)
+        {
+            for(int j = 0; j < bodyParts[i].Length; j++)
+            {
+                defRots.Add(bodyParts[i][j].transform.localRotation);
+            }
+        }
+
+        List<float> motionRot = new List<float>
+        {
+            50.0f,
+            -35.0f,
+            16.0f,
+            -30.0f,
+            12.5f,
+            -30.0f,
+            45.0f,
+            -65.0f,
+            -65.0f
+        };
+
+
+        while (!isEnd)
+        {
+            if (t >= 1.0f) isEnd = true;
+
+            t += Time.deltaTime;
+            parent.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 35.0f) * EaseInExpo(t));
+
+            eyes[0].transform.localScale = new Vector3(defScale.x, defScale.y * (1 - EaseInExpo(t)));
+            eyes[1].transform.localScale = new Vector3(defScale.x, defScale.y * (1 - EaseInExpo(t)));
+
+            int count = 0;
+            for (int i = 0; i < bodyParts.Count; i++)
+            {
+                for (int j = 0; j < bodyParts[i].Length; j++)
+                {
+                    bodyParts[i][j].transform.localRotation =
+                        Quaternion.Euler(new Vector3(0, 0, motionRot[count]) * EaseInExpo(t));
+                        count++;
+                }
+            }
+
+            yield return null;
+        }
+
+        t = 0.0f;
+        isEnd = false;
+
+        while (!isEnd)
+        {
+            if (t >= 1.0f) isEnd = true;
+            t += Time.deltaTime / time;
+
+            fallSpeed = -50.0f * t;
+            yield return null;
         }
     }
     private IEnumerator Motion_Floating(float time)
@@ -162,7 +256,6 @@ public class PlayerTitleMotioner : MonoBehaviour
             if (t >= time) isEnd = true;
             t += Time.deltaTime;
 
-            //target.y += fallSpeed * Time.deltaTime;
             parent.transform.localPosition = defPos + targetVec * t / time;
 
             yield return null;
@@ -192,11 +285,16 @@ public class PlayerTitleMotioner : MonoBehaviour
         isMotionStarted = false;
     }
 
-    private float EaseInOutCirc(float t)
+    private float EaseInReturn(float t)
     {
-        float c1 = 4.0f * t;
-        float c2 = 4.0f * (t - 1.0f);
+        float constValue1 = 2 * t;
+        float constValue2 = 2 * (t - 1.0f);
 
-        return t < 0.5f ? c1 * c1 : c2 * c2;
+        return t < 0.5f ? constValue1 * constValue1 : constValue2 * constValue2;
     }
+    private float EaseInExpo(float t)
+    {
+        return t == 0 ? 0 : t < 1.0f ? Mathf.Pow(2, 10 * t - 10) : 1;
+    }
+
 }
