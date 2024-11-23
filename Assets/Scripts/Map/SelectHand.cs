@@ -51,6 +51,8 @@ public class SelectHand : MonoBehaviour
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.0f);
             }
         }
+        
+        
     }
 
     private void HandMake()
