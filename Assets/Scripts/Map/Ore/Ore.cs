@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-
 /// <summary>
 /// ’S“–:ŒF’J
 /// </summary>
@@ -16,6 +15,11 @@ public class Ore : MonoBehaviour
     OreData oreData=new OreData();
     public delegate void OreEvent();
     private const string playerTag = "Player";
+    private short hitCount;
+    private float hitTimer;
+    private bool hitPlayer;
+    private const float validVelocity=3.0f;
+    private float playerPower = 0;
     public struct OreInfo{//zÎ‚ÌŽ‚Âî•ñ
         public string name;//–¼‘O
         public int number;//”Ô†
@@ -39,6 +43,9 @@ public class Ore : MonoBehaviour
         info.knockBackPower = 1;
         OreData.EventPercentage ep = oreData.GetEventPercentages;
         info.eventPercentage = ep.oreOne;
+        hitCount = 0;
+        hitTimer = 0;
+        hitPlayer = false;
     }
     // Start is called before the first frame update
     void Start()
@@ -49,7 +56,10 @@ public class Ore : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(hitPlayer){ hitTimer += Time.deltaTime;}
+        if (hitTimer > 0.5f) { hitPlayer = false; }
+        DestroyMe();
+        playerPower= Mathf.Abs(playerRb.velocity.x) + Mathf.Abs(playerRb.velocity.y);
     }
 
     private void EventSet(OreEvent e)
@@ -57,4 +67,28 @@ public class Ore : MonoBehaviour
         info.events.Add(e);
     }
 
+    private void DestroyMe()
+    {
+        if(hitCount>=3)
+        {
+            Destroy(this.gameObject);   
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(!collision.gameObject.CompareTag(playerTag)||hitPlayer)
+        {
+            return;
+        }
+       
+        if(playerPower>=validVelocity)
+        {
+            hitPlayer = true;
+            hitTimer=0;
+            hitCount++;
+        }
+    }
+
+    
 }
