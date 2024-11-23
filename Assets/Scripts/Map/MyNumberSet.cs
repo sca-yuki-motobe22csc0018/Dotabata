@@ -80,6 +80,7 @@ public class MyNumberSet : EventSet, IPointerClickHandler
     {
         if (eventData.pointerId == -1)
         {
+            Debug.Log(this.name);
             sh.SelectNumber = int.Parse(this.name);
         }
     }

@@ -18,10 +18,8 @@ public class SelectHand : MonoBehaviour
     [SerializeField] private GameObject[] handObjects;
     public List<int> HandNumber { get { return handsNumber; } set { handsNumber = value; } }
     private const float size = 1f;
-    private int makeNumber;
     MapCreate MC;
     SpriteRenderer sr;
-    public int GetMakeNumber { get { return makeNumber; } }
     public int SelectNumber {  get { return selectNumber; } set {  selectNumber = value; } }
 
     private void OnEnable()
@@ -34,16 +32,19 @@ public class SelectHand : MonoBehaviour
         DestroyLastHands();
         MC = MapCreator.GetComponent<MapCreate>();
         selectNumber = -1;
-        makeNumber = 0;
         handsWindow.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         HandMake();
         handsWindow.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
     }
     private void Update()
     {
+        
         if(selectNumber>=0)
         {
-            makeNumber = handsNumber[selectNumber];
+            if (handsNumber.Count == 0)
+            {
+                return;
+            }
             for (int i = 0; i < handObjects.Length; i++)
             {
                 sr = handObjects[i].GetComponent<SpriteRenderer>();

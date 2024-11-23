@@ -27,7 +27,7 @@ public class MapCreate : MonoBehaviour
     [SerializeField] GameObject handWindow;
     [SerializeField] GameObject cameraObject;
     private Camera camera;
-    SelectHand selectHand;
+    SelectHand sh;
     public   List<string[]> pieceData;
 
     public List<string[]> PieceData { get { return pieceData; } }
@@ -48,7 +48,7 @@ public class MapCreate : MonoBehaviour
     {
         pieceData = new List<string[]>();
         pieceData = PieceCsvReader(neutralMapCSV);
-        selectHand = handBackGround.GetComponent<SelectHand>();
+        sh = handBackGround.GetComponent<SelectHand>();
         makeMap = false;
         camera=cameraObject.GetComponent<Camera>();
     }
@@ -177,10 +177,14 @@ public class MapCreate : MonoBehaviour
     private void MapCreater()
     {
         camera.orthographicSize= 15;
-        mapNumber = selectHand.GetMakeNumber;
+       
+
         if (makeMap) 
         {
+            mapNumber = sh.HandNumber[sh.SelectNumber];
             PieceCreator(pieceData, mapNumber, 1, setPosition);
+            sh.HandNumber.Remove(mapNumber);
+            Debug.Log(mapNumber);
             makeMap = false;
             StartCoroutine(delay());
         }
