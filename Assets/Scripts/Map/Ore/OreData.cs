@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
+/// <summary>
+/// ’S“–:ŒF’J
+/// </summary>
+
 public class OreData : MonoBehaviour
 {
     [SerializeField] private string[] names;

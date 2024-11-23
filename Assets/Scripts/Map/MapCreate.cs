@@ -8,7 +8,6 @@ using UnityEditor.Build.Content;
 /// <summary>
 /// ’S“–:ŒF’J
 /// </summary>
-//bool a ‚ÌêŠ‚ÍŒã‚ÅState‚É•ÏX
 
 
 public class MapCreate : MonoBehaviour

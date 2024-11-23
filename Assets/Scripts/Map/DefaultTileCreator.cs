@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-
+/// <summary>
+/// ’S“–:ŒF’J
+/// </summary>
 public class DefaultTileCreator : MonoBehaviour
 {
     private const int mapWidth = 11;

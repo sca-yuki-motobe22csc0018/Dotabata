@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+
 /// <summary>
 /// ’S“–:ŒF’J
 /// </summary>
@@ -56,11 +57,4 @@ public class Ore : MonoBehaviour
         info.events.Add(e);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag(playerTag))
-        {
-            Debug.Log("ƒvƒŒƒCƒ„[‚Æ‚ÌÕ“Ë‚ğŒŸ’m‚µ‚Ü‚µ‚½");
-        }
-    }
 }
