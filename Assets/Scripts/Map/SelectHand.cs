@@ -11,11 +11,12 @@ using UnityEngine;
 public class SelectHand : MonoBehaviour
 {
     [SerializeField] private int selectNumber;//選択した手札　手札のどれを生成するか
-    [SerializeField] private int[] handsNumber = new int[8];//持っている手札　選択した手札はCSVの何番目のデータなのか
+    [SerializeField] private List<int> handsNumber = new List<int>();//持っている手札　選択した手札はCSVの何番目のデータなのか
     [SerializeField] private GameObject[] hands = new GameObject[8];
     [SerializeField] private GameObject MapCreator;
     [SerializeField] private GameObject handsWindow;
     [SerializeField] private GameObject[] handObjects;
+    public List<int> HandNumber { get { return handsNumber; } set { handsNumber = value; } }
     private const float size = 1f;
     private int makeNumber;
     MapCreate MC;
@@ -32,10 +33,6 @@ public class SelectHand : MonoBehaviour
         }
         DestroyLastHands();
         MC = MapCreator.GetComponent<MapCreate>();
-        for (int i = 0; i < handsNumber.Length; i++)
-        {
-            handsNumber[i] = i;
-        }
         selectNumber = -1;
         makeNumber = 0;
         handsWindow.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
@@ -57,7 +54,7 @@ public class SelectHand : MonoBehaviour
 
     private void HandMake()
     {
-        for (int i=0;i<hands.Length;i++)
+        for (int i=0;i<handsNumber.Count;i++)
         {
             Debug.Log(MC);
             MC.PieceCreator(MC.PieceData, handsNumber[i], size,hands[i].transform.position, hands[i],false);

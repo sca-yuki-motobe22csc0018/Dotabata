@@ -432,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectNumber: 0
-  handsNumber: 0000000000000000000000000000000000000000000000000000000000000000
+  handsNumber: 
   hands:
   - {fileID: 1565389215}
   - {fileID: 430106743}
