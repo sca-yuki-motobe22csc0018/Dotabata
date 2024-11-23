@@ -12,6 +12,7 @@ public class Ore : MonoBehaviour
     GameObject player;
     Rigidbody2D playerRb;
     GameObject oreManager;
+    SelectHand sh;
     OreData oreData=new OreData();
     public delegate void OreEvent();
     private const string playerTag = "Player";
@@ -35,6 +36,8 @@ public class Ore : MonoBehaviour
     private void Awake()
     {
         player = GameObject.Find(playerTag);
+        Debug.Log(GameObject.Find("Main Camera"));
+        sh=GameObject.Find("Main Camera").transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SelectHand>();
         playerRb=player.GetComponent<Rigidbody2D>();
         oreManager = GameObject.Find("OreManager");
         oreData=oreManager.GetComponent<OreData>();
@@ -71,6 +74,7 @@ public class Ore : MonoBehaviour
     {
         if(hitCount>=3)
         {
+            GetHand();
             Destroy(this.gameObject);   
         }
     }
@@ -90,5 +94,15 @@ public class Ore : MonoBehaviour
         }
     }
 
+    private void GetHand()//鉱石をはかいしたらマップを獲得
+    {
+        int size = sh.HandNumber.Count;
+        const int maxHand = 8;
+        if(size<maxHand)//現在所持しているマップの数が手札上限より少なければ
+        {
+            int getHandNumber = Random.Range(0, 8);
+            sh.HandNumber.Add(getHandNumber);
+        }
+    }
     
 }

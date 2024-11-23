@@ -97,8 +97,6 @@ public class MapCreate : MonoBehaviour
     /// ピースを所定の位置に生成する関数
     /// </summary>
     /// <param name="piece">全てのピースのデータが格納されているデータ(読み取ったCSV)</param>
-    /// <param name="x">生成するピースの横位置</param>
-    /// <param name="y">生成するピースの縦位置</param>
     /// <param name="pieceNumber">生成したいピースの番号</param>
     /// <param name="pieceSize">生成したいピースのサイズ</param>
     ///  <param name="createPos">生成したいピースの座標</param>
