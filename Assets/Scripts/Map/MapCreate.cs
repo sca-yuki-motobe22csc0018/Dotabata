@@ -181,9 +181,18 @@ public class MapCreate : MonoBehaviour
 
         if (makeMap) 
         {
-            mapNumber = sh.HandNumber[sh.SelectNumber];
-            PieceCreator(pieceData, mapNumber, 1, setPosition);
-            sh.HandNumber.Remove(mapNumber);
+           
+            if(sh.HandNumber.Count>0)
+            {
+                mapNumber = sh.HandNumber[sh.SelectNumber];
+                PieceCreator(pieceData, mapNumber, 1, setPosition);
+                sh.HandNumber.Remove(mapNumber);
+            }
+            else
+            {
+                PieceCreator(pieceData,0,1,setPosition);
+            }
+           
             Debug.Log(mapNumber);
             makeMap = false;
             StartCoroutine(delay());
