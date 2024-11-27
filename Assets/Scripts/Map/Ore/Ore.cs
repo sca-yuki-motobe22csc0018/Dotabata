@@ -21,13 +21,16 @@ public class Ore : MonoBehaviour
     private bool hitPlayer;
     private const float validVelocity=3.0f;
     private float playerPower = 0;
+    
     public struct OreInfo{//鉱石の持つ情報
         public string name;//名前
         public int number;//番号
+        public int durability;
         public float knockBackPower;//プレイヤーが鉱石に衝突したときに発生するノックバックの強さ
         public Sprite sprite;//見た目
         public List<OreEvent> events;//割り当てられる効果
         public List<int> eventPercentage;//各効果の発生割合
+
     }
 
     OreInfo info = new OreInfo();
@@ -49,6 +52,7 @@ public class Ore : MonoBehaviour
         hitCount = 0;
         hitTimer = 0;
         hitPlayer = false;
+        info.durability = 3;
     }
     // Start is called before the first frame update
     void Start()
@@ -72,10 +76,12 @@ public class Ore : MonoBehaviour
 
     private void DestroyMe()
     {
-        if(hitCount>=3)
+        if(hitCount>=info.durability)
         {
             GetHand();
-            Destroy(this.gameObject);   
+            Destroy(this.transform.GetChild(0).gameObject);
+            Destroy(this.gameObject.GetComponent<Ore>());
+            Destroy(this.gameObject.GetComponent<Collider2D>());
         }
     }
 
@@ -100,7 +106,7 @@ public class Ore : MonoBehaviour
         const int maxHand = 8;
         if(size<maxHand)//現在所持しているマップの数が手札上限より少なければ
         {
-            int getHandNumber = Random.Range(0, 8);
+            int getHandNumber = Random.Range(0, 8);//仮。ここの数字は後でマップ総量に変更
             sh.HandNumber.Add(getHandNumber);
         }
     }

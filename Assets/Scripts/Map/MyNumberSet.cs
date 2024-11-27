@@ -11,7 +11,6 @@ public class MyNumberSet : EventSet, IPointerClickHandler
 {
     SelectHand sh;
     GameObject backGround;
-    bool leftClick;
     SpriteRenderer sr;
     Collider2D collider;
 
@@ -34,20 +33,8 @@ public class MyNumberSet : EventSet, IPointerClickHandler
             sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f);
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-        SetEvent setEvent = new SetEvent(PointerClick);
-        SetEventType(click,setEvent);
-        leftClick = false;
-       
-     
-    }
-
     private void Update()
     {
-        leftClick = Input.GetMouseButtonDown(0);
         if(sh.SelectNumber>=0)
         {
             for (int i = 0; i < this.transform.childCount; i++)
@@ -64,16 +51,6 @@ public class MyNumberSet : EventSet, IPointerClickHandler
             }
         }
         this.gameObject.SetActive(PlayerManager.state == PlayerManager.PlayerState.MapCreate);
-    }
-
-    public void PointerClick()
-    {
-        //if(leftClick) { sH.SetSelectNumber = int.Parse(this.name);Debug.Log("”½‰ž‚µ‚Ä‚¢‚é"); }
-    }
-
-    public void OnPointer(PointerEventData eventData)
-    {
-        
     }
 
     public void OnPointerClick(PointerEventData eventData)
