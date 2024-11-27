@@ -31,6 +31,7 @@ public class PlayerMove : MonoBehaviour
     private PlayerManager pm;
     [SerializeField] private GameObject camera;
     private Camera cam;
+    public float camSize;
     // Start is called before the first frame update
     void Start()
     {
@@ -74,7 +75,7 @@ public class PlayerMove : MonoBehaviour
 
     private void PlayerUpdate()
     {
-        cam.orthographicSize = 3;
+        cam.orthographicSize = camSize;
         camera.transform.position = new Vector3(transform.position.x, transform.position.y, -10.0f);
         if(Input.GetKeyDown(KeyCode.Escape))
         {
@@ -124,18 +125,18 @@ public class PlayerMove : MonoBehaviour
         // ƒxƒNƒgƒ‹‚ÌŠp“x‚ðŽæ“¾‚µ‚Ä‰ñ“]‚³‚¹‚é
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        //if (!move)
-        //{
-        //    //PlayerSkin.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        //    if (PlayerSkin.transform.rotation.z > 0.7f || PlayerSkin.transform.rotation.z < -0.7f)
-        //    {
-        //        PlayerSkin.transform.localScale = new Vector3(-0.5f, -0.5f, 1);
-        //    }
-        //    else
-        //    {
-        //        PlayerSkin.transform.localScale = new Vector3(-0.5f, 0.5f, 1);
-        //    }
-        //}
+        if (!move&&PlayerSkin!=null)
+        {
+            PlayerSkin.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+            if (PlayerSkin.transform.rotation.z > 0.7f || PlayerSkin.transform.rotation.z < -0.7f)
+            {
+                PlayerSkin.transform.localScale = new Vector3(-0.5f, -0.5f, 1);
+            }
+            else
+            {
+                PlayerSkin.transform.localScale = new Vector3(-0.5f, 0.5f, 1);
+            }
+        }
 
     }
 

@@ -399,6 +399,9 @@ MonoBehaviour:
   fullHealthColor: {r: 1, g: 1, b: 1, a: 1}
   lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
   forceMultiplier: 10
+  gameManger: {fileID: 1620120261}
+  camera: {fileID: 1133179557}
+  camSize: 5
 --- !u!50 &959969602
 Rigidbody2D:
   serializedVersion: 4
@@ -527,7 +530,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1972531347}
-  - {fileID: 1133179560}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1021854611
@@ -696,7 +698,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1967690355}
-  m_Father: {fileID: 959969605}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1284016031
 GameObject:
@@ -1031,6 +1033,51 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 8, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1620120261
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1620120263}
+  - component: {fileID: 1620120262}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1620120262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620120261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de098a2ab46f8cb4aa0d8bae67022198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraObject: {fileID: 1133179557}
+--- !u!4 &1620120263
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620120261}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 107.244675, y: 12.214457, z: -0.10772991}
+  m_LocalScale: {x: 13, y: 13, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1591,6 +1638,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1133179560}
   - {fileID: 959969605}
   - {fileID: 1394814108}
   - {fileID: 296495487}
@@ -1598,3 +1646,4 @@ SceneRoots:
   - {fileID: 2144979265}
   - {fileID: 1370184487}
   - {fileID: 1660298077}
+  - {fileID: 1620120263}
