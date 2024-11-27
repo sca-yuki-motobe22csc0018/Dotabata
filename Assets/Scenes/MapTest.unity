@@ -1109,6 +1109,7 @@ MonoBehaviour:
   forceMultiplier: 10
   gameManger: {fileID: 1603038775}
   camera: {fileID: 1635815000}
+  camSize: 3
 --- !u!1001 &613661335
 PrefabInstance:
   m_ObjectHideFlags: 0
