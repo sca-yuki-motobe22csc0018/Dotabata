@@ -423,42 +423,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b6d409126d91349895a0f8d2a1f001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.8
+  SpeedNeutral: 0.75
+  SpeedUp: 1.25
   maxSpeed: 15
-  physicsMaterial: {fileID: 6200000, guid: a77cf8d2cdf0b124f91e9756f7000c94, type: 2}
-  bouncinessNeutral: 0
-  bouncinessDown: 0
-  bouncinessUp: 0
+  bouncinessNeutral: 0.2
+  bouncinessDown: 0.05
+  bouncinessUp: 0.8
+  friction: 0.001
   PlayerSkin: {fileID: 1972531345}
   rb: {fileID: 0}
   PowerMaxTime: 1.5
-  PowerCoolTime: 3
+  PowerCoolTimeNeutral: 2
+  PowerCoolTimeDown: 3
+  PowerCoolTimeUp: 0.5
   gaugeImage: {fileID: 623838885}
   fillAmount: 1
   fullHealthColor: {r: 1, g: 1, b: 1, a: 1}
   lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
   forceMultiplier: 10
   gameManger: {fileID: 1620120261}
-  camera: {fileID: 1133179557}
-  camSize: 5
+  playerCamera: {fileID: 1133179557}
+  camSizeSpeed: 2
+  camSizeNeutral: 5
+  camSizeUp: 6.5
+  camSizeDown: 3.5
   Back: {fileID: 1279020689}
   BackPos: 2
-  coolTimeDown: 0
-  knockbackDown: 0
+  coolTimeDown: 1
+  knockbackDown: 1
   scoreUp: 0
-  visibilityUp: 0
+  visibilityUp: 1
   lavaSpeedDown: 0
-  chargeMax: 0
+  chargeMax: 1
   destroyWithOneHit: 0
-  speedUp: 0
+  speedUp: 1
   lavaSpeedUp: 0
-  coolTimeUp: 0
+  coolTimeUp: 1
   scoreDown: 0
   mapAmountDown: 0
-  knockbackUp: 0
+  knockbackUp: 1
   mapDropDown: 0
   mapBlind: 0
-  visibilityDown: 0
+  visibilityDown: 1
 --- !u!50 &959969602
 Rigidbody2D:
   serializedVersion: 4
