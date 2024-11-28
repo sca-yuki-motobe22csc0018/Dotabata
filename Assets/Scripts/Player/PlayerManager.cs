@@ -20,7 +20,7 @@ public class PlayerManager : MonoBehaviour
     public StateFunction[] StateFunctions;
     int stateCount = 0;
     [SerializeField] private GameObject cameraObject;
-    private Camera camera;
+    private Camera playerCamera;
 
 
     private void Awake()
@@ -30,7 +30,7 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        camera=cameraObject.GetComponent<Camera>();
+        playerCamera=cameraObject.GetComponent<Camera>();
         state = PlayerState.PlayerMove ;
     }
 
@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviour
 void Update()
 {
         StateFunctions[(int)state]();
-        Debug.Log(state);
+        //Debug.Log(state);
         if(Input.GetMouseButtonDown(1))
         {
             state++;
@@ -75,7 +75,7 @@ void Update()
     }
     private void One()
     {
-        camera.fieldOfView = 10;
+        playerCamera.fieldOfView = 10;
         Debug.Log("WwwwW");
     }
     private void Two()

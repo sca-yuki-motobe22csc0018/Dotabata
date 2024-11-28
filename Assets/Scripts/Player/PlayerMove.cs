@@ -9,16 +9,23 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float speed;
+    private float Speed;
+    public float SpeedNeutral;
+    public float SpeedUp;
     public float maxSpeed;
-    public PhysicsMaterial2D physicsMaterial;
+    private PhysicsMaterial2D dynamicMaterial;
+    private Collider2D col2D;
     public float bouncinessNeutral;
     public float bouncinessDown;
     public float bouncinessUp;
+    public float friction;
     public GameObject PlayerSkin;
     [SerializeField] Rigidbody2D rb = new Rigidbody2D();
     public float PowerMaxTime;
-    public float PowerCoolTime;
+    private float PowerCoolTime;
+    public float PowerCoolTimeNeutral;
+    public float PowerCoolTimeDown;
+    public float PowerCoolTimeUp;
     float PowerTimer;
     public Image gaugeImage; // ゲージに使用するImageコンポーネント
     [Range(0, 1)] public float fillAmount = 1.0f; // 塗りつぶし率
@@ -28,9 +35,13 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float forceMultiplier = 10f; // 力の大きさを調整
     [SerializeField] private GameObject gameManger;
     private PlayerManager pm;
-    [SerializeField] private GameObject camera;
+    [SerializeField] private GameObject playerCamera;
     private Camera cam;
-    public float camSize;
+    private float camSize;
+    public float camSizeSpeed;
+    public float camSizeNeutral;
+    public float camSizeUp;
+    public float camSizeDown;
     public GameObject Back;
     public float BackPos;
 
@@ -60,11 +71,20 @@ public class PlayerMove : MonoBehaviour
     {
         pm = gameManger.GetComponent<PlayerManager>();
         pm.AddFunction(PlayerUpdate);
-        cam=camera.GetComponent<Camera>();
+        cam= playerCamera.GetComponent<Camera>();
         move = false;
         PowerTimer = 0;
         rb = GetComponent<Rigidbody2D>();
-        physicsMaterial.bounciness = bouncinessNeutral;
+        //physicsMaterial.bounciness = bouncinessNeutral;
+        dynamicMaterial = new PhysicsMaterial2D();
+        PowerCoolTime = PowerCoolTimeNeutral;
+        Speed = SpeedNeutral;
+        camSize = camSizeNeutral;
+
+        col2D = GetComponent<Collider2D>();
+        dynamicMaterial.bounciness = bouncinessNeutral; // 初期値
+        dynamicMaterial.friction = friction;   // 任意
+        col2D.sharedMaterial = dynamicMaterial;
 
         //鉱石関連
         coolTimeDown = false;
@@ -98,11 +118,13 @@ public class PlayerMove : MonoBehaviour
     private void PlayerUpdate()
     {
         cam.orthographicSize = camSize;
-        camera.transform.position = new Vector3(transform.position.x, transform.position.y, -10.0f);
+        playerCamera.transform.position = new Vector3(transform.position.x, transform.position.y, -10.0f);
         if (Back != null&&BackPos!=0)
         {
-            Back.transform.position=new Vector3(camera.transform.position.x/BackPos,this.transform.position.y/BackPos/2,0);
+            Back.transform.position=new Vector3(playerCamera.transform.position.x/BackPos,this.transform.position.y/BackPos,0);
         }
+
+        dynamicMaterial.bounciness = Mathf.PingPong(Time.time, 1.0f);
 
         // 現在の速度を取得
         Vector2 velocity = rb.velocity;
@@ -133,7 +155,7 @@ public class PlayerMove : MonoBehaviour
             mouseP.z = 0; // 2DのためZ軸を0に
 
             // クリックした方向を計算
-            Vector2 dir = (mouseP - transform.position).normalized*speed;
+            Vector2 dir = (mouseP - transform.position).normalized*Speed;
 
             // Rigidbody2Dに力を加える
             rb.AddForce(dir * PowerTimer, ForceMode2D.Impulse);
@@ -177,11 +199,19 @@ public class PlayerMove : MonoBehaviour
         //Plus
         if (coolTimeDown)
         {
-
+            if (PowerCoolTime != PowerCoolTimeDown)
+            {
+                PowerCoolTime = PowerCoolTimeDown;
+            }
         }
         if (knockbackDown)
         {
-
+            if(dynamicMaterial.bounciness != bouncinessDown)
+            {
+                col2D = GetComponent<Collider2D>();
+                dynamicMaterial.bounciness = bouncinessDown;
+                col2D.sharedMaterial = dynamicMaterial;
+            }
         }
         if (scoreUp)
         {
@@ -189,7 +219,14 @@ public class PlayerMove : MonoBehaviour
         }
         if (visibilityUp)
         {
+            if (camSize >= camSizeUp)
+            {
+                camSize = camSizeUp;
 
+            }else
+            {
+                camSize += Time.deltaTime* camSizeSpeed;
+            }
         }
         if (lavaSpeedDown)
         {
@@ -198,7 +235,10 @@ public class PlayerMove : MonoBehaviour
         //Neutral
         if (chargeMax)
         {
-
+            if (Input.GetMouseButton(0) && PowerTimer < PowerMaxTime && !move)
+            {
+                PowerTimer = PowerMaxTime;
+            }
         }
         if (destroyWithOneHit)
         {
@@ -206,7 +246,10 @@ public class PlayerMove : MonoBehaviour
         }
         if (speedUp)
         {
-
+            if (Speed != SpeedUp)
+            {
+                Speed = SpeedUp;
+            }
         }
         //Minus
         if (lavaSpeedUp)
@@ -215,7 +258,10 @@ public class PlayerMove : MonoBehaviour
         }
         if (coolTimeUp)
         {
-
+            if (PowerCoolTime != PowerCoolTimeUp)
+            {
+                PowerCoolTime = PowerCoolTimeUp;
+            }
         }
         if (scoreDown)
         {
@@ -227,7 +273,12 @@ public class PlayerMove : MonoBehaviour
         }
         if (knockbackUp)
         {
-
+            if (dynamicMaterial.bounciness != bouncinessUp)
+            {
+                col2D = GetComponent<Collider2D>();
+                dynamicMaterial.bounciness = bouncinessUp;
+                col2D.sharedMaterial = dynamicMaterial;
+            }
         }
         if (mapDropDown)
         {
@@ -239,7 +290,55 @@ public class PlayerMove : MonoBehaviour
         }
         if (visibilityDown)
         {
+            if (camSize <= camSizeDown)
+            {
+                camSize = camSizeDown;
+            }
+            else
+            {
+                camSize -= Time.deltaTime* camSizeSpeed;
+            }
+        }
 
+        //戻す処理
+        if (!coolTimeDown&&!coolTimeUp)
+        {
+            if (PowerCoolTime != PowerCoolTimeNeutral)
+            {
+                PowerCoolTime = PowerCoolTimeNeutral;
+            }
+        }
+        if (!knockbackUp && !knockbackDown)
+        {
+            if (dynamicMaterial.bounciness != bouncinessNeutral)
+            {
+                col2D = GetComponent<Collider2D>();
+                dynamicMaterial.bounciness = bouncinessNeutral;
+                col2D.sharedMaterial = dynamicMaterial;
+            }
+        }
+        if (!lavaSpeedDown&&lavaSpeedUp)
+        {
+
+        }
+        if (!visibilityDown && !visibilityUp)
+        {
+            if(camSize<camSizeNeutral)
+            {
+                camSize += Time.deltaTime * camSizeSpeed;
+            }
+            if (camSize > camSizeNeutral)
+            {
+                camSize -= Time.deltaTime * camSizeSpeed;
+            }
+            if (0.01f < camSize - camSizeNeutral && -0.01 > camSize-camSizeNeutral)
+            {
+                camSize = camSizeNeutral;
+            }
+        }
+        if (!speedUp)
+        {
+            Speed = SpeedNeutral;
         }
     }
 
