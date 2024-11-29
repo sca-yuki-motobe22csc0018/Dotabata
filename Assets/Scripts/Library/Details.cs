@@ -13,6 +13,8 @@ public class Details : MonoBehaviour
     [SerializeField] Text[] EffectText;
     [SerializeField] Text[] ExplanationText;
 
+    [SerializeField] GameObject tagObj;
+
     void Start()
     {
     }
@@ -42,6 +44,15 @@ public class Details : MonoBehaviour
     {
         //鉱石番号テキスト
         NumberText.text = "No." + (selectNum).ToString("D3");
+
+        if (OreSave.Load(selectNum))
+        {
+            tagObj.SetActive(true);
+        }
+        else
+        {
+            tagObj.SetActive(false);
+        }
 
         if(selectNum == 1)
         {

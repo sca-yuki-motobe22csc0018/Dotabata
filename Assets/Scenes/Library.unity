@@ -3328,6 +3328,7 @@ MonoBehaviour:
   - {fileID: 302267727}
   - {fileID: 368104984}
   - {fileID: 1722936946}
+  tagObj: {fileID: 772517497}
 --- !u!1 &1326560013
 GameObject:
   m_ObjectHideFlags: 0
