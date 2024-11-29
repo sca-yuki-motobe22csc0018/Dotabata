@@ -51,6 +51,9 @@ public class PlayerTitleMotioner : MonoBehaviour
     [SerializeField]
     private GameObject[] tail;
 
+    private float flappingTimer;
+    private float flappingRate;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,17 +63,21 @@ public class PlayerTitleMotioner : MonoBehaviour
         isMotionStarted = false;
         bgs = GameObject.Find("BackGroundObject").GetComponent<BackGroundScroller>();
         fallSpeed = bgs.ScrollSpeed;
+        flappingTimer = 0.0f;
+        flappingRate = 0.0f;
     }
 
     //Update is called once per frame
     void Update()
     {
+        Motion_Flapping(flappingRate);
         parent.transform.localPosition =
             parent.transform.localPosition + new Vector3(0, fallSpeed) * Time.deltaTime;
 
         if (!isMotionStarted)
         {
             NextMotion();
+            flappingRate = 1.0f;
             switch (motionState)
             {
                 case MotionState.FLOATING:
@@ -97,6 +104,7 @@ public class PlayerTitleMotioner : MonoBehaviour
 
                 case MotionState.SLEEP:
                     {
+                        flappingRate = 0.75f;
                         float rand = Random.Range(3.0f, 9.0f);
                         StartCoroutine(Motion_Sleep(rand));
                     }
@@ -127,6 +135,29 @@ public class PlayerTitleMotioner : MonoBehaviour
         lastMotionNumber = rand;
     }
 
+    private void Motion_Flapping(float rate)
+    {
+        flappingTimer = flappingTimer > 1.0f ? flappingTimer -= 1.0f : flappingTimer += Time.deltaTime * flappingRate;
+
+        List<float> defRotZ = new List<float>
+        {
+            25.0f,
+            -30.0f
+        };
+        List<float> motionRotZ = new List<float>
+        {
+            -15.0f,
+            15.0f
+        };
+
+        for(int i=0;i<defRotZ.Count;i++)
+        {
+            float z = motionRotZ[i] - defRotZ[i];
+            wings[i].transform.GetChild(0).localRotation =
+                Quaternion.Euler(new Vector3(0, 0, defRotZ[i]) + new Vector3(0, 0, z) * (1.0f - EaseInReturn(flappingTimer)) * flappingRate);
+        }
+    }
+
     private IEnumerator Motion_Sleep(float time)
     {
         isMotionStarted = true;
@@ -144,14 +175,19 @@ public class PlayerTitleMotioner : MonoBehaviour
         };
         List<float> motionRotZ = new List<float>
         {
+            //¶‰EŽ¨
             50.0f,
             -35.0f,
+            //—¼•I
             16.0f,
             -30.0f,
+            //—¼Žè
             12.5f,
             -30.0f,
-            45.0f,
-            -65.0f,
+            //—¼—ƒª–{
+            30.0f,
+            -60.0f,
+            //‚µ‚Á‚Û
             -65.0f
         };
 
@@ -176,7 +212,7 @@ public class PlayerTitleMotioner : MonoBehaviour
                 if (t >= 1.0f) isEnd = true;
 
                 t += Time.deltaTime;
-                transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 25.0f) * EaseInReturn(t));
+                transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 10.0f) * EaseInReturn(t));
                 eyes[0].transform.localScale = new Vector3(defScale.x, defScale.y * (1 - EaseInReturn(t)));
                 eyes[1].transform.localScale = new Vector3(defScale.x, defScale.y * (1 - EaseInReturn(t)));
 
@@ -186,7 +222,7 @@ public class PlayerTitleMotioner : MonoBehaviour
                     for (int j = 0; j < bodyParts[i].Length; j++)
                     {
                         bodyParts[i][j].transform.localRotation =
-                            Quaternion.Euler(new Vector3(0, 0, motionRotZ[count] * 0.5f) * EaseInReturn(t));
+                            Quaternion.Euler(new Vector3(0, 0, motionRotZ[count] * 0.25f) * EaseInReturn(t));
                         count++;
                     }
                 }
@@ -240,6 +276,7 @@ public class PlayerTitleMotioner : MonoBehaviour
             t += Time.deltaTime / time;
 
             fallSpeed = -150.0f * t;
+            flappingRate = 0.5f - (0.4f * t);
             yield return null;
         }
         fallSpeed = bgs.ScrollSpeed;
@@ -268,6 +305,7 @@ public class PlayerTitleMotioner : MonoBehaviour
             }
             yield return null;
         }
+        yield return new WaitForSeconds(0.5f);
     }
     private IEnumerator Motion_Floating(float time)
     {
