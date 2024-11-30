@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,13 +8,14 @@ using UnityEngine.EventSystems;
 /// ’S“–:ŒF’J
 /// </summary>
 
-public class MyNumberSet : EventSet, IPointerClickHandler
+public class MyNumberSet : EventSet, IPointerDownHandler ,IPointerUpHandler
 {
     SelectHand sh;
     GameObject backGround;
     SpriteRenderer sr;
     Collider2D collider;
-
+    GameObject selectedMap;
+    public GameObject SelectedMap { get; } 
     
     void Awake()
     {
@@ -24,48 +26,66 @@ public class MyNumberSet : EventSet, IPointerClickHandler
     }
     void OnEnable()
     {
+        
         collider.enabled = true;
         sh.SelectNumber = -1;
-        for (int i = 0; i < this.transform.childCount; i++)
-        {
-            
-            sr = this.gameObject.transform.GetChild(i).GetComponent<SpriteRenderer>();
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f);
-        }
+        selectedMap = null;
     }
     private void Update()
     {
-        if(sh.SelectNumber>=0)
+        if(selectedMap!=null&&!sh.PutedMap) {
+           Vector3 mousePosition = Input.mousePosition; 
+            mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            selectedMap.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
+
+        }
+    
+        if(sh.SelectNumber<0)
         {
-            for (int i = 0; i < this.transform.childCount; i++)
-            {
-                sr = this.transform.GetChild(i).GetComponent<SpriteRenderer>();
-                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.0f);
-                
-                sr = backGround.GetComponent<SpriteRenderer>();
-                if (sr.color.a == 0.0f)
-                {
-                   
-                    StartCoroutine(delay());
-                }
-            }
+            collider.enabled = true;
+        }
+        if(selectedMap!=null&&sh.SelectNumber<0)
+        {
+            selectedMap = null;
+            sh.PutedMap = false;
         }
         this.gameObject.SetActive(PlayerManager.state == PlayerManager.PlayerState.MapCreate);
     }
+    
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
-        if (eventData.pointerId == -1)
+        if(PlayerManager.state==PlayerManager.PlayerState.PlayerMove)
         {
-            Debug.Log(this.name);
+            return;
+        }
+        if (eventData.pointerId==-1&&selectedMap==null)
+        {
+            sh.PutedMap = false;
+            selectedMap = Instantiate(this.gameObject,transform.position,Quaternion.identity);
+            selectedMap.transform.parent = transform.parent.transform;
+            sh.SelectedMap= selectedMap;
             sh.SelectNumber = int.Parse(this.name);
+            selectedMap.GetComponent<Collider2D>().enabled = false; 
+            selectedMap.layer = 2;
         }
     }
+        
 
     private IEnumerator delay()
     {
         yield return new WaitForSeconds(0.1f);
         collider.enabled = false;
 
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if(eventData.pointerId==-1)
+        {
+            //sh.PutedMap = true;
+        }
+         
+    //    selectedMap = null;
     }
 }

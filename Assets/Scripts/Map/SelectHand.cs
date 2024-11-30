@@ -22,6 +22,14 @@ public class SelectHand : MonoBehaviour
     SpriteRenderer sr;
     public int SelectNumber {  get { return selectNumber; } set {  selectNumber = value; } }
 
+    private bool onemore;
+    public bool Onemore { get { return onemore; } set {  onemore = value; } }
+
+    private GameObject selectedMap;
+    public GameObject SelectedMap { get {  return selectedMap; } set {  selectedMap = value; } }
+
+    private bool putedMap;
+    public bool PutedMap { get { return putedMap; } set { putedMap = value; } } 
     private void OnEnable()
     {
         for (int i = 0; i < handObjects.Length; i++)
@@ -29,6 +37,7 @@ public class SelectHand : MonoBehaviour
             sr = handObjects[i].GetComponent<SpriteRenderer>();
             sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f);
         }
+        onemore = true;
         DestroyLastHands();
         MC = MapCreator.GetComponent<MapCreate>();
         selectNumber = -1;
@@ -38,7 +47,10 @@ public class SelectHand : MonoBehaviour
     }
     private void Update()
     {
-        if(selectNumber>=0)
+        Debug.Log("selectNumber"+selectNumber);
+        Debug.Log("OneMore" + onemore);
+        Debug.Log("putedMap" + putedMap);
+        if(selectNumber>=0&&!putedMap)
         {
             if (handsNumber.Count == 0)
             {
@@ -49,14 +61,45 @@ public class SelectHand : MonoBehaviour
                 sr = handObjects[i].GetComponent<SpriteRenderer>();
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.0f);
             }
+            for (int i = 0; i < handObjects.Length; i++)
+            {
+                Debug.Log("AAAAAAAAAAAA");
+                sr = handObjects[i].GetComponent<SpriteRenderer>();
+                DestroyLastHands();
+            }
+            onemore = true;
+        }
+        else if(onemore)
+        {
+            Debug.Log("oneMore");
+            for (int i = 0; i < handObjects.Length; i++)
+            {
+                sr = handObjects[i].GetComponent<SpriteRenderer>();
+                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f);
+            }
+            if(putedMap)
+            {
+                Debug.Log("Remove"+selectNumber);
+                if (handsNumber.Count>selectNumber&&selectNumber>=0)
+                {
+                    handsNumber.RemoveAt(selectNumber);
+                }
+              
+                DestroyLastHands();
+                MC = MapCreator.GetComponent<MapCreate>();
+                handsWindow.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                HandMake();
+                handsWindow.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                selectNumber = -1;
+            }
+           
         }
     }
 
-    private void HandMake()
+    public void HandMake()
     {
         for (int i=0;i<handsNumber.Count;i++)
         {
-            Debug.Log(MC);
             MC.PieceCreator(MC.PieceData, handsNumber[i], size,hands[i].transform.position, hands[i],false);
         }
     }

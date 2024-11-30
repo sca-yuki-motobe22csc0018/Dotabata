@@ -52,7 +52,7 @@ public class Ore : MonoBehaviour
         hitCount = 0;
         hitTimer = 0;
         hitPlayer = false;
-        info.durability = 3;
+        info.durability = 1;
     }
     // Start is called before the first frame update
     void Start()
