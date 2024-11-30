@@ -203,11 +203,7 @@ public class MapCreate : MonoBehaviour
     IEnumerator delay()
     {
         yield return new WaitForSeconds(0.5f);
-        PlayerManager.state = PlayerManager.PlayerState.PlayerMove;
+        sh.SelectNumber = -1;
     }
 
-    private void OreDataSet()
-    {
-
-    }
 }

@@ -19,6 +19,7 @@ public class DefaultTileCreator : MonoBehaviour
                 if(x!=5||y!=0)
                 {
                     GameObject obj = Instantiate(defaultTile, new Vector3(x * 13, y * 13, 0), Quaternion.identity);
+                    obj.transform.name = "DefaultTile";
                     obj.transform.parent = transform;
                 }
                 
@@ -26,4 +27,6 @@ public class DefaultTileCreator : MonoBehaviour
 
         }
     }
+
+    
 }

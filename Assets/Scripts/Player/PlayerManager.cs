@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviour
 void Update()
 {
         StateFunctions[(int)state]();
-        //Debug.Log(state);
+        Debug.Log(state);
         if(Input.GetMouseButtonDown(1))
         {
             state++;
