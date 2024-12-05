@@ -53,6 +53,7 @@ public class PlayerTitleMotioner : MonoBehaviour
 
     private float flappingTimer;
     private float flappingRate;
+    private float sleptTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -65,6 +66,7 @@ public class PlayerTitleMotioner : MonoBehaviour
         fallSpeed = bgs.ScrollSpeed;
         flappingTimer = 0.0f;
         flappingRate = 0.0f;
+        sleptTimer = 0.0f;
     }
 
     //Update is called once per frame
@@ -73,6 +75,7 @@ public class PlayerTitleMotioner : MonoBehaviour
         Motion_Flapping(flappingRate);
         parent.transform.localPosition =
             parent.transform.localPosition + new Vector3(0, fallSpeed) * Time.deltaTime;
+        sleptTimer += Time.deltaTime;
 
         if (!isMotionStarted)
         {
@@ -96,7 +99,7 @@ public class PlayerTitleMotioner : MonoBehaviour
 
                 case MotionState.HOP:
                     {
-                        float randTime = Random.Range(0.5f, 1.0f);
+                        float randTime = Random.Range(0.3f, 0.75f);
                         int randHops = Random.Range(1, 3);
                         StartCoroutine(Motion_Hop(randHops, randTime));
                     }
@@ -128,7 +131,8 @@ public class PlayerTitleMotioner : MonoBehaviour
         {
             rand = Random.Range(0, (int)MotionState.SIZE);
             if (rand == lastMotionNumber) continue;
-            if (rand == (int)MotionState.SLEEP && lastMotionNumber != (int)MotionState.FLOATING) continue;
+            if (rand == (int)MotionState.SLEEP && sleptTimer <= 30.0f && lastMotionNumber != (int)MotionState.FLOATING) continue;
+            if (rand == (int)MotionState.HOP && Random.Range(0, 100) >= 33) continue;
             isEnd = true;
         }
         motionState = (MotionState)rand;
@@ -200,6 +204,7 @@ public class PlayerTitleMotioner : MonoBehaviour
             }
         }
 
+        //‚±‚­‚±‚­‚·‚é‚Æ‚±‚ë
         for (int n = 0; n < 2; n++)
         {
             yield return new WaitForSeconds(0.5f);
@@ -231,6 +236,8 @@ public class PlayerTitleMotioner : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.5f);
+
+        //Q‚éuŠÔ
         t = 0.0f;
         isEnd = false;
 
@@ -267,6 +274,7 @@ public class PlayerTitleMotioner : MonoBehaviour
             yield return null;
         }
 
+        //Q‚Ä‚©‚ç—Ž‚¿‚Äs‚­‚Æ‚±‚ë
         t = 0.0f;
         isEnd = false;
 
@@ -275,16 +283,18 @@ public class PlayerTitleMotioner : MonoBehaviour
             if (t >= 1.0f) isEnd = true;
             t += Time.deltaTime / time;
 
+            parent.transform.localScale = new Vector3(1.0f + t / 3, 1.0f - t / 2, 1);
             fallSpeed = -150.0f * t;
             flappingRate = 0.5f - (0.4f * t);
             yield return null;
         }
         fallSpeed = bgs.ScrollSpeed;
 
+        //”ò‚Ñ‹N‚«‚Ä’µ‚Ë‚é‚Æ‚±‚ë
         t = 0.0f;
         isEnd = false;
 
-        StartCoroutine(Motion_Hop(1, 0.4f));
+        StartCoroutine(Motion_Hop(1, 0.2f));
         eyes[0].transform.localScale = new Vector3(defScale.x, defScale.y);
         eyes[1].transform.localScale = new Vector3(defScale.x, defScale.y);
         while (!isEnd)
@@ -306,6 +316,7 @@ public class PlayerTitleMotioner : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(0.5f);
+        sleptTimer = 0.0f;
     }
     private IEnumerator Motion_Floating(float time)
     {
@@ -361,19 +372,57 @@ public class PlayerTitleMotioner : MonoBehaviour
     {
         isMotionStarted = true;
 
-        float t = 0.0f;
-        bool isEnd = false;
-        while (!isEnd)
+        for(int i = 0; i < hops; i++)
         {
-            if (t > 0.5f) isEnd = true;
+            float t = 0.0f;
+            bool isEnd = false;
+            Vector3 defScale = parent.transform.localScale;
+            Vector3 motionScale = new Vector3(1.75f, 0.25f, 1) - defScale;
 
-            t += Time.deltaTime * hops / hoppingTime;
-            float x = transform.position.x;
-            float y = parent.transform.position.y +
-                Mathf.Abs(Mathf.Sin(t * 2 * Mathf.PI)) * hoppingHeight;
-            transform.position = new Vector2(x, y);
+            while (!isEnd)
+            {
+                if (t > 1.0f) isEnd = true;
 
-            yield return null;
+                t += Time.deltaTime / 0.05f;
+                parent.transform.localScale = defScale + motionScale * t;
+
+                yield return null;
+            }
+
+            t = 0.0f;
+            isEnd = false;
+            defScale = parent.transform.localScale;
+            motionScale = new Vector3(0.5f, 1.5f, 1) - defScale;
+
+            while (!isEnd)
+            {
+                if (t > 1.0f) isEnd = true;
+
+                parent.transform.localScale = defScale + motionScale * EaseOutCubic(t);
+                t += Time.deltaTime * hops / hoppingTime;
+                float x = transform.position.x;
+                float y = parent.transform.position.y +
+                    Mathf.Abs(Mathf.Sin(t * Mathf.PI)) * hoppingHeight;
+                transform.position = new Vector2(x, y);
+
+                yield return null;
+            }
+
+            t = 0.0f;
+            isEnd = false;
+            defScale = parent.transform.localScale;
+            motionScale = new Vector3(1, 1, 1) - defScale;
+
+            while (!isEnd)
+            {
+                if (t > 1.0f) isEnd = true;
+
+                t += Time.deltaTime / 0.05f;
+                parent.transform.localScale = defScale + motionScale * t;
+
+                yield return null;
+            }
+            parent.transform.localScale = defScale + motionScale;
         }
         isMotionStarted = false;
     }
@@ -394,6 +443,12 @@ public class PlayerTitleMotioner : MonoBehaviour
             t < 1.0f ?
             Mathf.Pow(2, 10 * t - 10) :
             1.0f;
+    }
+
+    private float EaseOutCubic(float t)
+    {
+        float c = 1 - t;
+        return 1 - c * c * c;
     }
     private float EaseInOutBack(float t)
     {
