@@ -9,6 +9,10 @@ TagManager:
   - Enemy
   - Goal
   - Ore
+  - Adsorption
+  - BreakWall
+  - RippleRed
+  - RippleBlue
   layers:
   - Default
   - TransparentFX
