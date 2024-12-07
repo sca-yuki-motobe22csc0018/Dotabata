@@ -451,7 +451,6 @@ GameObject:
   - component: {fileID: 93300078}
   - component: {fileID: 93300077}
   - component: {fileID: 93300076}
-  - component: {fileID: 93300081}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -474,7 +473,7 @@ MonoBehaviour:
   SpeedNeutral: 5
   SpeedUp: 1.25
   maxSpeed: 15
-  bouncinessNeutral: 0.5
+  bouncinessNeutral: 1
   bouncinessDown: 1
   bouncinessUp: 1
   friction: 0.001
@@ -643,51 +642,6 @@ Transform:
   - {fileID: 289459457}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &93300081
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 93300075}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!1 &289459455
 GameObject:
   m_ObjectHideFlags: 0
@@ -2388,9 +2342,13 @@ MonoBehaviour:
   consoleMapCSV: {fileID: 0}
   doorMapCSV: {fileID: 0}
   mapObjects:
-  - {fileID: 2886233972861471902, guid: 15fe0ea98ec2299459fb299dad390529, type: 3}
+  - {fileID: 2886233972861471902, guid: 257d1169d3b35414e9757291c1b014dd, type: 3}
   - {fileID: 2886233972861471902, guid: 5de6aca714c961f42a47738e0e68ed40, type: 3}
   - {fileID: 2886233972861471902, guid: 257d1169d3b35414e9757291c1b014dd, type: 3}
+  - {fileID: 3006817828404153227, guid: e9fa94375873cbe4b8fa73dd12ad5e24, type: 3}
+  - {fileID: 1165295600847918735, guid: 161fa4ca00e7ba645b4d483f23143c53, type: 3}
+  - {fileID: 8648946731931032645, guid: 1a0dc98bda4277b4e995207487041f14, type: 3}
+  - {fileID: 4681043031597253129, guid: 881b3d2d71a8ffe4b93e05b6c04e9c1d, type: 3}
   noColliderMapObjects:
   - {fileID: 2886233972861471902, guid: 50b9c08d23d880e438027b602355b8e3, type: 3}
   - {fileID: 2886233972861471902, guid: 6195c1bb6d179254d9c36e2059350527, type: 3}
