@@ -44,6 +44,10 @@ public class MyNumberSet : EventSet, IPointerDownHandler ,IPointerUpHandler
         {
             collider.enabled = true;
         }
+        else
+        {
+            collider.enabled = false;
+        }
         if(selectedMap!=null&&sh.SelectNumber<0)
         {
             selectedMap = null;
