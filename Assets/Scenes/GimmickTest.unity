@@ -433,17 +433,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gimmick04
       objectReference: {fileID: 0}
-    - target: {fileID: 4681043031597253129, guid: 881b3d2d71a8ffe4b93e05b6c04e9c1d, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 8358785627549717695, guid: 881b3d2d71a8ffe4b93e05b6c04e9c1d, type: 3}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8358785627549717695, guid: 881b3d2d71a8ffe4b93e05b6c04e9c1d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.55960655
-      objectReference: {fileID: 0}
-    - target: {fileID: 8358785627549717695, guid: 881b3d2d71a8ffe4b93e05b6c04e9c1d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.0338672
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8358785627549717695, guid: 881b3d2d71a8ffe4b93e05b6c04e9c1d, type: 3}
       propertyPath: m_LocalPosition.z
