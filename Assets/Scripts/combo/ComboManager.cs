@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ’S“–:ŒF’J
+/// </summary>
+
 public class ComboManager : MonoBehaviour
 {
     private const float comboTime=4.0f;//ƒRƒ“ƒ{‚ª‚Â‚È‚ª‚éğŒAŸ‚¬‚ÌzÎ‚É4•bˆÈ“à‚ÉÕ“Ë

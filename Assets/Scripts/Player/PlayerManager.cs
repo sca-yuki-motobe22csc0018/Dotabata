@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//‚±‚ê‚ÍPlayer‚ÌState‚ğŠÇ—‚·‚éƒNƒ‰ƒX‚Å‚·
-//’S“–FŒF’J
+/// <summary>
+/// ’S“–FŒF’J
+/// </summary>
 public class PlayerManager : MonoBehaviour
 {
 
