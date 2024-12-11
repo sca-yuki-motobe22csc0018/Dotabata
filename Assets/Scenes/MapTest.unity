@@ -2389,7 +2389,7 @@ MonoBehaviour:
   consoleMapCSV: {fileID: 0}
   doorMapCSV: {fileID: 0}
   mapObjects:
-  - {fileID: 2886233972861471902, guid: 257d1169d3b35414e9757291c1b014dd, type: 3}
+  - {fileID: 2886233972861471902, guid: 15fe0ea98ec2299459fb299dad390529, type: 3}
   - {fileID: 2886233972861471902, guid: 5de6aca714c961f42a47738e0e68ed40, type: 3}
   - {fileID: 2886233972861471902, guid: 257d1169d3b35414e9757291c1b014dd, type: 3}
   - {fileID: 3006817828404153227, guid: e9fa94375873cbe4b8fa73dd12ad5e24, type: 3}
