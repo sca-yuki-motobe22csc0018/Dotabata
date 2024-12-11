@@ -9,11 +9,13 @@ using UnityEngine;
 
 public class Ore : MonoBehaviour 
 {
-    GameObject player;
-    Rigidbody2D playerRb;
-    GameObject oreManager;
-    SelectHand sh;
-    OreData oreData=new OreData();
+    private GameObject player;
+    private GameObject comboManager;
+    private ComboManager cm;
+    private Rigidbody2D playerRb;
+    private GameObject oreManager;
+    private SelectHand sh;
+    private OreData oreData =new OreData();
     public delegate void OreEvent();
     private const string playerTag = "Player";
     private short hitCount;
@@ -21,12 +23,13 @@ public class Ore : MonoBehaviour
     private bool hitPlayer;
     private const float validVelocity=3.0f;
     private float playerPower = 0;
-    
-    public struct OreInfo{//鉱石の持つ情報
+
+    //鉱石の持つ情報
+    public struct OreInfo
+    {
         public string name;//名前
         public int number;//番号
         public int durability;
-        public float knockBackPower;//プレイヤーが鉱石に衝突したときに発生するノックバックの強さ
         public Sprite sprite;//見た目
         public List<OreEvent> events;//割り当てられる効果
         public List<int> eventPercentage;//各効果の発生割合
@@ -39,6 +42,8 @@ public class Ore : MonoBehaviour
     private void Awake()
     {
         player = GameObject.Find(playerTag);
+        comboManager=GameObject.Find("ComboManager");
+        cm=comboManager.GetComponent<ComboManager>();
         Debug.Log(GameObject.Find("Main Camera"));
         sh=GameObject.Find("Main Camera").transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SelectHand>();
         playerRb=player.GetComponent<Rigidbody2D>();
@@ -46,7 +51,6 @@ public class Ore : MonoBehaviour
         oreData=oreManager.GetComponent<OreData>();
         info.sprite = oreData.GetSprite[info.number];
         info.name = oreData.GetNames[0];
-        info.knockBackPower = 1;
         OreData.EventPercentage ep = oreData.GetEventPercentages;
         info.eventPercentage = ep.oreOne;
         hitCount = 0;
@@ -57,7 +61,7 @@ public class Ore : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-   
+        Debug.Log(cm);
     }
 
     // Update is called once per frame
@@ -79,6 +83,10 @@ public class Ore : MonoBehaviour
         if(hitCount>=info.durability)
         {
             GetHand();
+            Debug.Log(cm.ComboCount);
+            cm.ComboCount++;
+            cm.ComboTimer = 0.0f;
+            cm.ComboFlag = true;
             Destroy(this.transform.GetChild(0).gameObject);
             Destroy(this.gameObject.GetComponent<Ore>());
             Destroy(this.gameObject.GetComponent<Collider2D>());
