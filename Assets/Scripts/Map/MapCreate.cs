@@ -26,6 +26,7 @@ public class MapCreate : MonoBehaviour
     [SerializeField] GameObject handBackGround;
     [SerializeField] GameObject handWindow;
     [SerializeField] GameObject cameraObject;
+    [SerializeField] Canvas canvas;
     private Camera camera;
     SelectHand sh;
     public   List<string[]> pieceData;
@@ -119,6 +120,7 @@ public class MapCreate : MonoBehaviour
                     Ore.OreInfo Info = ore.Info;
                     Info.number = number - 2;
                     ore.Info = Info;
+                    obj.transform.parent=canvas.transform;
 
                 }
             }

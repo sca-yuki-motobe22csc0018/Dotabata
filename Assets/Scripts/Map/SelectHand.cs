@@ -47,9 +47,6 @@ public class SelectHand : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log("selectNumber"+selectNumber);
-        Debug.Log("OneMore" + onemore);
-        Debug.Log("putedMap" + putedMap);
         if(selectNumber>=0&&!putedMap)
         {
             if (handsNumber.Count == 0)
@@ -63,7 +60,6 @@ public class SelectHand : MonoBehaviour
             }
             for (int i = 0; i < handObjects.Length; i++)
             {
-                Debug.Log("AAAAAAAAAAAA");
                 sr = handObjects[i].GetComponent<SpriteRenderer>();
                 DestroyLastHands();
             }
@@ -71,7 +67,6 @@ public class SelectHand : MonoBehaviour
         }
         else if(onemore)
         {
-            Debug.Log("oneMore");
             for (int i = 0; i < handObjects.Length; i++)
             {
                 sr = handObjects[i].GetComponent<SpriteRenderer>();
@@ -79,7 +74,6 @@ public class SelectHand : MonoBehaviour
             }
             if(putedMap)
             {
-                Debug.Log("Remove"+selectNumber);
                 if (handsNumber.Count>selectNumber&&selectNumber>=0)
                 {
                     handsNumber.RemoveAt(selectNumber);
