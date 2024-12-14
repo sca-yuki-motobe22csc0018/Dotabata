@@ -44,6 +44,7 @@ public class MapCreate : MonoBehaviour
     [SerializeField] GameObject[] handPiecePos;
     public int MapNumber { get { return mapNumber; } set { mapNumber = value; } }
 
+    [SerializeField] GameObject[] ores;
 
     private void Awake()
     {
@@ -112,16 +113,25 @@ public class MapCreate : MonoBehaviour
                 int number = int.Parse(str);
                 float posX = (transform.position.x + (j + width) * pieceSize)-width-width/2+createPos.x;
                 float posY = (transform.position.y - (i + height) * pieceSize)+height+height/2+createPos.y;
-                GameObject obj = Instantiate(mapObjects[number], new Vector3(posX, 
-                    posY,0), Quaternion.identity);
+               
                 if (number == 2)
                 {
+                    int random=Random.Range(0, ores.Length);
+                    Debug.Log(random);
+                    GameObject obj = Instantiate(ores[random],new Vector3(posX,posY,0),Quaternion.identity);
+                    GameObject floor = Instantiate(mapObjects[0],new Vector3(posX, posY,0), Quaternion.identity);
                     Ore ore = obj.GetComponent<Ore>();
                     Ore.OreInfo Info = ore.Info;
                     Info.number = number - 2;
                     ore.Info = Info;
                     obj.transform.parent=canvas.transform;
 
+                }
+                else
+                {
+
+                    GameObject obj = Instantiate(mapObjects[number], new Vector3(posX,
+                        posY, 0), Quaternion.identity);
                 }
             }
         }
