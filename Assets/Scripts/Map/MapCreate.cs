@@ -18,9 +18,6 @@ public class MapCreate : MonoBehaviour
     const int width = 13;
     [SerializeField] int mapNumber = 0;
     [SerializeField] TextAsset neutralMapCSV;
-    [SerializeField] TextAsset cameraMapCSV;
-    [SerializeField] TextAsset consoleMapCSV;
-    [SerializeField] TextAsset doorMapCSV;
     [SerializeField] GameObject[] mapObjects;
     [SerializeField] GameObject[] noColliderMapObjects;
     [SerializeField] GameObject handBackGround;
@@ -113,11 +110,9 @@ public class MapCreate : MonoBehaviour
                 int number = int.Parse(str);
                 float posX = (transform.position.x + (j + width) * pieceSize)-width-width/2+createPos.x;
                 float posY = (transform.position.y - (i + height) * pieceSize)+height+height/2+createPos.y;
-               
                 if (number == 2)
                 {
-                    int random=Random.Range(0, ores.Length);
-                    Debug.Log(random);
+                    int random=Random.Range(0, ores.Length);//çzêŒÇÃíÜÇ©ÇÁÉâÉìÉ_ÉÄÇ…ê∂ê¨
                     GameObject obj = Instantiate(ores[random],new Vector3(posX,posY,0),Quaternion.identity);
                     GameObject floor = Instantiate(mapObjects[0],new Vector3(posX, posY,0), Quaternion.identity);
                     Ore ore = obj.GetComponent<Ore>();

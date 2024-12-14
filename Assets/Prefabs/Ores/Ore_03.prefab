@@ -85,6 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1299632191193666460}
   - component: {fileID: 5302606912639271545}
+  - component: {fileID: 7818021602538248536}
   m_Layer: 0
   m_Name: Ore_03
   m_TagString: Untagged
@@ -124,6 +125,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63043878ca5dbf147acbef8da4bd5ae1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!70 &7818021602538248536
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770739881528263195}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -1.3819859, y: 0.82917213}
+  m_Size: {x: 46.74939, y: 68.255165}
+  m_Direction: 0
 --- !u!1 &1813711981893082260
 GameObject:
   m_ObjectHideFlags: 0

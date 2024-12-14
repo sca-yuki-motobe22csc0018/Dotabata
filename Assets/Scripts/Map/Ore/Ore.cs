@@ -16,6 +16,7 @@ public class Ore : MonoBehaviour
     private Rigidbody2D playerRb;
     private GameObject oreManager;
     private SelectHand sh;
+    private MapCreate mc;
     private OreData oreData =new OreData();
     public delegate void OreEvent();
     private const string playerTag = "Player";
@@ -24,7 +25,7 @@ public class Ore : MonoBehaviour
     private bool hitPlayer;
     private const float validVelocity=3.0f;
     private float playerPower = 0;
-    private int[] pieceCounts= {20};
+
     //鉱石の持つ情報
     public struct OreInfo
     {
@@ -58,11 +59,11 @@ public class Ore : MonoBehaviour
         hitTimer = 0;
         hitPlayer = false;
         info.durability = 1;
+        mc = GameObject.Find("MapCreator").GetComponent<MapCreate>();
     }
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(cm);
     }
 
     // Update is called once per frame
@@ -84,7 +85,11 @@ public class Ore : MonoBehaviour
         if(hitCount>=info.durability)
         {
             GetHand();
-            Debug.Log(cm.ComboCount);
+            int rand = Random.Range(0, 10);
+            if(rand<4)
+            {
+                TmpEventStart();
+            }
             cm.ComboCount++;
             cm.ComboTimer = 0.0f;
             cm.ComboFlag = true;
@@ -113,8 +118,49 @@ public class Ore : MonoBehaviour
         const int maxHand = 8;
         if(size<maxHand)//現在所持しているマップの数が手札上限より少なければ
         {
-            int getHandNumber = Random.Range(0, 20);//仮。ここの数字は後でマップ総量に変更
+            int getHandNumber = Random.Range(0, 57);//仮。ここの数字は後でマップ総量に変更
             sh.HandNumber.Add(getHandNumber);
+        }
+    }
+
+    void TmpEventStart()
+    {
+        int rand = Random.Range(0, 4);
+
+        switch (rand)
+        {
+            case 0:
+                {
+                    PlayerMove.coolTimeDown = true;
+                    PlayerMove.coolTimeUp = false;
+                    PlayerMove.chargeMax = false;
+                    PlayerMove.speedUp = false;
+                }
+                break;
+            case 1:
+                {
+                    PlayerMove.coolTimeDown = false;
+                    PlayerMove.coolTimeUp = true;
+                    PlayerMove.chargeMax = false;
+                    PlayerMove.speedUp = false;
+                }
+                break;
+            case 2:
+                {
+                    PlayerMove.coolTimeDown = false;
+                    PlayerMove.coolTimeUp = false;
+                    PlayerMove.chargeMax = true;
+                    PlayerMove.speedUp = false;
+                }
+                break;
+            case 3:
+                {
+                    PlayerMove.coolTimeDown = false;
+                    PlayerMove.coolTimeUp = false;
+                    PlayerMove.chargeMax = false;
+                    PlayerMove.speedUp = true;
+                }
+                break;
         }
     }
     
