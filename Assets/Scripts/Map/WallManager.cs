@@ -18,6 +18,6 @@ public class WallManager : MonoBehaviour
     void Update()
     {
         float dist = (player.transform.position - this.transform.position).magnitude;
-        collider.enabled = (dist < 5);
+        collider.enabled = (dist < 1);
     }
 }
