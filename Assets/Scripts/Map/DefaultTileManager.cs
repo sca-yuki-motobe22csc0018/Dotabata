@@ -15,6 +15,8 @@ public class DefaultTileManager : EventSet,IPointerUpHandler
     private SelectHand sh;
     MapCreate mapCreate;
     private bool onCursor;
+    private bool selectMap = false;
+
     private void Start()
     {
         onCursor = false;
@@ -25,7 +27,7 @@ public class DefaultTileManager : EventSet,IPointerUpHandler
 
     private void Update()
     {
-        if (Input.GetMouseButtonUp(0)&&PlayerManager.state==PlayerManager.PlayerState.MapCreate&&onCursor)
+        if (Input.GetMouseButtonUp(0)&&PlayerManager.state==PlayerManager.PlayerState.MapCreate&&onCursor&&sh.SelectedMap!=null)
         {
             mapCreate.PieceCreator(mapCreate.PieceData, sh.HandNumber[sh.SelectNumber], 1, this.transform.position);
             mapCreate.SetPosition = this.transform.position;
@@ -44,7 +46,6 @@ public class DefaultTileManager : EventSet,IPointerUpHandler
     }
     public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log("OnPointerUp");
         if(eventData.pointerId==-1&&PlayerManager.state==PlayerManager.PlayerState.MapCreate)
         {
             //mapCreate.SetPosition = this.transform.position;
@@ -76,7 +77,6 @@ public class DefaultTileManager : EventSet,IPointerUpHandler
     {
         if(onCursor)
         {
-            Debug.Log("EN");
         }
     }
 }

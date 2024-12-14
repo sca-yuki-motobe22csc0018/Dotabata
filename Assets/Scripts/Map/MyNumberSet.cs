@@ -33,6 +33,7 @@ public class MyNumberSet : EventSet, IPointerDownHandler ,IPointerUpHandler
     }
     private void Update()
     {
+       
         if(selectedMap!=null&&!sh.PutedMap) {
            Vector3 mousePosition = Input.mousePosition; 
             mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
@@ -61,11 +62,13 @@ public class MyNumberSet : EventSet, IPointerDownHandler ,IPointerUpHandler
     {
         if(PlayerManager.state==PlayerManager.PlayerState.PlayerMove)
         {
+            sh.SelectedMap = null;  
             return;
         }
-        if (eventData.pointerId==-1&&selectedMap==null)
+        if (eventData.pointerId==-1&&selectedMap==null&&this.gameObject.transform.childCount>0)
         {
             sh.PutedMap = false;
+
             selectedMap = Instantiate(this.gameObject,transform.position,Quaternion.identity);
             selectedMap.transform.parent = transform.parent.transform;
             sh.SelectedMap= selectedMap;
