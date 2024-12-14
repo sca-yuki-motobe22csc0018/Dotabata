@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -23,7 +24,7 @@ public class Ore : MonoBehaviour
     private bool hitPlayer;
     private const float validVelocity=3.0f;
     private float playerPower = 0;
-
+    private int[] pieceCounts= {20};
     //鉱石の持つ情報
     public struct OreInfo
     {
@@ -87,9 +88,7 @@ public class Ore : MonoBehaviour
             cm.ComboCount++;
             cm.ComboTimer = 0.0f;
             cm.ComboFlag = true;
-            Destroy(this.transform.GetChild(0).gameObject);
-            Destroy(this.gameObject.GetComponent<Ore>());
-            Destroy(this.gameObject.GetComponent<Collider2D>());
+            Destroy(this.gameObject);
         }
     }
 
@@ -114,7 +113,7 @@ public class Ore : MonoBehaviour
         const int maxHand = 8;
         if(size<maxHand)//現在所持しているマップの数が手札上限より少なければ
         {
-            int getHandNumber = Random.Range(0, 8);//仮。ここの数字は後でマップ総量に変更
+            int getHandNumber = Random.Range(0, 20);//仮。ここの数字は後でマップ総量に変更
             sh.HandNumber.Add(getHandNumber);
         }
     }
