@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using JetBrains.Annotations;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -47,18 +48,18 @@ public class PlayerMove : MonoBehaviour
 
     //鉱石関連
     //Plus
-    public bool coolTimeDown; //移動クールタイム減少
+    public static bool coolTimeDown; //移動クールタイム減少
     public bool knockbackDown; //ノックバック軽減
     public bool scoreUp; //短期間獲得スコア上昇
     public bool visibilityUp; //視界範囲上昇
     public bool lavaSpeedDown; //溶岩速度低下
     //Neutral
-    public bool chargeMax; //常時チャージ移動
+    public static bool chargeMax; //常時チャージ移動
     public bool destroyWithOneHit; //鉱石一撃破壊
-    public bool speedUp; //移動距離UP
+    public static  bool speedUp; //移動距離UP
     //Minus
     public bool lavaSpeedUp; //溶岩速度上昇
-    public bool coolTimeUp; //移動クールタイム増加
+    public static bool coolTimeUp; //移動クールタイム増加
     public bool scoreDown; //3回獲得スコア減少
     public bool mapAmountDown; //所持可能マップ数低下
     public bool knockbackUp; //ノックバック増加

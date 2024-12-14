@@ -17,11 +17,13 @@ public class OreData : MonoBehaviour
         [SerializeField] private int[] oreTwo;
         [SerializeField] private int[] oreThree;
         [SerializeField] private int[] oreFour;
+       
     }
     EventPercentage percentage;
     public string[] GetNames { get { return names; } }
     public Sprite[] GetSprite { get { return sprite;} }
     public EventPercentage GetEventPercentages { get { return percentage; } }
+
 
     private void Awake()
     {
