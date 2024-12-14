@@ -89,6 +89,7 @@ public class PlayerTitleMotioner : MonoBehaviour
         {
             NextMotion();
             flappingMagnitude = 1.0f;
+            flappingSpeed = 1.0f;
             switch (motionState)
             {
                 case MotionState.FLOATING:
@@ -168,7 +169,7 @@ public class PlayerTitleMotioner : MonoBehaviour
             //跳ねるモーションは頻度を減らしたいので1/3の確率でキャンセル
             if (rand == (int)MotionState.HOP && Random.Range(0, 100) >= 33) continue;
             //寝るモーションは前回が漂うモーション以外で、かつ規定の時間経過していなかったらキャンセル
-            if (rand == (int)MotionState.SLEEP && sleptTimer <= sleptInterval && lastMotionNumber != (int)MotionState.FLOATING) continue;
+            if (rand == (int)MotionState.SLEEP && (sleptTimer <= sleptInterval || lastMotionNumber != (int)MotionState.FLOATING)) continue;
 
             //全ての条件に引っかからなかったら終了
             isEnd = true;
@@ -346,7 +347,7 @@ public class PlayerTitleMotioner : MonoBehaviour
             t += Time.deltaTime / time;
 
             parent.transform.localScale = new Vector3(1.0f + t / 3, 1.0f - t / 2, 1);
-            fallSpeed = -150.0f * t;
+            fallSpeed = -bgs.ScrollSpeed * 1.5f * t;
             //magnitudeとspeedに使いたい値が同じ
             float ft = 0.5f - (0.4f * t);
             flappingMagnitude = ft;
@@ -458,7 +459,7 @@ public class PlayerTitleMotioner : MonoBehaviour
             float t = 0.0f;
             bool isEnd = false;
             Vector3 defScale = parent.transform.localScale;
-            Vector3 motionScale = new Vector3(1.75f, 0.25f, 1) - defScale;
+            Vector3 motionScale = new Vector3(1.25f, 0.75f, 1) - defScale;
 
             while (!isEnd)
             {
@@ -473,14 +474,14 @@ public class PlayerTitleMotioner : MonoBehaviour
             t = 0.0f;
             isEnd = false;
             defScale = parent.transform.localScale;
-            motionScale = new Vector3(0.5f, 1.5f, 1) - defScale;
+            motionScale = new Vector3(0.8f, 1.5f, 1) - defScale;
 
             while (!isEnd)
             {
                 if (t > 1.0f) isEnd = true;
 
                 parent.transform.localScale = defScale + motionScale * EaseOutCubic(t);
-                t += Time.deltaTime * time;
+                t += Time.deltaTime / time;
                 float x = transform.position.x;
                 float y = parent.transform.position.y +
                     Mathf.Abs(Mathf.Sin(t * Mathf.PI)) * hoppingHeight;
