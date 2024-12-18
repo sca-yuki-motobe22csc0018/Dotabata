@@ -147,10 +147,20 @@ public class MapCreate : MonoBehaviour
         {
             for (int j = 0; j < width; j++)
             {
-                string str = piece[i + pieceColum * pieceNumber][j][0].ToString();
-                int number = int.Parse(str);
+                int number = 0;
+                if (pieceNumber == 100)
+                {
+                    number = 1;
+                }
+                else
+                {
+                    string str = piece[i + pieceColum * pieceNumber][j][0].ToString();
+                    number = int.Parse(str);
+                }
+               
                 float posX = (transform.position.x + (j + width) * pieceSize) - width - width / 2 + createPos.x;
                 float posY = (transform.position.y - (i + height) * pieceSize) + height + height / 2 + createPos.y;
+              
                 if (necessityCollider)
                 {
                     GameObject obj = Instantiate(mapObjects[number], new Vector3(posX,
@@ -171,6 +181,13 @@ public class MapCreate : MonoBehaviour
                     GameObject obj =Instantiate(noColliderMapObjects[number], new Vector3(posX,
                     posY, 0), Quaternion.identity);
                     obj.transform.parent = parent.transform;
+                    if(pieceNumber!=100)
+                    {
+                        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+                        sr.sortingOrder = 20;
+                    }
+                    
+                   
                 }
                
             }

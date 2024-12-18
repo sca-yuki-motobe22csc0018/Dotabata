@@ -8,12 +8,12 @@ using UnityEngine.EventSystems;
 /// ’S“–:ŒF’J
 /// </summary>
 
-public class DefaultTileManager : EventSet,IPointerUpHandler
-{
+public class DefaultTileManager : MonoBehaviour
+{ 
     private GameObject mapCreator;
     private GameObject selectedMap;
     private SelectHand sh;
-    MapCreate mapCreate;
+    MapCreate mc;
     private bool onCursor;
     private bool selectMap = false;
 
@@ -21,17 +21,18 @@ public class DefaultTileManager : EventSet,IPointerUpHandler
     {
         onCursor = false;
         mapCreator = GameObject.Find("MapCreator");
-        mapCreate = mapCreator.GetComponent<MapCreate>();  
+        mc = mapCreator.GetComponent<MapCreate>();  
         sh = GameObject.Find("Main Camera").transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<SelectHand>();
+        mc.PieceCreator(mc.PieceData, 100, 1, this.transform.position,this.gameObject,false);
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonUp(0)&&PlayerManager.state==PlayerManager.PlayerState.MapCreate&&onCursor&&sh.SelectedMap!=null)
         {
-            mapCreate.PieceCreator(mapCreate.PieceData, sh.HandNumber[sh.SelectNumber], 1, this.transform.position);
-            mapCreate.SetPosition = this.transform.position;
-            mapCreate.MakeMap = true;
+            mc.PieceCreator(mc.PieceData, sh.HandNumber[sh.SelectNumber], 1, this.transform.position);
+            mc.SetPosition = this.transform.position;
+            mc.MakeMap = true;
             selectedMap = sh.SelectedMap;
             var sMS = selectedMap.GetComponent<SpriteRenderer>();
             sMS.color=new Color(sMS.color.r, sMS.color.g, sMS.color.b,0.0f);
@@ -48,8 +49,8 @@ public class DefaultTileManager : EventSet,IPointerUpHandler
     {
         if(eventData.pointerId==-1&&PlayerManager.state==PlayerManager.PlayerState.MapCreate)
         {
-            //mapCreate.SetPosition = this.transform.position;
-            //mapCreate.MakeMap = true;
+            //mc.SetPosition = this.transform.position;
+            //mc.MakeMap = true;
             //sh.SelectNumber = -1;
             //sh.Onemore = true;
             //selectedMap = sh.SelectedMap;
