@@ -28,6 +28,9 @@ public class PlayerMove : MonoBehaviour
     public float PowerCoolTimeDown;
     public float PowerCoolTimeUp;
 
+    private string TitleSceneName="Title";
+    private string GoalTagName="Goal";
+
     
     //public Image gaugeImage; // ゲージに使用するImageコンポーネント
     public Image gaugeImageRight; // ゲージに使用するImageコンポーネント
@@ -44,6 +47,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private GameObject playerCamera;
     private Camera cam;
     private float camSize;
+    private float camSizeNotZero=0.01f;
+    private float camZNeutral=10.0f;
     public float camSizeSpeed;
     public float camSizeNeutral;
     public float camSizeUp;
@@ -129,7 +134,7 @@ public class PlayerMove : MonoBehaviour
     private void PlayerUpdate()
     {
         cam.orthographicSize = camSize;
-        playerCamera.transform.position = new Vector3(transform.position.x, transform.position.y, -10.0f);
+        playerCamera.transform.position = new Vector3(transform.position.x, transform.position.y, -camZNeutral);
         if (Back != null&&BackPos!=0)
         {
             Back.transform.position=new Vector3(playerCamera.transform.position.x/BackPos,this.transform.position.y/BackPos,0);
@@ -148,7 +153,7 @@ public class PlayerMove : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("Title");
+            SceneManager.LoadScene(TitleSceneName);
         }
         if (gaugeImageRight != null && gaugeImageLeft != null)
         {
@@ -368,7 +373,7 @@ public class PlayerMove : MonoBehaviour
             {
                 camSize -= Time.deltaTime * camSizeSpeed;
             }
-            if (0.01f < camSize - camSizeNeutral && -0.01 > camSize-camSizeNeutral)
+            if (camSizeNotZero < camSize - camSizeNeutral && -camSizeNotZero > camSize-camSizeNeutral)
             {
                 camSize = camSizeNeutral;
             }
@@ -381,10 +386,9 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        if(coll.gameObject.CompareTag("Goal"))
+        if(coll.gameObject.CompareTag(GoalTagName))
         {
-            SceneManager.LoadScene("Title");
+            SceneManager.LoadScene(TitleSceneName);
         }
     }
-   
 }
