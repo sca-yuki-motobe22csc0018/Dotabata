@@ -1519,8 +1519,8 @@ Transform:
   m_GameObject: {fileID: 653867886}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 66.81, y: 102.9, z: 0}
-  m_LocalScale: {x: 7.77, y: 7.38, z: 1}
+  m_LocalPosition: {x: 66.81, y: 84.3856, z: 0}
+  m_LocalScale: {x: 7.77, y: 7.1834803, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1911459119}
@@ -3537,8 +3537,8 @@ MonoBehaviour:
   PowerCoolTimeNeutral: 2
   PowerCoolTimeDown: 3
   PowerCoolTimeUp: 0.5
-  gaugeImageRight: {fileID: 848560154}
-  gaugeImageLeft: {fileID: 187831002}
+  gaugeImageRight: {fileID: 127556060}
+  gaugeImageLeft: {fileID: 1242898916}
   fillAmountRight: 1
   fillAmountLeft: 1
   fullHealthColor: {r: 1, g: 1, b: 1, a: 1}

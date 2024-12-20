@@ -83,7 +83,6 @@ public class MapCreate : MonoBehaviour
     {
         List<string[]> mapLineDatas = new List<string[]>();
         StringReader reader = new StringReader(csvData.text);
-        
         while (reader.Peek() != -1)
         {
             string line = reader.ReadLine();
@@ -127,7 +126,7 @@ public class MapCreate : MonoBehaviour
                     angle=int.Parse(angleS);
                     Debug.Log("Angle"+angle);
                     int random=Random.Range(0, ores.Length);//鉱石の中からランダムに生成
-                    GameObject obj = Instantiate(ores[random],new Vector3(posX,posY,0),Quaternion.AngleAxis(angle, Vector3.forward));
+                    GameObject obj = Instantiate(ores[random],new Vector3(posX,posY,0),Quaternion.AngleAxis(angle-ores[random].transform.rotation.z, Vector3.forward));
                     GameObject floor = Instantiate(mapObjects[0],new Vector3(posX, posY,0), Quaternion.identity);
                     Ore ore = obj.GetComponent<Ore>();
                     Ore.OreInfo Info = ore.Info;
@@ -190,7 +189,6 @@ public class MapCreate : MonoBehaviour
                     GameObject obj = Instantiate(mapObjects[number], new Vector3(posX,
                     posY, 0), Quaternion.AngleAxis(120,Vector3.forward));
                     obj.transform.parent = parent.transform;
-                    obj.transform.rotation=Quaternion.AngleAxis(120,Vector3.forward);
                     
                     //Instantiateで親を設定すると比率を再度調整しないといけなくなるためこの方法で親を設定
                     if (number == 2)
@@ -198,7 +196,7 @@ public class MapCreate : MonoBehaviour
                         Ore ore = obj.GetComponent<Ore>();
                       
                        
-                        obj.transform.Rotate(new Vector3(0,0,angle));
+                        obj.transform.Rotate(new Vector3(0,0,obj.transform.rotation.z+angle));
                         Ore.OreInfo Info=ore.Info;
                         Info.number = number-2;//鉱石のCSVの番号が2~だが、鉱石番号は0からにしたいので2を引く
                         ore.Info = Info;
