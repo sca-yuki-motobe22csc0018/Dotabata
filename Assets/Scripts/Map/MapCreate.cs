@@ -16,6 +16,8 @@ public class MapCreate : MonoBehaviour
     const int width = 13;
     [SerializeField] int mapNumber = 0;
     [SerializeField] TextAsset neutralMapCSV;
+    [SerializeField] TextAsset respawnCSV;
+    List<string[]> respawnPiece;
     [SerializeField] GameObject[] mapObjects;
     [SerializeField] GameObject[] noColliderMapObjects;
     [SerializeField] GameObject handBackGround;
@@ -39,11 +41,15 @@ public class MapCreate : MonoBehaviour
     [SerializeField] GameObject[] handPiecePos;
     public int MapNumber { get { return mapNumber; } set { mapNumber = value; } }
 
+    public List<string[]> ResPawnPiece { get { return respawnPiece; } }
+
     [SerializeField] GameObject[] ores;
 
     private void Awake()
     {
         pieceData = new List<string[]>();
+        respawnPiece=new List<string[]>();
+        respawnPiece=PieceCsvReader(respawnCSV);
         pieceData = PieceCsvReader(neutralMapCSV);
         sh = handBackGround.GetComponent<SelectHand>();
         makeMap = false;
@@ -99,19 +105,29 @@ public class MapCreate : MonoBehaviour
     ///  <param name="createPos">生成したいピースの座標</param>
     public void PieceCreator(List<string[]> piece,int pieceNumber,float pieceSize,Vector3 createPos) 
     {
+        float angle = 0;
+        string str = " ";
+        string angleS=" ";
         const int pieceColum = 15;
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
             {
-                string str = piece[i+pieceColum*pieceNumber][j][0].ToString();
+                str = piece[i+pieceColum*pieceNumber][j][0].ToString();
+                angleS = piece[i + pieceColum * pieceNumber][j].ToString();
+              
                 int number = int.Parse(str);
                 float posX = (transform.position.x + (j + width) * pieceSize)-width-width/2+createPos.x;
                 float posY = (transform.position.y - (i + height) * pieceSize)+height+height/2+createPos.y;
                 if (number == 2)
                 {
+                    
+                    angleS=angleS.Substring(2,angleS.Length-2);
+                    Debug.Log(angleS);
+                    angle=int.Parse(angleS);
+                    Debug.Log("Angle"+angle);
                     int random=Random.Range(0, ores.Length);//鉱石の中からランダムに生成
-                    GameObject obj = Instantiate(ores[random],new Vector3(posX,posY,0),Quaternion.identity);
+                    GameObject obj = Instantiate(ores[random],new Vector3(posX,posY,0),Quaternion.AngleAxis(angle, Vector3.forward));
                     GameObject floor = Instantiate(mapObjects[0],new Vector3(posX, posY,0), Quaternion.identity);
                     Ore ore = obj.GetComponent<Ore>();
                     Ore.OreInfo Info = ore.Info;
@@ -143,6 +159,8 @@ public class MapCreate : MonoBehaviour
     public void PieceCreator(List<string[]> piece, int pieceNumber, float pieceSize,Vector3 createPos, GameObject parent,bool necessityCollider)
     {
         const int pieceColum = 15;
+        float angle=0;
+        string str=" ";
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
@@ -154,7 +172,7 @@ public class MapCreate : MonoBehaviour
                 }
                 else
                 {
-                    string str = piece[i + pieceColum * pieceNumber][j][0].ToString();
+                    str = piece[i + pieceColum * pieceNumber][j][0].ToString();
                     number = int.Parse(str);
                 }
                
@@ -163,13 +181,24 @@ public class MapCreate : MonoBehaviour
               
                 if (necessityCollider)
                 {
+                    int cor = 1;
+                    for (int ang = 0; i < str.Length - 2; ang++)
+                    {
+                        angle = str[str.Length - 1] * cor;
+                        cor *= 10;
+                    }
                     GameObject obj = Instantiate(mapObjects[number], new Vector3(posX,
-                    posY, 0), Quaternion.identity);
+                    posY, 0), Quaternion.AngleAxis(120,Vector3.forward));
                     obj.transform.parent = parent.transform;
+                    obj.transform.rotation=Quaternion.AngleAxis(120,Vector3.forward);
+                    
                     //Instantiateで親を設定すると比率を再度調整しないといけなくなるためこの方法で親を設定
                     if (number == 2)
                     {
                         Ore ore = obj.GetComponent<Ore>();
+                      
+                       
+                        obj.transform.Rotate(new Vector3(0,0,angle));
                         Ore.OreInfo Info=ore.Info;
                         Info.number = number-2;//鉱石のCSVの番号が2~だが、鉱石番号は0からにしたいので2を引く
                         ore.Info = Info;
