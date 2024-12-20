@@ -162,12 +162,12 @@ public class PlayerMove : MonoBehaviour
             gaugeImageLeft.fillAmount = fillAmountLeft;
         }
         //‰E—ƒ
-        if (Input.GetKey(KeyCode.D) && PowerTimerRight < PowerMaxTime && !moveRight)
+        if (Input.GetMouseButton(1) && PowerTimerRight < PowerMaxTime && !moveRight)
         {
             PowerTimerRight += Time.deltaTime;
         }
 
-        if (Input.GetKeyUp(KeyCode.D)&& !moveRight)
+        if (Input.GetMouseButtonUp(1)&& !moveRight)
         {
             moveRight = true;
             //PlayerSkin.transform.localScale = new Vector3(-skinSize, skinSize, 1);
@@ -175,11 +175,11 @@ public class PlayerMove : MonoBehaviour
             rb.AddTorque(-torqueSpeed*PowerTimerRight);
         }
         //¶—ƒ
-        if (Input.GetKey(KeyCode.A) && PowerTimerLeft < PowerMaxTime && !moveLeft)
+        if (Input.GetMouseButton(0)&& PowerTimerLeft < PowerMaxTime && !moveLeft)
         {
             PowerTimerLeft += Time.deltaTime;
         }
-        if (Input.GetKeyUp(KeyCode.A) && !moveLeft)
+        if (Input.GetMouseButtonUp(0) && !moveLeft)
         {
             moveLeft = true;
             //PlayerSkin.transform.localScale = new Vector3(skinSize, skinSize, 1);

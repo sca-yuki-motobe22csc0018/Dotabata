@@ -24,6 +24,8 @@ public class MapCreate : MonoBehaviour
     [SerializeField] GameObject handWindow;
     [SerializeField] GameObject cameraObject;
     [SerializeField] Canvas canvas;
+    [SerializeField] GameObject[] walls;
+    [SerializeField] GameObject defaultTileManagement;
     private Camera camera;
     SelectHand sh;
     public   List<string[]> pieceData;
@@ -122,9 +124,7 @@ public class MapCreate : MonoBehaviour
                 {
                     
                     angleS=angleS.Substring(2,angleS.Length-2);
-                    Debug.Log(angleS);
                     angle=int.Parse(angleS);
-                    Debug.Log("Angle"+angle);
                     int random=Random.Range(0, ores.Length);//鉱石の中からランダムに生成
                     GameObject obj = Instantiate(ores[random],new Vector3(posX,posY,0),Quaternion.AngleAxis(angle-ores[random].transform.rotation.z, Vector3.forward));
                     GameObject floor = Instantiate(mapObjects[0],new Vector3(posX, posY,0), Quaternion.identity);
@@ -137,14 +137,14 @@ public class MapCreate : MonoBehaviour
                 }
                 else
                 {
-
-                    GameObject obj = Instantiate(mapObjects[number], new Vector3(posX,
-                        posY, 0), Quaternion.identity);
+                       GameObject obj = Instantiate(mapObjects[number], new Vector3(posX,
+                       posY, 0), Quaternion.identity);
                 }
             }
         }
         makeMap = false;
     }
+
     /// <summary>
     /// ピースを所定の位置に生成する関数
     /// </summary>
@@ -221,6 +221,62 @@ public class MapCreate : MonoBehaviour
         }
         makeMap = false;
     }
+
+    public void FirstPieceCreator(List<string[]> piece, int pieceNumber, float pieceSize, Vector3 createPos, GameObject parent)
+    {
+        const int pieceColum = 15;
+        float angle = 0;
+        string str = " ";
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                int number = 0;
+                if (pieceNumber == 100)
+                {
+                    number = 1;
+                }
+                else
+                {
+                    str = piece[i + pieceColum * pieceNumber][j][0].ToString();
+                    number = int.Parse(str);
+                }
+
+                float posX = (transform.position.x + (j + width) * pieceSize) - width - width / 2 + createPos.x;
+                float posY = (transform.position.y - (i + height) * pieceSize) + height + height / 2 + createPos.y;
+
+
+                int rand = Random.Range(0, 20);
+                if(i==0||i==height-1||j==0||j==width-1)
+                {
+                    rand = 1;
+                }
+                GameObject obj;
+                
+                if(rand == 0)
+                {
+                   int random=Random.Range(0, 2);
+                   obj = Instantiate(walls[random], new Vector3(posX,
+                   posY, 0), Quaternion.identity);
+                }
+                else
+                {
+                  obj = Instantiate(noColliderMapObjects[number], new Vector3(posX,
+                  posY, 0), Quaternion.identity);
+                }
+                   
+                    obj.transform.parent = parent.transform;
+                    if (pieceNumber != 100)
+                    {
+                        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+                        sr.sortingOrder = 20;
+                    }
+
+
+                }
+
+            }
+        }
 
 
     private void MapCreater()
