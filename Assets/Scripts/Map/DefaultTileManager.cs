@@ -9,13 +9,15 @@ using UnityEngine.EventSystems;
 /// </summary>
 
 public class DefaultTileManager : MonoBehaviour
-{ 
+{
     private GameObject mapCreator;
     private GameObject selectedMap;
     private SelectHand sh;
     MapCreate mc;
     private bool onCursor;
     private bool selectMap = false;
+    private bool isFirst = false;
+
 
     private void Start()
     {
@@ -23,7 +25,8 @@ public class DefaultTileManager : MonoBehaviour
         mapCreator = GameObject.Find("MapCreator");
         mc = mapCreator.GetComponent<MapCreate>();  
         sh = GameObject.Find("Main Camera").transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<SelectHand>();
-        mc.PieceCreator(mc.PieceData, 100, 1, this.transform.position,this.gameObject,false);
+        mc.FirstPieceCreator(mc.PieceData, 100, 1, this.transform.position,this.gameObject);
+        
     }
 
     private void Update()

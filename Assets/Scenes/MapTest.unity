@@ -2450,6 +2450,10 @@ MonoBehaviour:
   handWindow: {fileID: 1330678477}
   cameraObject: {fileID: 1635815000}
   canvas: {fileID: 1639486248}
+  walls:
+  - {fileID: 2886233972861471902, guid: fc2f133256546e743937d1039c05b2f0, type: 3}
+  - {fileID: 2886233972861471902, guid: 3b5cccb35ba1fb04fa0290b339847336, type: 3}
+  defaultTileManagement: {fileID: 71173670}
   handPiecePos:
   - {fileID: 627183512}
   - {fileID: 1600731325}
@@ -3392,6 +3396,10 @@ PrefabInstance:
       propertyPath: speed
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 423171683703731169, guid: e9dd625bbce60b7409bd19b2d045efbc, type: 3}
+      propertyPath: playerName
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 3862763611036681592, guid: e9dd625bbce60b7409bd19b2d045efbc, type: 3}
       propertyPath: m_Name
       value: Magma
@@ -3524,9 +3532,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b6d409126d91349895a0f8d2a1f001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedNeutral: 0.8
+  SpeedNeutral: 5
   SpeedUp: 0.8
   maxSpeed: 15
+  torqueSpeed: 1
   bouncinessNeutral: 0.85
   bouncinessDown: 0.05
   bouncinessUp: 0.8
@@ -3590,7 +3599,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!58 &1711756297
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3688,8 +3697,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 64.59, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1489015578}
   m_Father: {fileID: 0}
