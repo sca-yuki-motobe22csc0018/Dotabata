@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public class PlayerManager : MonoBehaviour
 {
-
     public enum PlayerState
     {
         PlayerMove = 0,
@@ -40,7 +39,7 @@ void Update()
 {
         StateFunctions[(int)state]();
         Debug.Log(state);
-        if(Input.GetMouseButtonDown(1))
+        if(Input.GetMouseButtonDown(2))
         {
             state++;
         }
