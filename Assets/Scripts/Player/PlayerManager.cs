@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ’S“–FŒF’J
+/// æ‹…å½“ï¼šç†Šè°·
 /// </summary>
 public class PlayerManager : MonoBehaviour
 {
@@ -38,8 +38,13 @@ public class PlayerManager : MonoBehaviour
 void Update()
 {
         StateFunctions[(int)state]();
+
+        //Debug.Log(state);
+        if(Input.GetMouseButtonDown(1))
+
         Debug.Log(state);
         if(Input.GetMouseButtonDown(2))
+
         {
             state++;
         }
@@ -52,23 +57,23 @@ void Update()
 
 
     /// <summary>
-    /// ƒXƒe[ƒgŠÇ—‚ğs‚¤”z—ñ‚Éˆø”‚Æ‚µ‚Ä“n‚µ‚½ŠÖ”‚ğ‘ã“ü‚·‚éŠÖ”‚Å‚·
+    /// ã‚¹ãƒ†ãƒ¼ãƒˆç®¡ç†ã‚’è¡Œã†é…åˆ—ã«å¼•æ•°ã¨ã—ã¦æ¸¡ã—ãŸé–¢æ•°ã‚’ä»£å…¥ã™ã‚‹é–¢æ•°ã§ã™
     /// </summary>
-    /// <param name="function">‘ã“ü‚µ‚½‚¢ŠÖ”</param>
+    /// <param name="function">ä»£å…¥ã—ãŸã„é–¢æ•°</param>
     public void AddFunction(StateFunction function)
     {
         if (stateCount >= (int)PlayerState.SIZE)
         {
-            Debug.Log("PlayerState‚É‘Î‰‚·‚éŠÖ”‚ª‘S‚Ä“ü‚Á‚Ä‚¢‚Ü‚·BStateFunctions‚Ö‚Ì‘ã“ü‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢BPlayerManager");
+            Debug.Log("PlayerStateã«å¯¾å¿œã™ã‚‹é–¢æ•°ãŒå…¨ã¦å…¥ã£ã¦ã„ã¾ã™ã€‚StateFunctionsã¸ã®ä»£å…¥ã‚’ç¢ºèªã—ã¦ãã ã•ã„ã€‚PlayerManager");
             return;
         }
         StateFunctions[stateCount++] = function;
     }
 
     /// <summary>
-    /// ƒXƒe[ƒgŠÇ—‚ğs‚¤”z—ñ‚Éˆø”‚Æ‚µ‚Ä“n‚µ‚½ŠÖ”‚ğ‘ã“ü‚·‚éŠÖ”‚Å‚·
+    /// ã‚¹ãƒ†ãƒ¼ãƒˆç®¡ç†ã‚’è¡Œã†é…åˆ—ã«å¼•æ•°ã¨ã—ã¦æ¸¡ã—ãŸé–¢æ•°ã‚’ä»£å…¥ã™ã‚‹é–¢æ•°ã§ã™
     /// </summary>
-    /// <param name="function">‘ã“ü‚µ‚½‚¢ŠÖ”</param>
+    /// <param name="function">ä»£å…¥ã—ãŸã„é–¢æ•°</param>
     public void AddFunction(StateFunction function,int number)
     {
         StateFunctions[number] = function; 
@@ -83,4 +88,4 @@ void Update()
     }
 
 }
-@@
+ã€€ã€€

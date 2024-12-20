@@ -8,6 +8,7 @@ public class PlayerMove : MonoBehaviour
     public float SpeedNeutral;
     public float SpeedUp;
     public float maxSpeed;
+    public float torqueSpeed;
     private PhysicsMaterial2D dynamicMaterial;
     private Collider2D col2D;
     public float bouncinessNeutral;
@@ -39,6 +40,7 @@ public class PlayerMove : MonoBehaviour
     [Range(0, 1)] public float fillAmountLeft = 1.0f; // 塗りつぶし率
     bool moveRight;
     bool moveLeft;
+    bool move;
     [SerializeField] private Color fullHealthColor = Color.white;   // HP最大時の色
     [SerializeField] private Color lowHealthColor = Color.red;     // HP最小時の色
     [SerializeField] private float forceMultiplier = 10f; // 力の大きさを調整
@@ -85,13 +87,11 @@ public class PlayerMove : MonoBehaviour
         cam= playerCamera.GetComponent<Camera>();
         moveRight = false;
         moveLeft = false;
-        //PowerTimer = 0;
+        move = false;
         PowerTimerRight = 0;
         PowerTimerLeft = 0;
         rb = GetComponent<Rigidbody2D>();
-        //physicsMaterial.bounciness = bouncinessNeutral;
         dynamicMaterial = new PhysicsMaterial2D();
-        //PowerCoolTime = PowerCoolTimeNeutral;
         PowerCoolTimeRight = PowerCoolTimeNeutral;
         PowerCoolTimeLeft = PowerCoolTimeNeutral;
         Speed = SpeedNeutral;
@@ -108,7 +108,7 @@ public class PlayerMove : MonoBehaviour
         scoreUp = false;
         visibilityUp = false;
         lavaSpeedDown = false;
-        chargeMax = true;
+        chargeMax = false;
         destroyWithOneHit = false;
         speedUp = false;
         lavaSpeedUp = false;
@@ -119,6 +119,7 @@ public class PlayerMove : MonoBehaviour
         mapDropDown = false;
         mapBlind = false;
         visibilityDown = false;
+        
     }
 
     // 任意でゲージを設定するメソッド
@@ -160,7 +161,7 @@ public class PlayerMove : MonoBehaviour
             gaugeImageRight.fillAmount = fillAmountRight;
             gaugeImageLeft.fillAmount = fillAmountLeft;
         }
-
+        //右翼
         if (Input.GetKey(KeyCode.D) && PowerTimerRight < PowerMaxTime && !moveRight)
         {
             PowerTimerRight += Time.deltaTime;
@@ -168,40 +169,29 @@ public class PlayerMove : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.D)&& !moveRight)
         {
-            Vector3 vel = rb.velocity;
-            vel.x = 0;
-            vel.y = 0;
-            rb.velocity = vel;
             moveRight = true;
-            Vector2 dir = new Vector2(1, 1).normalized * Speed;
-            PlayerSkin.transform.localScale = new Vector3(-skinSize, skinSize, 1);
-
-            // Rigidbody2Dに力を加える
-            rb.AddForce(dir * PowerTimerRight, ForceMode2D.Impulse);
+            //PlayerSkin.transform.localScale = new Vector3(-skinSize, skinSize, 1);
+            rb.angularVelocity = 0f;
+            rb.AddTorque(-torqueSpeed*PowerTimerRight);
         }
-
+        //左翼
         if (Input.GetKey(KeyCode.A) && PowerTimerLeft < PowerMaxTime && !moveLeft)
         {
             PowerTimerLeft += Time.deltaTime;
         }
         if (Input.GetKeyUp(KeyCode.A) && !moveLeft)
         {
-            Vector3 vel = rb.velocity;
-            vel.x = 0;
-            vel.y = 0;
-            rb.velocity = vel;
             moveLeft = true;
-            Vector2 dir = new Vector2(-1,1).normalized * Speed;
-            PlayerSkin.transform.localScale = new Vector3(skinSize, skinSize, 1);
-
-            // Rigidbody2Dに力を加える
-            rb.AddForce(dir * PowerTimerLeft, ForceMode2D.Impulse);
+            //PlayerSkin.transform.localScale = new Vector3(skinSize, skinSize, 1);
+            rb.angularVelocity = 0f;
+            rb.AddTorque(torqueSpeed * PowerTimerLeft);
         }
-        if (moveLeft && moveRight)
+        if (moveLeft && moveRight && !move)
         {
-            Vector3 vel = rb.velocity;
-            vel.x = 0;
-            rb.velocity = vel;
+            move=true;
+            float Power = PowerTimerLeft+PowerTimerRight;
+            rb.angularVelocity = 0f;
+            rb.AddForce(transform.up * Power, ForceMode2D.Impulse);
         }
         if (moveRight)
         {
@@ -212,6 +202,7 @@ public class PlayerMove : MonoBehaviour
         {
             PowerTimerRight = 0;
             moveRight = false;
+            move = false;
             gaugeImageRight.color = fullHealthColor;
         }
         SetGaugeRight(PowerTimerRight / PowerMaxTime);
@@ -225,6 +216,7 @@ public class PlayerMove : MonoBehaviour
         {
             PowerTimerLeft = 0;
             moveLeft = false;
+            move=false;
             gaugeImageLeft.color = fullHealthColor;
         }
         SetGaugeLeft(PowerTimerLeft / PowerMaxTime);
