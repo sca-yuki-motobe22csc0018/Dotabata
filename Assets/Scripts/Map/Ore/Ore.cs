@@ -1,8 +1,4 @@
-using JetBrains.Annotations;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 /// <summary>
 /// íSìñ:åFíJ
@@ -25,6 +21,9 @@ public class Ore : MonoBehaviour
     private bool hitPlayer;
     private const float validVelocity=3.0f;
     private float playerPower = 0;
+
+    [SerializeField] private GameObject[] gradationObjects;
+     private GameObject magma;
 
     //çzêŒÇÃéùÇ¬èÓïÒ
     public struct OreInfo
@@ -60,10 +59,16 @@ public class Ore : MonoBehaviour
         hitPlayer = false;
         info.durability = 1;
         mc = GameObject.Find("MapCreator").GetComponent<MapCreate>();
+        magma = GameObject.Find("Magma");
     }
     // Start is called before the first frame update
     void Start()
     {
+        for(int i=0;i<gradationObjects.Length;i++)
+        {
+            gradationObjects[i].transform.parent.transform.rotation =
+              Quaternion.Euler(new Vector3(0, 0, -transform.rotation.z));  
+        }
     }
 
     // Update is called once per frame
@@ -73,11 +78,31 @@ public class Ore : MonoBehaviour
         if (hitTimer > 0.5f) { hitPlayer = false; }
         DestroyMe();
         playerPower= Mathf.Abs(playerRb.velocity.x) + Mathf.Abs(playerRb.velocity.y);
+        RedHot();
     }
 
     private void EventSet(OreEvent e)
     {
         info.events.Add(e);
+    }
+
+    private void RedHot()
+    {
+        float diff = Mathf.Abs(magma.transform.position.y - transform.position.y);
+        const int pieceBlocks = 13;
+        float colorRate;
+        Vector3 gradationScrollPos = new Vector3(0, 60, 0);
+
+        if (diff < pieceBlocks)
+        {
+            colorRate = 2.0f*(0.5f - diff / pieceBlocks);
+            for(int i = 0; i < gradationObjects.Length; i++)
+            {
+                gradationObjects[i].transform.transform.localPosition = gradationScrollPos * colorRate;
+            }
+            Debug.Log(1);
+        }
+
     }
 
     private void DestroyMe()
@@ -86,7 +111,7 @@ public class Ore : MonoBehaviour
         {
             GetHand();
             int rand = Random.Range(0, 10);
-            if(rand<4)
+            if (rand < 4)
             {
                 TmpEventStart();
             }
