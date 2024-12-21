@@ -3390,7 +3390,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 406600683073580928, guid: e9dd625bbce60b7409bd19b2d045efbc, type: 3}
       propertyPath: m_SortingOrder
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 423171683703731169, guid: e9dd625bbce60b7409bd19b2d045efbc, type: 3}
       propertyPath: speed
@@ -3462,7 +3462,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5549658508993410847, guid: e9dd625bbce60b7409bd19b2d045efbc, type: 3}
       propertyPath: m_SortingOrder
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

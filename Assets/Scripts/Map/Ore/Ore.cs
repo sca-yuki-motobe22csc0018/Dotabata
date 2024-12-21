@@ -167,7 +167,7 @@ public class Ore : MonoBehaviour
             case 1:
                 {
                     PlayerMove.coolTimeDown = false;
-                    PlayerMove.coolTimeUp = false
+                    PlayerMove.coolTimeUp = false;
                     PlayerMove.chargeMax = false;
                     PlayerMove.speedUp = false;
                 }
