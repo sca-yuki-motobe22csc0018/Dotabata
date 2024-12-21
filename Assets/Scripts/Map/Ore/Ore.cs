@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 /// <summary>
 /// ’S“–:ŒF’J
@@ -24,7 +26,7 @@ public class Ore : MonoBehaviour
 
     [SerializeField] private GameObject[] gradationObjects;
      private GameObject magma;
-
+     private float[] eventTimer=new float[4];
     //zÎ‚Ì‚Âî•ñ
     public struct OreInfo
     {
@@ -165,7 +167,7 @@ public class Ore : MonoBehaviour
             case 1:
                 {
                     PlayerMove.coolTimeDown = false;
-                    PlayerMove.coolTimeUp = true;
+                    PlayerMove.coolTimeUp = false
                     PlayerMove.chargeMax = false;
                     PlayerMove.speedUp = false;
                 }

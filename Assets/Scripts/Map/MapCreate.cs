@@ -126,7 +126,7 @@ public class MapCreate : MonoBehaviour
                     angleS=angleS.Substring(2,angleS.Length-2);
                     angle=int.Parse(angleS);
                     int random=Random.Range(0, ores.Length);//çzêŒÇÃíÜÇ©ÇÁÉâÉìÉ_ÉÄÇ…ê∂ê¨
-                    GameObject obj = Instantiate(ores[random],new Vector3(posX,posY,0),Quaternion.AngleAxis(angle-ores[random].transform.rotation.z, Vector3.forward));
+                    GameObject obj = Instantiate(ores[random],new Vector3(posX,posY,0),Quaternion.AngleAxis(angle-90, Vector3.forward));//
                     GameObject floor = Instantiate(mapObjects[0],new Vector3(posX, posY,0), Quaternion.identity);
                     Ore ore = obj.GetComponent<Ore>();
                     Ore.OreInfo Info = ore.Info;

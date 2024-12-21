@@ -43,7 +43,7 @@ public class Magma : MonoBehaviour
             spd.y = 1.0f / speed * oreEffectSpeedRate <= maxSpeed ?
                 1.0f / speed * oreEffectSpeedRate : 0.5f;
 
-            if (timer > 30.0f) transform.position += spd;
+            transform.position += spd;
         }
     }
 
