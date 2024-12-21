@@ -4,6 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
+    public enum Difficulty
+    {
+        Easy = 1,
+        Normal = 2,
+        Hard = 3
+    }
     private float Speed;
     public float SpeedNeutral;
     public float SpeedUp;
