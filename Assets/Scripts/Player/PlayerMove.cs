@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
         Normal = 2,
         Hard = 3
     }
+    public Difficulty dif;
     private float Speed;
     public float SpeedNeutral;
     public float SpeedUp;
@@ -23,25 +24,24 @@ public class PlayerMove : MonoBehaviour
     public float friction;
     public GameObject PlayerSkin;
     private float skinSize=0.5f;
+    private float skinRotateMax = 0.7f;
     [SerializeField] Rigidbody2D rb = new Rigidbody2D();
 
     public float PowerMaxTime;
+    public float PowerCoolTimeNeutral;
+    public float PowerCoolTimeDown;
+    public float PowerCoolTimeUp;
     private float PowerCoolTimeRight;
     float PowerTimerRight;
     private float PowerCoolTimeLeft;
     float PowerTimerLeft;
 
-    public float PowerCoolTimeNeutral;
-    public float PowerCoolTimeDown;
-    public float PowerCoolTimeUp;
-
     private string TitleSceneName="Title";
     private string GoalTagName="Goal";
 
-    
-    //public Image gaugeImage; // ゲージに使用するImageコンポーネント
     public Image gaugeImageRight; // ゲージに使用するImageコンポーネント
     public Image gaugeImageLeft; // ゲージに使用するImageコンポーネント
+    public GameObject gaugeLeft;
     [Range(0, 1)] public float fillAmountRight = 1.0f; // 塗りつぶし率
     [Range(0, 1)] public float fillAmountLeft = 1.0f; // 塗りつぶし率
     bool moveRight;
@@ -125,7 +125,21 @@ public class PlayerMove : MonoBehaviour
         mapDropDown = false;
         mapBlind = false;
         visibilityDown = false;
-        
+        if (dif == Difficulty.Easy)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            gaugeLeft.gameObject.SetActive(false);
+        }
+        if (dif == Difficulty.Normal)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            gaugeLeft.gameObject.SetActive(true);
+        }
+        if (dif == Difficulty.Hard)
+        {
+            rb.constraints = RigidbodyConstraints2D.None;
+            gaugeLeft.gameObject.SetActive(true);
+        }
     }
 
     // 任意でゲージを設定するメソッド
@@ -167,65 +181,204 @@ public class PlayerMove : MonoBehaviour
             gaugeImageRight.fillAmount = fillAmountRight;
             gaugeImageLeft.fillAmount = fillAmountLeft;
         }
-        //右翼
-        if (Input.GetMouseButton(1) && PowerTimerRight < PowerMaxTime && !moveRight)
+        if (dif == Difficulty.Easy)
         {
-            PowerTimerRight += Time.deltaTime;
+            gaugeImageRight.fillAmount = fillAmountRight;
+            if (Input.GetMouseButton(0) && PowerTimerRight < PowerMaxTime && !move)
+            {
+                PowerTimerRight += Time.deltaTime;
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                Vector3 vel = rb.velocity;
+                vel.x = 0;
+                vel.y = 0;
+                rb.velocity = vel;
+                move = true;
+                // マウスのワールド座標を取得
+                Vector3 mouseP = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                mouseP.z = 0; // 2DのためZ軸を0に
+
+                // クリックした方向を計算
+                Vector2 dir = (mouseP - transform.position).normalized * Speed;
+
+                // Rigidbody2Dに力を加える
+                rb.AddForce(dir * PowerTimerRight, ForceMode2D.Impulse);
+            }
+            if (move)
+            {
+                PowerTimerRight -= PowerCoolTimeRight * Time.deltaTime;
+                gaugeImageRight.color = lowHealthColor;
+            }
+            if (PowerTimerRight <= 0)
+            {
+                PowerTimerRight = 0;
+                move = false;
+                gaugeImageRight.color = fullHealthColor;
+            }
+            SetGaugeRight(PowerTimerRight / PowerMaxTime);
+
+            // マウスのスクリーン座標を取得
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = 0f; // 2DなのでZ座標は無視
+
+            // オブジェクトの位置からマウスの位置までのベクトルを計算
+            Vector2 direction = mousePosition - transform.position;
+
+            // ベクトルの角度を取得して回転させる
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            if (!move && PlayerSkin != null)
+            {
+                PlayerSkin.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+                if (PlayerSkin.transform.rotation.z > skinRotateMax || PlayerSkin.transform.rotation.z < -skinRotateMax)
+                {
+                    PlayerSkin.transform.localScale = new Vector3(-skinSize, -skinSize, 1);
+                }
+                else
+                {
+                    PlayerSkin.transform.localScale = new Vector3(-skinSize, skinSize, 1);
+                }
+            }
         }
 
-        if (Input.GetMouseButtonUp(1)&& !moveRight)
+        if (dif==Difficulty.Normal)
         {
-            moveRight = true;
-            //PlayerSkin.transform.localScale = new Vector3(-skinSize, skinSize, 1);
-            rb.angularVelocity = 0f;
-            rb.AddTorque(-torqueSpeed*PowerTimerRight);
-        }
-        //左翼
-        if (Input.GetMouseButton(0)&& PowerTimerLeft < PowerMaxTime && !moveLeft)
-        {
-            PowerTimerLeft += Time.deltaTime;
-        }
-        if (Input.GetMouseButtonUp(0) && !moveLeft)
-        {
-            moveLeft = true;
-            //PlayerSkin.transform.localScale = new Vector3(skinSize, skinSize, 1);
-            rb.angularVelocity = 0f;
-            rb.AddTorque(torqueSpeed * PowerTimerLeft);
-        }
-        if (moveLeft && moveRight && !move)
-        {
-            move=true;
-            float Power = PowerTimerLeft+PowerTimerRight;
-            rb.angularVelocity = 0f;
-            rb.AddForce(transform.up * Power, ForceMode2D.Impulse);
-        }
-        if (moveRight)
-        {
-            PowerTimerRight -= PowerCoolTimeRight * Time.deltaTime;
-            gaugeImageRight.color = lowHealthColor;
-        }
-        if (PowerTimerRight <= 0)
-        {
-            PowerTimerRight = 0;
-            moveRight = false;
-            move = false;
-            gaugeImageRight.color = fullHealthColor;
-        }
-        SetGaugeRight(PowerTimerRight / PowerMaxTime);
+            if (gaugeImageRight != null && gaugeImageLeft != null)
+            {
+                gaugeImageRight.fillAmount = fillAmountRight;
+                gaugeImageLeft.fillAmount = fillAmountLeft;
+            }
 
-        if (moveLeft)
-        {
-            PowerTimerLeft -= PowerCoolTimeLeft * Time.deltaTime;
-            gaugeImageLeft.color = lowHealthColor;
+            if (Input.GetMouseButton(1) && PowerTimerRight < PowerMaxTime && !moveRight)
+            {
+                PowerTimerRight += Time.deltaTime;
+            }
+
+            if (Input.GetMouseButtonUp(1) && !moveRight)
+            {
+                Vector3 vel = rb.velocity;
+                vel.x = 0;
+                vel.y = 0;
+                rb.velocity = vel;
+                moveRight = true;
+                Vector2 dir = new Vector2(1, 1).normalized * Speed;
+                PlayerSkin.transform.localScale = new Vector3(-skinSize, skinSize, 1);
+
+                // Rigidbody2Dに力を加える
+                rb.AddForce(dir * PowerTimerRight, ForceMode2D.Impulse);
+            }
+
+            if (Input.GetMouseButton(0) && PowerTimerLeft < PowerMaxTime && !moveLeft)
+            {
+                PowerTimerLeft += Time.deltaTime;
+            }
+            if (Input.GetMouseButtonUp(0) && !moveLeft)
+            {
+                Vector3 vel = rb.velocity;
+                vel.x = 0;
+                vel.y = 0;
+                rb.velocity = vel;
+                moveLeft = true;
+                Vector2 dir = new Vector2(-1, 1).normalized * Speed;
+                PlayerSkin.transform.localScale = new Vector3(skinSize, skinSize, 1);
+
+                // Rigidbody2Dに力を加える
+                rb.AddForce(dir * PowerTimerLeft, ForceMode2D.Impulse);
+            }
+            if (moveLeft && moveRight)
+            {
+                Vector3 vel = rb.velocity;
+                vel.x = 0;
+                rb.velocity = vel;
+            }
+            if (moveRight)
+            {
+                PowerTimerRight -= PowerCoolTimeRight * Time.deltaTime;
+                gaugeImageRight.color = lowHealthColor;
+            }
+            if (PowerTimerRight <= 0)
+            {
+                PowerTimerRight = 0;
+                moveRight = false;
+                gaugeImageRight.color = fullHealthColor;
+            }
+            SetGaugeRight(PowerTimerRight / PowerMaxTime);
+
+            if (moveLeft)
+            {
+                PowerTimerLeft -= PowerCoolTimeLeft * Time.deltaTime;
+                gaugeImageLeft.color = lowHealthColor;
+            }
+            if (PowerTimerLeft <= 0)
+            {
+                PowerTimerLeft = 0;
+                moveLeft = false;
+                gaugeImageLeft.color = fullHealthColor;
+            }
+            SetGaugeLeft(PowerTimerLeft / PowerMaxTime);
         }
-        if (PowerTimerLeft <= 0)
+        if (dif == Difficulty.Hard)
         {
-            PowerTimerLeft = 0;
-            moveLeft = false;
-            move=false;
-            gaugeImageLeft.color = fullHealthColor;
+            //右翼
+            if (Input.GetMouseButton(1) && PowerTimerRight < PowerMaxTime && !moveRight)
+            {
+                PowerTimerRight += Time.deltaTime;
+            }
+
+            if (Input.GetMouseButtonUp(1) && !moveRight)
+            {
+                moveRight = true;
+                rb.angularVelocity = 0f;
+                rb.AddTorque(-torqueSpeed * PowerTimerRight);
+            }
+            //左翼
+            if (Input.GetMouseButton(0) && PowerTimerLeft < PowerMaxTime && !moveLeft)
+            {
+                PowerTimerLeft += Time.deltaTime;
+            }
+            if (Input.GetMouseButtonUp(0) && !moveLeft)
+            {
+                moveLeft = true;
+                rb.angularVelocity = 0f;
+                rb.AddTorque(torqueSpeed * PowerTimerLeft);
+            }
+            if (moveLeft && moveRight && !move)
+            {
+                move = true;
+                float Power = PowerTimerLeft + PowerTimerRight;
+                rb.angularVelocity = 0f;
+                rb.AddForce(transform.up * Power, ForceMode2D.Impulse);
+            }
+            if (moveRight)
+            {
+                PowerTimerRight -= PowerCoolTimeRight * Time.deltaTime;
+                gaugeImageRight.color = lowHealthColor;
+            }
+            if (PowerTimerRight <= 0)
+            {
+                PowerTimerRight = 0;
+                moveRight = false;
+                move = false;
+                gaugeImageRight.color = fullHealthColor;
+            }
+            SetGaugeRight(PowerTimerRight / PowerMaxTime);
+
+            if (moveLeft)
+            {
+                PowerTimerLeft -= PowerCoolTimeLeft * Time.deltaTime;
+                gaugeImageLeft.color = lowHealthColor;
+            }
+            if (PowerTimerLeft <= 0)
+            {
+                PowerTimerLeft = 0;
+                moveLeft = false;
+                move = false;
+                gaugeImageLeft.color = fullHealthColor;
+            }
+            SetGaugeLeft(PowerTimerLeft / PowerMaxTime);
         }
-        SetGaugeLeft(PowerTimerLeft / PowerMaxTime);
+        
 
         //鉱石関連
         //Plus
@@ -268,15 +421,24 @@ public class PlayerMove : MonoBehaviour
         //Neutral
         if (chargeMax)
         {
-            if (Input.GetKey(KeyCode.D) && PowerTimerRight < PowerMaxTime && !moveRight)
+            if (dif == Difficulty.Normal || dif == Difficulty.Hard)
             {
-                PowerTimerRight = PowerMaxTime;
+                if (Input.GetKey(KeyCode.D) && PowerTimerRight < PowerMaxTime && !moveRight)
+                {
+                    PowerTimerRight = PowerMaxTime;
+                }
+                if (Input.GetKey(KeyCode.A) && PowerTimerLeft < PowerMaxTime && !moveLeft)
+                {
+                    PowerTimerLeft = PowerMaxTime;
+                }
             }
-            if (Input.GetKey(KeyCode.A) && PowerTimerLeft < PowerMaxTime && !moveLeft)
+            else
             {
-                PowerTimerLeft = PowerMaxTime;
+                if (Input.GetMouseButton(0) && PowerTimerRight < PowerMaxTime && !move)
+                {
+                    PowerTimerRight = PowerMaxTime;
+                }
             }
-
         }
         if (destroyWithOneHit)
         {
