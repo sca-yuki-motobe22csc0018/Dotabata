@@ -47,6 +47,12 @@ public class SelectHand : MonoBehaviour
     }
     private void Update()
     {
+        if(Input.GetMouseButtonDown(1))
+        {
+            selectNumber=-1;
+            putedMap=true;
+            Destroy(selectedMap);
+        }
         if(selectNumber>=0&&!putedMap)
         {
             if (handsNumber.Count == 0)
@@ -81,9 +87,9 @@ public class SelectHand : MonoBehaviour
               
                 DestroyLastHands();
                 MC = MapCreator.GetComponent<MapCreate>();
-                handsWindow.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+               
                 HandMake();
-                handsWindow.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                
                 selectNumber = -1;
             }
            
@@ -92,10 +98,12 @@ public class SelectHand : MonoBehaviour
 
     public void HandMake()
     {
+        handsWindow.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         for (int i=0;i<handsNumber.Count;i++)
         {
             MC.PieceCreator(MC.PieceData, handsNumber[i], size,hands[i].transform.position, hands[i],false);
         }
+        handsWindow.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
     }
 
     private void DestroyLastHands()

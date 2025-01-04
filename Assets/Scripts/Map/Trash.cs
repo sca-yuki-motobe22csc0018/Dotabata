@@ -20,9 +20,15 @@ public class Trash : MonoBehaviour
 
     public void OnPointerUp()
     {
-       sh.HandNumber.RemoveAt(sh.SelectNumber);
-       sh.SelectNumber=-1;
-       sh.PutedMap=true;
-       Destroy(sh.SelectedMap);
+        if(!sh.PutedMap&&PlayerManager.state==PlayerManager.PlayerState.MapCreate)
+        {
+            sh.HandNumber.RemoveAt(sh.SelectNumber);
+            sh.SelectNumber = -1;
+            sh.PutedMap = true;
+            sh.HandMake();
+            Destroy(sh.SelectedMap);
+        }
+
+      
     }
 }
