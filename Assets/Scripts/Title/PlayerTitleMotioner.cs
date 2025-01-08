@@ -1,3 +1,5 @@
+//íSìñé“ÅFî©éRèxóC
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -456,7 +458,7 @@ public class PlayerTitleMotioner : MonoBehaviour
             float t = 0.0f;
             bool isEnd = false;
             Vector3 defScale = parent.transform.localScale;
-            Vector3 motionScale = new Vector3(1.25f, 0.75f, 1) - defScale;
+            Vector3 motionScale = new Vector3(1.15f, 0.9f, 1) - defScale;
 
             while (!isEnd)
             {
@@ -471,7 +473,7 @@ public class PlayerTitleMotioner : MonoBehaviour
             t = 0.0f;
             isEnd = false;
             defScale = parent.transform.localScale;
-            motionScale = new Vector3(0.8f, 1.5f, 1) - defScale;
+            motionScale = new Vector3(0.85f, 1.2f, 1) - defScale;
 
             while (!isEnd)
             {
