@@ -16,6 +16,7 @@ public class Scroll : MonoBehaviour
     [SerializeField] private float waitTime;
     [SerializeField] private float floatingCenter;
     [SerializeField] private float floatingHeight;
+    [SerializeField] private float scaleLate;
     private float timer;
     // Start is called before the first frame update
     void Start()
@@ -32,10 +33,14 @@ public class Scroll : MonoBehaviour
         {
             timer += Time.deltaTime;
             if (state == State.DEFAULT)
+            {
                 transform.localPosition = new Vector3(transform.localPosition.x, Floating() + floatingCenter, 0);
+                transform.localScale = Vector3.one;
+            }
             else
             {
-
+                transform.localPosition = new Vector3(transform.localPosition.x, floatingCenter, 0);
+                transform.localScale = Vector3.one * scaleLate;
             }
         }
     }
@@ -68,5 +73,17 @@ public class Scroll : MonoBehaviour
     {
         float ret = Mathf.Sin(2 * Mathf.PI * timer / floatingInterval) * floatingHeight;
         return ret;
+    }
+
+    public void OnStateSelect()
+    {
+        if(state==State.DEFAULT)
+        state = State.SELECT;
+    }
+
+    public void OnStateDefault()
+    {
+        if (state == State.SELECT)
+            state = State.DEFAULT;
     }
 }
