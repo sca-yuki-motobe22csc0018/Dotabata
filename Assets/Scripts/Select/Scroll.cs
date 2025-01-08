@@ -4,21 +4,40 @@ using UnityEngine;
 
 public class Scroll : MonoBehaviour
 {
-    [SerializeField]
-    private float waitTime;
-    [SerializeField]
-    private float floatingCenter;
-    private float floatingHeight;
+    enum State
+    {
+        FALL,
+        DEFAULT,
+        SELECT
+    }
+
+    private State state;
+    [SerializeField] private float floatingInterval;
+    [SerializeField] private float waitTime;
+    [SerializeField] private float floatingCenter;
+    [SerializeField] private float floatingHeight;
+    private float timer;
     // Start is called before the first frame update
     void Start()
     {
+        timer = 0.0f;
+        state = State.FALL;
         StartCoroutine(StartFall());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (state != State.FALL)
+        {
+            timer += Time.deltaTime;
+            if (state == State.DEFAULT)
+                transform.localPosition = new Vector3(transform.localPosition.x, Floating() + floatingCenter, 0);
+            else
+            {
+
+            }
+        }
     }
 
     private IEnumerator StartFall()
@@ -35,6 +54,7 @@ public class Scroll : MonoBehaviour
             yield return null;
             if (t >= 1.0f) isEnd = true;
         }
+        state = State.DEFAULT;
     }
 
     private float EaseOutCubic(float t)
@@ -42,5 +62,11 @@ public class Scroll : MonoBehaviour
         float c = 1.0f - t;
 
         return t <= 1.0f ? 1 - c * c * c : 1.0f;
+    }
+
+    private float Floating()
+    {
+        float ret = Mathf.Sin(2 * Mathf.PI * timer / floatingInterval) * floatingHeight;
+        return ret;
     }
 }
