@@ -102,7 +102,6 @@ public class Ore : MonoBehaviour
             {
                 gradationObjects[i].transform.transform.localPosition = gradationScrollPos * colorRate;
             }
-            Debug.Log(1);
         }
 
     }
