@@ -49,6 +49,7 @@ public class Magma : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        PlayerManager.state = PlayerManager.PlayerState.PlayerMove;
         if (collision.CompareTag("Player")) { SceneManager.LoadScene("Title"); }
        
     }
