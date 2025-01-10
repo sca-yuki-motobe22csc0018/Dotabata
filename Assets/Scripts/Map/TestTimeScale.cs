@@ -12,6 +12,7 @@ public class TestTimeScale : MonoBehaviour
     void Start()
     {
         inputed = 0;
+        speed = 1;
     }
 
     // Update is called once per frame

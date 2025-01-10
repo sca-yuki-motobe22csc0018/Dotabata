@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -17,20 +14,36 @@ public class DefaultTileManager : MonoBehaviour
     private bool onCursor;
     private bool selectMap = false;
     private bool isFirst = false;
+    private Sprite[] sprites;
+    private SpriteRenderer sr;
 
+    private void OnEnable()
+    {
+        mapCreator = GameObject.Find("MapCreator");
+        mc = mapCreator.GetComponent<MapCreate>();
+        sprites = mc.GridSprites;
+    }
 
     private void Start()
     {
+        sr=GetComponent<SpriteRenderer>();
         onCursor = false;
-        mapCreator = GameObject.Find("MapCreator");
-        mc = mapCreator.GetComponent<MapCreate>();  
+       
         sh = GameObject.Find("Main Camera").transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<SelectHand>();
         mc.FirstPieceCreator(mc.PieceData, 100, 1, this.transform.position,this.gameObject);
-        
+        sr.sprite = sprites[0];
     }
 
     private void Update()
     {
+        if(PlayerManager.state==PlayerManager.PlayerState.PlayerMove)
+        {
+            sr.color = new Color(1.0f, 1.0f, 1.0f, 0.4f);
+        }
+        else
+        {
+            sr.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        }
         if (Input.GetMouseButtonUp(0)&&PlayerManager.state==PlayerManager.PlayerState.MapCreate&&onCursor&&sh.SelectedMap!=null)
         {
             mc.PieceCreator(mc.PieceData, sh.HandNumber[sh.SelectNumber], 1, this.transform.position);
@@ -47,6 +60,7 @@ public class DefaultTileManager : MonoBehaviour
             selectedMap = null;
             Destroy(this.gameObject);
         }
+
     }
     public void OnPointerUp(PointerEventData eventData)
     {
@@ -71,16 +85,16 @@ public class DefaultTileManager : MonoBehaviour
     public void OnPointerEnter()
     {
         onCursor = true;
+        if(sh.SelectNumber>=0)
+        {
+            sr.sprite = sprites[1];
+        }
+       
     }
     public void OnPointerExit()
     {
         onCursor = false;
+        sr.sprite = sprites[0];
     }
 
-    public void PointerUp()
-    {
-        if(onCursor)
-        {
-        }
-    }
 }

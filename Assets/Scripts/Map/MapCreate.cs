@@ -29,6 +29,9 @@ public class MapCreate : MonoBehaviour
     private Camera camera;
     SelectHand sh;
     public   List<string[]> pieceData;
+    [SerializeField]private Sprite[] gridSprites;
+    
+    public Sprite[] GridSprites { get { return gridSprites; } }
 
     public List<string[]> PieceData { get { return pieceData; } }
     
