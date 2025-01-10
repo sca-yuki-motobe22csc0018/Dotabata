@@ -8,13 +8,15 @@ using UnityEngine.EventSystems;
 /// ’S“–:ŒF’J
 /// </summary>
 
-public class MyNumberSet : EventSet, IPointerDownHandler ,IPointerUpHandler
+public class MyNumberSet : EventSet, IPointerDownHandler ,IPointerUpHandler,IPointerEnterHandler
 {
     SelectHand sh;
     GameObject backGround;
     SpriteRenderer sr;
     Collider2D collider;
     GameObject selectedMap;
+    [SerializeField] private GameObject trash;
+    Trash tr;
     public GameObject SelectedMap { get; } 
     
     void Awake()
@@ -22,7 +24,7 @@ public class MyNumberSet : EventSet, IPointerDownHandler ,IPointerUpHandler
         backGround = GameObject.Find("BackGround");
         sh = backGround.GetComponent<SelectHand>();
         collider = GetComponent<Collider2D>();
-        
+        tr=trash.GetComponent<Trash>();
     }
     void OnEnable()
     {
@@ -76,6 +78,18 @@ public class MyNumberSet : EventSet, IPointerDownHandler ,IPointerUpHandler
             selectedMap.GetComponent<Collider2D>().enabled = false; 
             selectedMap.layer = 2;
         }
+        if (eventData.pointerId == -2)
+        {
+            if (sh.HandNumber.Count > int.Parse(this.gameObject.name))
+            {
+                sh.HandNumber.RemoveAt(int.Parse(this.gameObject.name));
+                Debug.Log(int.Parse(this.gameObject.name));
+                sh.SelectNumber = -1;
+                sh.PutedMap = true;
+                sh.HandMake();
+                Destroy(sh.SelectedMap);
+            }
+        }
     }
         
 
@@ -94,5 +108,27 @@ public class MyNumberSet : EventSet, IPointerDownHandler ,IPointerUpHandler
         }
          
     //    selectedMap = null;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (sh.HandNumber.Count<=int.Parse(this.gameObject.name))
+        {
+            return;
+        }
+        List<int> tmpTrList = tr.TrashList;
+        for (int i=0;i<tr.TrashList.Count;i++)
+        {
+            if (tmpTrList[i] == int.Parse(this.gameObject.name))
+            {
+                return;
+            }
+        }
+        if(tr.Trashing)
+        {
+            tmpTrList.Add(int.Parse(this.gameObject.name));
+            tr.TrashList=tmpTrList;
+        }
+         
     }
 }

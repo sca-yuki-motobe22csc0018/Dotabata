@@ -106,7 +106,7 @@ public class SelectHand : MonoBehaviour
         handsWindow.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
     }
 
-    private void DestroyLastHands()
+    public void DestroyLastHands()
     {
         for(int i=0;i<hands.Length;i++)
         {
