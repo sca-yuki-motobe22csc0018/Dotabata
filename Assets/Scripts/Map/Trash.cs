@@ -40,8 +40,8 @@ public class Trash : MonoBehaviour, IPointerDownHandler
         //    Destroy(sh.SelectedMap);
         //}
         trashList.Sort();
-        trashList.Reverse();    
-        int trashListCount=trashList.Count; 
+        trashList.Reverse();            int trashListCount=trashList.Count; 
+
         for(int i=0;i<trashListCount; i++) 
         {
             sh.HandNumber.RemoveAt(trashList[i]);
