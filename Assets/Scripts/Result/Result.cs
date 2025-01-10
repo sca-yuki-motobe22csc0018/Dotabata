@@ -10,13 +10,18 @@ using UnityEngine.UI;
 /// </summary>
 public class Result : MonoBehaviour
 {
+
     [SerializeField] Text timeText;
     [SerializeField] Text oreText;
     [SerializeField] Text totalText;
 
     [SerializeField] GameObject meterMoveObj;
-    Vector3 meterStartPos = new Vector3(25, -450, 0);
-    Vector3 meterEndPos = new Vector3(25, 450, 0);
+    Vector3 meterStartPos = new Vector3(25, 90, 0);
+    Vector3 meterEndPos = new Vector3(25, 990, 0);
+    bool meterStart = false;
+    int meterCount = 0;
+    int meterTargetCount;
+    [SerializeField]int meterMoveSpeed = 10;
 
     float timeScore;
     float timeDisplayScore;
@@ -44,10 +49,20 @@ public class Result : MonoBehaviour
         oreDisplayScore = 0;
         totalDisplayScore = 0;
         timer = 0;
-#if true
+        meterMoveObj.transform.position = meterStartPos;
+
+        //スコア受け取り
+
+
+#if true //デバッグ用
         timeScore = 1234567;
         oreScore = 1234567;
         totalScore = 1234567;
+        meterTargetCount = (int)totalScore / 20000;
+        if(meterTargetCount >= 100)
+        {
+            meterTargetCount = 100;
+        }
 #endif
     }
 
@@ -79,10 +94,12 @@ public class Result : MonoBehaviour
                     oreDisplayScore = oreScore;
                     oreText.text = "+  " + oreDisplayScore.ToString("f0") + "  Pt";
                     resultState = ResultState.tortal;
+
+                    meterStart = true;
                 }
                 break;
             case ResultState.tortal:
-                if(totalScore > totalDisplayScore && !Input.GetMouseButtonDown(0))
+                if (totalScore > totalDisplayScore && !Input.GetMouseButtonDown(0))
                 {
                     totalDisplayScore += totalScore * Time.deltaTime / countUpTime;
                     totalText.text = "" + totalDisplayScore.ToString("f0");
@@ -104,6 +121,22 @@ public class Result : MonoBehaviour
             default:
                 resultState = ResultState.end;
                 break;
+        }
+
+        MeterMove();
+    }
+
+    /// <summary>
+    /// メーターの動き
+    /// </summary>
+    void MeterMove()
+    {
+        if(meterCount != meterTargetCount * meterMoveSpeed && meterStart)
+        {
+            meterMoveObj.transform.position = new Vector3(meterMoveObj.transform.position.x,
+                                                          meterMoveObj.transform.position.y + (((meterEndPos.y - meterStartPos.y) / 100) / meterMoveSpeed),
+                                                          0) ;
+            meterCount++;
         }
     }
 }
