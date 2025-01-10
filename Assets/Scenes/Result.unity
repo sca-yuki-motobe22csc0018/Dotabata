@@ -326,7 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.150935, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1281,7 +1281,8 @@ MonoBehaviour:
   timeText: {fileID: 1884346482}
   oreText: {fileID: 583491375}
   totalText: {fileID: 1201003339}
-  meterMoveObj: {fileID: 1201003337}
+  meterMoveObj: {fileID: 1569757818}
+  meterMoveSpeed: 10
 --- !u!4 &1625367742
 Transform:
   m_ObjectHideFlags: 0
