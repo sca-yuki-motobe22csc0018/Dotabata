@@ -17,7 +17,6 @@ public class ButtonContentsMotion : MonoBehaviour
     [SerializeField] ButtonMode mode;
     private void OnEnable()
     {
-        Debug.Log(0);
         switch (mode)
         {
             case ButtonMode.START:
