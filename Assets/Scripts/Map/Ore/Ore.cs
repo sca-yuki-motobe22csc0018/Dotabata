@@ -24,6 +24,7 @@ public class Ore : MonoBehaviour
     private bool hitPlayer;
     private const float validVelocity=3.0f;
     private float playerPower = 0;
+    private WitchSpeak ws;
 
     [SerializeField] private GameObject[] gradationObjects;
      private GameObject magma;
@@ -52,6 +53,8 @@ public class Ore : MonoBehaviour
     private void Awake()
     {
         player = GameObject.Find(playerTag);
+        GameObject witchSpeaker = GameObject.Find("WitchSpeaker");
+        ws=witchSpeaker.GetComponent<WitchSpeak>();
         pm=player.GetComponent<PlayerManager>();    
         comboManager=GameObject.Find("ComboManager");
         cm=comboManager.GetComponent<ComboManager>();
@@ -125,6 +128,27 @@ public class Ore : MonoBehaviour
             {
                 TmpEventStart();
             }
+            if(Random.Range(1,101)<5&&!ws.SpesialLineFlag)
+            {
+                ws.SpesialLineFlag = true;
+                ws.AddString = ws.SpesialLine;
+            }
+            else if(ws.Strings.Count>ws.NowLine)
+            {
+                Debug.Log(ws.NowLine * 2);
+                ws.AddString = ws.Strings[ws.NowLine];
+                ws.NowLineCount =ws.NowLineCount + 1;
+                if (ws.NowLine < 3)
+                {
+                    ws.NowLine += 2;
+                }
+                else
+                {
+                    ws.NowLine = ws.NowLine * 2 - Random.Range(1, 3);
+                }
+            }
+           
+           
             cm.ComboCount++;
             cm.ComboTimer = 0.0f;
             cm.ComboFlag = true;
