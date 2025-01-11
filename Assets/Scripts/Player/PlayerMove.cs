@@ -6,14 +6,18 @@ public class PlayerMove : MonoBehaviour
 {
     public enum Difficulty
     {
-        Easy = 1,
-        Normal = 2,
-        Hard = 3
+        Hop = 1,
+        Standard = 2,
+        Technical = 3
     }
     public Difficulty dif;
     private float Speed;
-    public float SpeedNeutral;
-    public float SpeedUp;
+    public float SpeedNeutralHop;
+    public float SpeedNeutralStandard;
+    public float SpeedNeutralTechnical;
+    public float SpeedUpHop;
+    public float SpeedUpStandard;
+    public float SpeedUpTechnical;
     public float maxSpeed;
     public float torqueSpeed;
     private PhysicsMaterial2D dynamicMaterial;
@@ -100,7 +104,7 @@ public class PlayerMove : MonoBehaviour
         dynamicMaterial = new PhysicsMaterial2D();
         PowerCoolTimeRight = PowerCoolTimeNeutral;
         PowerCoolTimeLeft = PowerCoolTimeNeutral;
-        Speed = SpeedNeutral;
+        
         camSize = camSizeNeutral;
 
         col2D = GetComponent<Collider2D>();
@@ -125,18 +129,21 @@ public class PlayerMove : MonoBehaviour
         mapDropDown = false;
         mapBlind = false;
         visibilityDown = false;
-        if (dif == Difficulty.Easy)
+        if (dif == Difficulty.Hop)
         {
+            Speed = SpeedNeutralHop;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             gaugeLeft.gameObject.SetActive(false);
         }
-        if (dif == Difficulty.Normal)
+        if (dif == Difficulty.Standard)
         {
+            Speed = SpeedNeutralStandard;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             gaugeLeft.gameObject.SetActive(true);
         }
-        if (dif == Difficulty.Hard)
+        if (dif == Difficulty.Technical)
         {
+            Speed = SpeedNeutralTechnical;
             rb.constraints = RigidbodyConstraints2D.None;
             gaugeLeft.gameObject.SetActive(true);
         }
@@ -181,7 +188,7 @@ public class PlayerMove : MonoBehaviour
             gaugeImageRight.fillAmount = fillAmountRight;
             gaugeImageLeft.fillAmount = fillAmountLeft;
         }
-        if (dif == Difficulty.Easy)
+        if (dif == Difficulty.Hop)
         {
             gaugeImageRight.fillAmount = fillAmountRight;
             if (Input.GetMouseButton(0) && PowerTimerRight < PowerMaxTime && !move)
@@ -242,7 +249,7 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        if (dif==Difficulty.Normal)
+        if (dif==Difficulty.Standard)
         {
             if (gaugeImageRight != null && gaugeImageLeft != null)
             {
@@ -318,7 +325,7 @@ public class PlayerMove : MonoBehaviour
             }
             SetGaugeLeft(PowerTimerLeft / PowerMaxTime);
         }
-        if (dif == Difficulty.Hard)
+        if (dif == Difficulty.Technical)
         {
             //‰E—ƒ
             if (Input.GetMouseButton(1) && PowerTimerRight < PowerMaxTime && !moveRight)
@@ -421,7 +428,7 @@ public class PlayerMove : MonoBehaviour
         //Neutral
         if (chargeMax)
         {
-            if (dif == Difficulty.Normal || dif == Difficulty.Hard)
+            if (dif == Difficulty.Standard || dif == Difficulty.Technical)
             {
                 if (Input.GetKey(KeyCode.D) && PowerTimerRight < PowerMaxTime && !moveRight)
                 {
@@ -446,10 +453,28 @@ public class PlayerMove : MonoBehaviour
         }
         if (speedUp)
         {
-            if (Speed != SpeedUp)
+            if (dif == Difficulty.Hop)
             {
-                Speed = SpeedUp;
+                if (Speed != SpeedUpHop)
+                {
+                    Speed = SpeedUpHop;
+                }
             }
+            if (dif == Difficulty.Standard)
+            {
+                if (Speed != SpeedUpStandard)
+                {
+                    Speed = SpeedUpStandard;
+                }
+            }
+            if (dif == Difficulty.Technical)
+            {
+                if (Speed != SpeedUpTechnical)
+                {
+                    Speed = SpeedUpTechnical;
+                }
+            }
+            
         }
         //Minus
         if (lavaSpeedUp)
@@ -540,7 +565,18 @@ public class PlayerMove : MonoBehaviour
         }
         if (!speedUp)
         {
-            Speed = SpeedNeutral;
+            if (dif == Difficulty.Hop)
+            {
+                Speed = SpeedNeutralHop;
+            }
+            if (dif == Difficulty.Standard)
+            {
+                Speed = SpeedNeutralStandard;
+            }
+            if (dif == Difficulty.Technical)
+            {
+                Speed = SpeedNeutralTechnical;
+            }
         }
     }
 

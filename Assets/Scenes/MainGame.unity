@@ -648,9 +648,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b6d409126d91349895a0f8d2a1f001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dif: 3
-  SpeedNeutral: 0.4
-  SpeedUp: 0.8
+  dif: 1
+  SpeedNeutralHop: 3
+  SpeedNeutralStandard: 3
+  SpeedNeutralTechnical: 3
+  SpeedUpHop: 0.8
+  SpeedUpStandard: 0.8
+  SpeedUpTechnical: 0.8
   maxSpeed: 15
   torqueSpeed: 1
   bouncinessNeutral: 0.2
@@ -1462,7 +1466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de098a2ab46f8cb4aa0d8bae67022198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraObject: {fileID: 1133179557}
+  playerCamera: {fileID: 0}
 --- !u!4 &1620120263
 Transform:
   m_ObjectHideFlags: 0
