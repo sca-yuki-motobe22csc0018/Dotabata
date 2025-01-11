@@ -15,6 +15,7 @@ public class Ore : MonoBehaviour
     private GameObject oreManager;
     private SelectHand sh;
     private MapCreate mc;
+    private PlayerManager pm;
     private OreData oreData =new OreData();
     public delegate void OreEvent();
     private const string playerTag = "Player";
@@ -36,15 +37,23 @@ public class Ore : MonoBehaviour
         public Sprite sprite;//見た目
         public List<OreEvent> events;//割り当てられる効果
         public List<int> eventPercentage;//各効果の発生割合
+        public int addScore;
 
     }
+    private const int score = 500;
+    private const float scoreRate = 10;
+    private float addScore;
+    private int totalScore;
+    private float colorRate;
 
+    public int TotalScore { get { return totalScore; } }
     OreInfo info = new OreInfo();
     public OreInfo Info { get { return info; } set { info=value; } }
 
     private void Awake()
     {
         player = GameObject.Find(playerTag);
+        pm=player.GetComponent<PlayerManager>();    
         comboManager=GameObject.Find("ComboManager");
         cm=comboManager.GetComponent<ComboManager>();
         Debug.Log(GameObject.Find("Main Camera"));
@@ -69,7 +78,7 @@ public class Ore : MonoBehaviour
         for(int i=0;i<gradationObjects.Length;i++)
         {
             gradationObjects[i].transform.parent.transform.rotation =
-              Quaternion.Euler(new Vector3(0, 0, -transform.rotation.z));  
+            Quaternion.Euler(new Vector3(0, 0, -transform.rotation.z));  
         }
     }
 
@@ -92,7 +101,6 @@ public class Ore : MonoBehaviour
     {
         float diff = Mathf.Abs(magma.transform.position.y - transform.position.y);
         const int pieceBlocks = 13;
-        float colorRate;
         Vector3 gradationScrollPos = new Vector3(0, 60, 0);
 
         if (diff < pieceBlocks)
@@ -111,6 +119,7 @@ public class Ore : MonoBehaviour
         if(hitCount>=info.durability)
         {
             GetHand();
+            pm.TotalScore= (int)((1 + (colorRate * colorRate)) * scoreRate)*score;
             int rand = Random.Range(0, 10);
             if (rand < 4)
             {
@@ -144,7 +153,7 @@ public class Ore : MonoBehaviour
         const int maxHand = 8;
         if(size<maxHand)//現在所持しているマップの数が手札上限より少なければ
         {
-            int getHandNumber = Random.Range(0, 57);//仮。ここの数字は後でマップ総量に変更
+            int getHandNumber = Random.Range(0, 62);//仮。ここの数字は後でマップ総量に変更
             sh.HandNumber.Add(getHandNumber);
         }
     }

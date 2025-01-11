@@ -26,6 +26,7 @@ public class MapCreate : MonoBehaviour
     [SerializeField] Canvas canvas;
     [SerializeField] GameObject[] walls;
     [SerializeField] GameObject defaultTileManagement;
+    [SerializeField] GameObject player;
     private Camera camera;
     SelectHand sh;
     public   List<string[]> pieceData;
@@ -65,7 +66,7 @@ public class MapCreate : MonoBehaviour
     void Start()
     {
         GameObject GM = GameObject.Find("GameManager").gameObject;
-        PlayerManager PM=GM.GetComponent<PlayerManager>();
+        PlayerManager PM=player.GetComponent<PlayerManager>();
         PM.AddFunction(MapCreater,1);
        // MakeOuterWall();
     }
@@ -129,7 +130,7 @@ public class MapCreate : MonoBehaviour
                     angleS=angleS.Substring(2,angleS.Length-2);
                     angle=int.Parse(angleS);
                     int random=Random.Range(0, ores.Length);//鉱石の中からランダムに生成
-                    GameObject obj = Instantiate(ores[random],new Vector3(posX,posY,0),Quaternion.AngleAxis(angle-90, Vector3.forward));//
+                    GameObject obj = Instantiate(ores[random],new Vector3(posX,posY,0),Quaternion.AngleAxis(angle, Vector3.forward));//
                     GameObject floor = Instantiate(mapObjects[0],new Vector3(posX, posY,0), Quaternion.identity);
                     Ore ore = obj.GetComponent<Ore>();
                     Ore.OreInfo Info = ore.Info;
@@ -175,6 +176,7 @@ public class MapCreate : MonoBehaviour
                 else
                 {
                     str = piece[i + pieceColum * pieceNumber][j][0].ToString();
+                    Debug.Log(pieceNumber + "pieceNumber");
                     number = int.Parse(str);
                 }
                
@@ -186,11 +188,12 @@ public class MapCreate : MonoBehaviour
                     int cor = 1;
                     for (int ang = 0; i < str.Length - 2; ang++)
                     {
-                        angle = str[str.Length - 1] * cor;
+                        angle = str[str.Length - i] * cor;
                         cor *= 10;
                     }
+                    Debug.Log("angle" + angle);
                     GameObject obj = Instantiate(mapObjects[number], new Vector3(posX,
-                    posY, 0), Quaternion.AngleAxis(120,Vector3.forward));
+                    posY, 0), Quaternion.AngleAxis(angle,Vector3.forward));
                     obj.transform.parent = parent.transform;
                     
                     //Instantiateで親を設定すると比率を再度調整しないといけなくなるためこの方法で親を設定
@@ -227,6 +230,7 @@ public class MapCreate : MonoBehaviour
 
     public void FirstPieceCreator(List<string[]> piece, int pieceNumber, float pieceSize, Vector3 createPos, GameObject parent)
     {
+        Debug.Log("Debug.Log");
         const int pieceColum = 15;
         float angle = 0;
         string str = " ";
