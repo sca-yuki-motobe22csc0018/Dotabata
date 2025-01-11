@@ -42,7 +42,6 @@ public class Ore : MonoBehaviour
     }
     private const int score = 500;
     private const float scoreRate = 10;
-    private float addScore;
     private int totalScore;
     private float colorRate;
 

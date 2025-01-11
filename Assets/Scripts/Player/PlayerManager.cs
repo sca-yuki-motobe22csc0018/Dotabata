@@ -20,7 +20,7 @@ public class PlayerManager : MonoBehaviour
     public StateFunction[] StateFunctions;
     int stateCount = 0;
     [SerializeField]private Camera playerCamera;
-    [SerializeField]private int totalScore;
+    public static int totalScore;
     public int TotalScore { get { return totalScore; } set { totalScore += value; } }
 
     private void Awake()
