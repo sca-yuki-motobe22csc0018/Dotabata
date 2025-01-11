@@ -75,6 +75,18 @@ public class ButtonContentsMotion : MonoBehaviour
             yield return null;
         }
 
+        t=0.0f;
+        motionSpeed=7.5f;
+
+        while (true)
+        { 
+            for(int i = 2; i < 5; i++)
+            {
+                contents[i].transform.localScale=Vector3.one*Mathf.Sin(t);
+            }
+            t+=Time.deltaTime*motionSpeed;
+            yield return null;
+        }
     }
 
     private IEnumerator OptionMotion()
