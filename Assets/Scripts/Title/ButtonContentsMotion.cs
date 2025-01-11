@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -19,8 +20,8 @@ public class ButtonContentsMotion : MonoBehaviour
     {
         switch (mode)
         {
-            case ButtonMode.START:
-                //StartCoroutine(OptionMotion());
+            case ButtonMode.LIBRARY:
+                StartCoroutine(LibraryMotion());
                 break;
 
             case ButtonMode.OPTION:
@@ -31,6 +32,49 @@ public class ButtonContentsMotion : MonoBehaviour
                 StartCoroutine(ExitMotion());
                 break;
         }
+    }
+
+    private IEnumerator LibraryMotion()
+    {
+        bool isEnd = false;
+        float t = 0.0f;
+
+        Vector3 defPos = new Vector3(-375, -25, 0);
+        Vector3 motPos = new Vector3(-390, 0, 0);
+        Vector3 addDist = motPos - defPos;
+        float motionSpeed = 2.5f;
+
+        Vector3 defRot = Vector3.zero;
+        Vector3 motRot = Vector3.one;
+        Vector3 addRot = motRot - defRot;
+        contents[1].transform.localScale = Vector3.zero;
+
+        while (!isEnd)
+        {
+            float x = addDist.x * EaseOutCirc(t);
+            float y = addDist.y * EaseOutBack(t);
+            contents[0].transform.localPosition= defPos+ new Vector3(x,y);
+
+            t+=Time.deltaTime*motionSpeed;
+            if (t >= 1.0f) isEnd = true;
+            yield return null;
+        }
+
+        isEnd = false;
+        t=0.0f;
+        motionSpeed = 5.0f;
+
+        while (!isEnd)
+        {
+            float x = addRot.x * EaseInCubic(t);
+            float y = addRot.y * EaseOutQuad(t);
+            contents[1].transform.localScale = defRot + new Vector3(x, y);
+
+            t += Time.deltaTime * motionSpeed;
+            if (t >= 1.0f) isEnd = true;
+            yield return null;
+        }
+
     }
 
     private IEnumerator OptionMotion()
@@ -114,6 +158,10 @@ public class ButtonContentsMotion : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Äˆğ‚ªo‚Ä‚­‚é‚â‚Â
+    /// </summary>
+    /// <returns></returns>
     private float EaseOutBack(float t)
     {
         const float c1 = 1.70158f;
@@ -123,11 +171,35 @@ public class ButtonContentsMotion : MonoBehaviour
         return 1 + c2 * c3 * c3 * c3 + c1 * c3 * c3;
     }
 
-    //‚¿‚å‚¤‚Ç‚¢‚¢
+    /// <summary>
+    /// –‚—‚ªo‚Ä‚­‚é‚â‚Â
+    /// </summary>
+    /// <returns></returns>
     private float EaseInOutCubic(float t)
     {
         float c = -2 * t + 2;
 
         return t < 0.5f ? 4 * t * t * t : 1 - (c * c * c) / 2;
+    }
+
+    /// <summary>
+    /// –{‚Ì‰¡ˆÚ“®
+    /// </summary>
+    /// <returns></returns>
+    private float EaseOutCirc(float t)
+    {
+        float c = t - 1;
+        return t <= 1.0f ? Mathf.Sqrt(1 - c * c) : 1.0f;
+    }
+
+    private float EaseOutQuad(float t)
+    {
+        float c=1-t;
+            return 1 - c*c;
+    }
+
+    private float EaseInCubic(float t)
+    {
+        return t*t*t;
     }
 }
