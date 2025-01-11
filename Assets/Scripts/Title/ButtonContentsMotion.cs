@@ -17,6 +17,7 @@ public class ButtonContentsMotion : MonoBehaviour
     [SerializeField] ButtonMode mode;
     private void OnEnable()
     {
+        Debug.Log(0);
         switch (mode)
         {
             case ButtonMode.START:
@@ -42,7 +43,7 @@ public class ButtonContentsMotion : MonoBehaviour
         Vector3 defPos = new Vector3(-345, 0, 0);
         Vector3 motPos = new Vector3(-335, 0, 0);
         Vector3 addDist = motPos - defPos;
-        float motionSpeed = 3.0f;
+        const float motionSpeed = 3.0f;
 
         Vector3 defRot = new Vector3(0, 0, 30.0f);
         Vector3 motRot = new Vector3(0, 0, -5.0f);
@@ -84,19 +85,32 @@ public class ButtonContentsMotion : MonoBehaviour
         float t = 0.0f;
 
         Vector3 defPos = new Vector3(-130, -70.0f, 0);
-        Vector3 motPos = new Vector3(-130, -15.0f, 0);
+        Vector3 motPos = new Vector3(-130, -20.0f, 0);
         Vector3 addDist = motPos - defPos;
+        Vector3 defRot_Body = new Vector3(0,0,-10.0f);
+        Vector3 motRot_Body = Vector3.zero;
+        Vector3 addRot_Body = motRot_Body - defRot_Body;
 
-        Vector3 defRot = new Vector3(0, 0, -10.0f);
-        Vector3 motRot = Vector3.zero;
-        Vector3 addRot = motRot - defRot;
+        Vector3 defRot_Hand =Vector3.zero;
+        Vector3 motRot_Hand = new Vector3(0.0f, 0.0f, 15.0f);
+        Vector3 addRot_Hand = motRot_Hand - defRot_Hand;
 
-        contents[1].transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 7.5f));
+        contents[1].transform.localRotation = Quaternion.Euler(defRot_Hand);
         while (!isEnd)
         {
             contents[0].transform.localPosition = defPos + addDist * EaseOutBack(t);
-            t += Time.deltaTime;
+            contents[0].transform.localRotation= Quaternion.Euler(defRot_Body+addRot_Body*EaseOutBack(t));
             if (t >= 1.0f) isEnd = true;
+            yield return t <= 0.0f ? new WaitForSeconds(0.25f) : null;
+            t += Time.deltaTime * 2;
+        }
+
+        isEnd = false;
+        t = 0.0f;
+        while (!isEnd)
+        {
+            contents[1].transform.localRotation = Quaternion.Euler(defRot_Hand + addRot_Hand * Mathf.Sin(t * Mathf.PI*3));
+            t += Time.deltaTime;
             yield return null;
         }
     }
