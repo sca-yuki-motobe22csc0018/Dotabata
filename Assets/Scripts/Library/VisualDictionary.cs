@@ -17,9 +17,11 @@ public class VisualDictionary : MonoBehaviour
     public Text[] oreNumberText;
     public Text NowPageText;
 
-    const int page_Max = 10;
+    const int page_Max = 2;
     const int page_Min = 1;
     int page_Now = 1;
+
+    int oreMax = 5;
 
     public GameObject yakiimo;
 
@@ -43,7 +45,14 @@ public class VisualDictionary : MonoBehaviour
     /// </summary>
     public void goNextPage()
     {
-        page_Now++;
+        if(page_Now == page_Max)
+        {
+            page_Now = page_Min;
+        }
+        else
+        {
+            page_Now++;
+        }
         pageUpdate();
     }
     /// <summary>
@@ -51,7 +60,14 @@ public class VisualDictionary : MonoBehaviour
     /// </summary>
     public void goBackPage()
     {
-        page_Now--;
+        if(page_Now == page_Min)
+        {
+            page_Now = page_Max;
+        }
+        else
+        {
+            page_Now--;
+        }
         pageUpdate();
     }
 
@@ -83,8 +99,9 @@ public class VisualDictionary : MonoBehaviour
 
         if(page_Now == page_Min)
         {
-            backButton.SetActive(false);
-            nextButton.SetActive(true);
+            oreSelectButton[2].SetActive(true);
+            //backButton.SetActive(false);
+           // nextButton.SetActive(true);
 
             oreNumberText[0].text = "No." + ((page_Now * 3) - 2).ToString("D3");
             oreNumberText[1].text = "No." + ((page_Now * 3) - 1).ToString("D3");
@@ -92,8 +109,9 @@ public class VisualDictionary : MonoBehaviour
         }
         else if(page_Now == page_Max)
         {
-            backButton.SetActive(true);
-            nextButton.SetActive(false);
+            oreSelectButton[2].SetActive(false);
+            // backButton.SetActive(true);
+            //  nextButton.SetActive(false);
 
             oreNumberText[0].text = "No." + ((page_Now * 3) - 2).ToString("D3");
             oreNumberText[1].text = "No." + ((page_Now * 3) - 1).ToString("D3");
@@ -101,8 +119,9 @@ public class VisualDictionary : MonoBehaviour
         }
         else
         {
-            backButton.SetActive(true);
-            nextButton.SetActive(true);
+            oreSelectButton[2].SetActive(true);
+            //  backButton.SetActive(true);
+            // nextButton.SetActive(true);
 
             oreNumberText[0].text = "No." + ((page_Now * 3) - 2).ToString("D3");
             oreNumberText[1].text = "No." + ((page_Now * 3) - 1).ToString("D3");
