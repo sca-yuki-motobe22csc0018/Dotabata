@@ -88,7 +88,7 @@ public class PlayerMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pm = gameManger.GetComponent<PlayerManager>();
+        pm = this.gameObject.GetComponent<PlayerManager>();
         pm.AddFunction(PlayerUpdate);
         cam= playerCamera.GetComponent<Camera>();
         moveRight = false;

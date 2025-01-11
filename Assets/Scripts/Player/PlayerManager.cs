@@ -19,9 +19,9 @@ public class PlayerManager : MonoBehaviour
     public delegate void StateFunction();
     public StateFunction[] StateFunctions;
     int stateCount = 0;
-    [SerializeField] private GameObject cameraObject;
-    private Camera playerCamera;
-
+    [SerializeField]private Camera playerCamera;
+    [SerializeField]private int totalScore;
+    public int TotalScore { get { return totalScore; } set { totalScore += value; } }
 
     private void Awake()
     {
@@ -30,7 +30,6 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerCamera=cameraObject.GetComponent<Camera>();
         state = PlayerState.PlayerMove ;
     }
 
