@@ -21,7 +21,8 @@ public class PlayerManager : MonoBehaviour
     int stateCount = 0;
     [SerializeField]private Camera playerCamera;
     public static int totalScore;
-    public int TotalScore { get { return totalScore; } set { totalScore += value; } }
+    public static float time;
+    public static int oreCount;
 
     private void Awake()
     {
@@ -46,7 +47,7 @@ void Update()
         {
             state=0;
         }
-    
+        time += Time.deltaTime;
 }   
 
 
