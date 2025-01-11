@@ -116,7 +116,7 @@ public class ButtonEffects : MonoBehaviour
                 break;
         }
 
-        if(sceneName != null)
+        if (sceneName != null)
             SceneManager.LoadScene(sceneName);
     }
 
