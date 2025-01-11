@@ -118,7 +118,8 @@ public class Ore : MonoBehaviour
         if(hitCount>=info.durability)
         {
             GetHand();
-            pm.TotalScore= (int)((1 + (colorRate * colorRate)) * scoreRate)*score;
+            PlayerManager.totalScore += (int)((1 + (colorRate * colorRate)) * scoreRate)*score;
+            PlayerManager.oreCount++;
             int rand = Random.Range(0, 10);
             if (rand < 4)
             {
