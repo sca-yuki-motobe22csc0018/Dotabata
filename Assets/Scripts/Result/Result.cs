@@ -52,10 +52,17 @@ public class Result : MonoBehaviour
         meterMoveObj.transform.position = meterStartPos;
 
         //スコア受け取り
+        totalScore = PlayerManager.totalScore;
+        timeScore = PlayerManager.time;
+        oreScore = PlayerManager.oreCount;
+        meterTargetCount = (int)totalScore / 20000;
+        if (meterTargetCount >= 100)
+        {
+            meterTargetCount = 100;
+        }
 
-
-#if true //デバッグ用
-        timeScore = 1234567;
+#if false     //デバッグ用
+        timeScore = 300.0f;
         oreScore = 1234567;
         totalScore = 1234567;
         meterTargetCount = (int)totalScore / 20000;
@@ -74,12 +81,12 @@ public class Result : MonoBehaviour
                 if(timeScore > timeDisplayScore && !Input.GetMouseButtonDown(0))
                 {
                     timeDisplayScore += timeScore * Time.deltaTime / countUpTime;
-                    timeText.text = "+  " + timeDisplayScore.ToString("f0") + "  Pt";
+                    timeText.text = "  " + timeDisplayScore.ToString("f1") + "  秒";
                 }
                 else
                 {
                     timeDisplayScore = timeScore;
-                    timeText.text = "+  " + timeDisplayScore.ToString("f0") + "  Pt";
+                    timeText.text = "  " + timeDisplayScore.ToString("f1") + "  秒";
                     resultState = ResultState.ore;
                 }
                 break;
@@ -87,12 +94,12 @@ public class Result : MonoBehaviour
                 if (oreScore > oreDisplayScore && !Input.GetMouseButtonDown(0))
                 {
                     oreDisplayScore += oreScore * Time.deltaTime / countUpTime;
-                    oreText.text = "+  " + oreDisplayScore.ToString("f0") + "  Pt";
+                    oreText.text = "  " + oreDisplayScore.ToString("f0") + "  個";
                 }
                 else
                 {
                     oreDisplayScore = oreScore;
-                    oreText.text = "+  " + oreDisplayScore.ToString("f0") + "  Pt";
+                    oreText.text = "  " + oreDisplayScore.ToString("f0") + "  個";
                     resultState = ResultState.tortal;
 
                     meterStart = true;
