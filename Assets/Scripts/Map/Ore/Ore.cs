@@ -133,7 +133,7 @@ public class Ore : MonoBehaviour
                 ws.AddString = ws.FixedLine[ws.CallFixedLineCount];
                 ws.CallFixedLineCount++;
             }
-            if(Random.Range(1,101)<=100)
+            if(Random.Range(1,101)<=20&&ws.CanAddDendrogram)
             {
                 if (Random.Range(1, 101) <= 3 && !ws.SpesialLineFlag)
                 {

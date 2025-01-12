@@ -29,8 +29,8 @@ public class WitchSpeak : MonoBehaviour
         " çzêŒÇ™Ç¢Ç¡ÇœÇ¢...ÅBãAÇ¡ÇƒóàÇΩÇÁÉpÅ[ÉeÉBÅ[ÇÀÅI"
     };
     [SerializeField] private GameObject speakWindow;
-    float sizeX;
-    float sizeY;
+    const float sizeX=250;
+    const float sizeY=25;
     RectTransform rect;
 
     private string specialLine =  "Ç´Å`ÇÁÅ`Ç´Å`ÇÁÅ`Ç–Å`Ç©Å`ÇÈÅ`ÅBÇøÅ`ÇøÇ„Å`Ç§ÇÃÇ¢Å`ÇµÅ`ÇÊÅ`ÅB" ;
@@ -53,6 +53,7 @@ public class WitchSpeak : MonoBehaviour
     public int NowLine { get { return callDendrogramLine; }set { callDendrogramLine = value; } }
     public int CallFixedLineCount { get { return callFixedLine; }set { callFixedLine = value; } }
     public int NowLineCount { get { return nowLineCount; } set { nowLineCount = value; } }
+    public bool CanAddDendrogram { get { return canAddDendrogram;} }
 
 
 
@@ -61,8 +62,7 @@ public class WitchSpeak : MonoBehaviour
         callDendrogramLine = 0;
         canAddDendrogram=true;
         rect = speakWindow.transform as RectTransform;
-        sizeX = rect.sizeDelta.x;
-        sizeY = rect.sizeDelta.y;
+        rect.sizeDelta=new Vector3(0,0,0);
     }
     // Start is called before the first frame update
     void Start()
@@ -92,6 +92,7 @@ public class WitchSpeak : MonoBehaviour
 
     private IEnumerator LineOperator()
     {
+        Debug.Log("Debug");
         canAddDendrogram=false;
         speaking = true;
         StartCoroutine(WindowOpen());
@@ -107,12 +108,12 @@ public class WitchSpeak : MonoBehaviour
         {
             specialLineFlag = false;
         }
-        nowLine++;
-        speaking = false;
-        line.text = null;
         StartCoroutine(WindowClose());
+        nowLine++;
+        line.text = null;
         yield return new WaitForSeconds(1f);
-        canAddDendrogram=false;
+        speaking = false;
+        canAddDendrogram =true;
     }
 
     private IEnumerator WindowOpen()
@@ -124,26 +125,34 @@ public class WitchSpeak : MonoBehaviour
     
         const float openSpeedX=1000;
         const float openSpeedY=250;
-        while(rect.sizeDelta.y<sizeY)
+        while(rect.sizeDelta.y<sizeY|| rect.sizeDelta.x < sizeX)
         {
+          
             y+=Time.deltaTime*openSpeedY;
+            x += Time.deltaTime * openSpeedX;
             if (y > sizeY)
             {
                 y = sizeY;
+                
             }
-            rect.sizeDelta=new Vector3(x,y,0);
-            yield return null;
-        }
-        while(rect.sizeDelta.x<sizeX)
-        {
-            x+=Time.deltaTime*openSpeedX;
-            if(x > sizeX)
+           
+            if (x > sizeX)
             {
-                x=sizeX;
+                x = sizeX;
             }
-            rect.sizeDelta=new Vector3(x,y,0);
+            rect.sizeDelta = new Vector3(x, y, 0);
             yield return null;
         }
+        //while(rect.sizeDelta.x<sizeX)
+        //{
+        //    x+=Time.deltaTime*openSpeedX;
+        //    if(x > sizeX)
+        //    {
+        //        x=sizeX;
+        //    }
+        //    rect.sizeDelta=new Vector3(x,y,0);
+        //    yield return null;
+        //}
     }
 
     private IEnumerator WindowClose()
@@ -162,7 +171,7 @@ public class WitchSpeak : MonoBehaviour
                 y = 0;
             }
             rect.sizeDelta = new Vector3(x, y, 0);
-            x += Time.deltaTime * closeSpeedX;
+            x -= Time.deltaTime * closeSpeedX;
             if (x < 0)
             {
                 x = 0;
