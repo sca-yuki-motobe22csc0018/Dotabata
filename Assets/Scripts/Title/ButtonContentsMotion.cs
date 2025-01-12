@@ -20,6 +20,10 @@ public class ButtonContentsMotion : MonoBehaviour
     {
         switch (mode)
         {
+            case ButtonMode.START:
+                StartCoroutine(StartMotion());
+                break;
+
             case ButtonMode.LIBRARY:
                 StartCoroutine(LibraryMotion());
                 break;
@@ -34,6 +38,50 @@ public class ButtonContentsMotion : MonoBehaviour
         }
     }
 
+    private IEnumerator BrinkStar()
+    {
+        float motionSpeed = 0.75f;
+        float[] scalengTimer = new float[3] { 0.0f, 1.0f / 3, 2.0f / 3 };
+        while (true)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                scalengTimer[i] += Time.deltaTime * motionSpeed;
+                contents[i + 2].transform.localScale = Vector3.one * Mathf.Sin(Mathf.PI * scalengTimer[i]);
+                if (scalengTimer[i] >= 1.0f)
+                {
+                    float x = Random.Range(-35.0f, 45.0f);
+                    float y = Random.Range(-35.0f, 45.0f);
+                    contents[i + 2].transform.localPosition = new Vector3(x, y, 0);
+                    scalengTimer[i] -= 1.0f;
+                }
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator StartMotion()
+    {
+        float t = 0.0f;
+        float motionSpeed = 0.5f;
+
+        Vector3 defRot = new Vector3(0, 0, 5.0f);
+        Vector3 motRot = new Vector3(0, 0, 10.0f);
+        Vector3 addRot = motRot - defRot;
+
+        contents[0].transform.localRotation = Quaternion.Euler(defRot);
+
+        yield return new WaitForSeconds(0.25f);
+
+        while (true)
+        {
+            t += Time.deltaTime * motionSpeed;
+            contents[0].transform.localRotation = Quaternion.Euler(defRot + addRot * Mathf.Sin(t * Mathf.PI));
+
+            yield return null;
+        }
+    }
+
     private IEnumerator LibraryMotion()
     {
         bool isEnd = false;
@@ -42,49 +90,76 @@ public class ButtonContentsMotion : MonoBehaviour
         Vector3 defPos = new Vector3(-375, -25, 0);
         Vector3 motPos = new Vector3(-390, 0, 0);
         Vector3 addDist = motPos - defPos;
-        float motionSpeed = 2.5f;
+        float motionSpeed = 4.5f;
+
+        Vector3 defScl = Vector3.zero;
+        Vector3 motScl = Vector3.one;
+        Vector3 addScl = motScl - defScl;
+        contents[1].transform.localScale = Vector3.zero;
 
         Vector3 defRot = Vector3.zero;
-        Vector3 motRot = Vector3.one;
+        Vector3 motRot = new Vector3(0, 0, 8.0f);
         Vector3 addRot = motRot - defRot;
-        contents[1].transform.localScale = Vector3.zero;
+
+        float[] scalengTimer = new float[3] { 0.0f, 1.0f / 3, 2.0f / 3 };
+        for (int i = 0; i < scalengTimer.Length; i++)
+            contents[i + 2].transform.localScale = Vector3.one * scalengTimer[i];
 
         while (!isEnd)
         {
+            t += Time.deltaTime * motionSpeed;
             float x = addDist.x * EaseOutCirc(t);
             float y = addDist.y * EaseOutBack(t);
             contents[0].transform.localPosition= defPos+ new Vector3(x,y);
 
-            t+=Time.deltaTime*motionSpeed;
             if (t >= 1.0f) isEnd = true;
             yield return null;
         }
 
         isEnd = false;
-        t=0.0f;
-        motionSpeed = 5.0f;
+        t = 0.0f;
+        motionSpeed = 3.0f;
 
         while (!isEnd)
         {
-            float x = addRot.x * EaseInCubic(t);
-            float y = addRot.y * EaseOutQuad(t);
-            contents[1].transform.localScale = defRot + new Vector3(x, y);
-
             t += Time.deltaTime * motionSpeed;
+            float x = addScl.x * EaseInCubic(t);
+            float y = addScl.y * EaseInOutCubic(t);
+            contents[1].transform.localScale = defScl + new Vector3(x, y);
+
             if (t >= 1.0f) isEnd = true;
             yield return null;
         }
 
-        t=0.0f;
-        motionSpeed=7.5f;
+        StartCoroutine(BrinkStar());
+
+        isEnd = false;
+        t = 0.0f;
+        motionSpeed = 4.0f;
+
+        while (!isEnd)
+        {
+            t += Time.deltaTime * motionSpeed;
+            contents[1].transform.localRotation = 
+                Quaternion.Euler(defRot + addRot * Mathf.Sin(t * 2.0f * Mathf.PI));
+
+            if (t >= 1.0f) isEnd = true;
+            yield return null;
+        }
+        contents[1].transform.localRotation = Quaternion.Euler(defRot);
+
+        yield return new WaitForSeconds(0.25f);
+
+        t = 0.0f;
+        defPos = new Vector3(-390.0f,0,0);
+        motPos = new Vector3(-390.0f, 5.0f, 0);
+        addDist = motPos - defPos;
+        motionSpeed = 0.1f;
 
         while (true)
-        { 
-            for(int i = 2; i < 5; i++)
-            {
-                contents[i].transform.localScale=Vector3.one*Mathf.Sin(t);
-            }
-            t+=Time.deltaTime*motionSpeed;
+        {
+            contents[5].transform.localPosition = defPos + addDist * Mathf.Sin(Mathf.Abs(t * 2.0f * Mathf.PI));
+            t += Time.deltaTime * motionSpeed;
             yield return null;
         }
     }
@@ -180,18 +255,19 @@ public class ButtonContentsMotion : MonoBehaviour
         float c2 = c1 + 1;
         float c3 = t - 1;
 
-        return 1 + c2 * c3 * c3 * c3 + c1 * c3 * c3;
+        return t <= 1.0f ? 1 + c2 * c3 * c3 * c3 + c1 * c3 * c3 : 1.0f;
     }
 
     /// <summary>
-    /// ñÇèóÇ™èoÇƒÇ≠ÇÈÇ‚Ç¬
+    /// ñÇèóÇ™èoÇƒÇ≠ÇÈÇ‚Ç¬Ç∆çzêŒÇÃägèkÅFÇô
     /// </summary>
     /// <returns></returns>
     private float EaseInOutCubic(float t)
     {
         float c = -2 * t + 2;
 
-        return t < 0.5f ? 4 * t * t * t : 1 - (c * c * c) / 2;
+        return t > 1.0f ? 1.0f 
+            : t < 0.5f ? 4 * t * t * t : 1 - (c * c * c) / 2;
     }
 
     /// <summary>
@@ -204,14 +280,55 @@ public class ButtonContentsMotion : MonoBehaviour
         return t <= 1.0f ? Mathf.Sqrt(1 - c * c) : 1.0f;
     }
 
+    /// <summary>
+    /// çzêŒÇÃägèkÅFÇô
+    /// </summary>
+    /// <returns></returns>
     private float EaseOutQuad(float t)
     {
-        float c=1-t;
-            return 1 - c*c;
+        float c = 1 - t;
+        return t <= 1.0f ? 1 - c * c : 1.0f;
     }
 
+    /// <summary>
+    /// çzêŒÇÃägèkÅFÇò
+    /// </summary>
+    /// <returns></returns>
     private float EaseInCubic(float t)
     {
-        return t*t*t;
+        return t <= 1.0f ? t * t : 1.0f;
+    }
+
+    private float EaseInQuint(float t)
+    {
+        return t * t * t * t * t;
+    }
+
+    private float EaseOutBounce(float t)
+    {
+        const float n1 = 7.5625f;
+        const float d1 = 2.75f;
+
+        if (t < 1.0f / d1)
+        {
+            return n1 * t * t;
+        }
+        else if (t < 2.0f / d1)
+        {
+            return n1 * (t -= 1.5f / d1) * t + 0.75f;
+        }
+        else if (t < 2.5f / d1)
+        {
+            return n1 * (t -= 2.25f / d1) * t + 0.9375f;
+        }
+        else
+        {
+            return t <= 1.0f ? n1 * (t -= 2.625f / d1) * t + 0.984375f : 1.0f;
+        }
+    }
+
+    private float EaseInBounce(float t)
+    {
+        return t<= 1.0f ? 1 - EaseOutBounce(1 - t) : 1.0f;
     }
 }
