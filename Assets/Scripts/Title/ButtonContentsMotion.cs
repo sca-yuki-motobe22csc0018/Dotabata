@@ -87,10 +87,10 @@ public class ButtonContentsMotion : MonoBehaviour
         bool isEnd = false;
         float t = 0.0f;
 
-        Vector3 defPos = new Vector3(-375, -25, 0);
-        Vector3 motPos = new Vector3(-390, 0, 0);
+        Vector3 defPos = new Vector3(-375.0f, -40.0f, 0);
+        Vector3 motPos = new Vector3(-390.0f, 0, 0);
         Vector3 addDist = motPos - defPos;
-        float motionSpeed = 4.5f;
+        float motionSpeed = 3.0f;
 
         Vector3 defScl = Vector3.zero;
         Vector3 motScl = Vector3.one;
