@@ -105,7 +105,7 @@ public class PlayerTitleMotioner : MonoBehaviour
                         float randTime = Random.Range(movementTimeMin, movementTimeMax);
 
                         const float xMin = -800.0f;
-                        const float xMax = 200.0f;
+                        const float xMax = 30.0f;
                         const float yMin = -600.0f;
                         const float yMax = 150.0f;
                         Vector3 randTarget = new Vector3(
