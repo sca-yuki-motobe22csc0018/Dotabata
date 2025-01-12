@@ -230,7 +230,6 @@ public class MapCreate : MonoBehaviour
 
     public void FirstPieceCreator(List<string[]> piece, int pieceNumber, float pieceSize, Vector3 createPos, GameObject parent)
     {
-        Debug.Log("Debug.Log");
         const int pieceColum = 15;
         float angle = 0;
         string str = " ";

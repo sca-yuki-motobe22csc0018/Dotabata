@@ -128,25 +128,34 @@ public class Ore : MonoBehaviour
             {
                 TmpEventStart();
             }
-            if(Random.Range(1,101)<5&&!ws.SpesialLineFlag)
+            if(PlayerManager.oreCount>=10&&PlayerManager.oreCount%5==0)
             {
-                ws.SpesialLineFlag = true;
-                ws.AddString = ws.SpesialLine;
+                ws.AddString = ws.FixedLine[ws.CallFixedLineCount];
+                ws.CallFixedLineCount++;
             }
-            else if(ws.Strings.Count>ws.NowLine)
+            if(Random.Range(1,101)<=100)
             {
-                Debug.Log(ws.NowLine * 2);
-                ws.AddString = ws.Strings[ws.NowLine];
-                ws.NowLineCount =ws.NowLineCount + 1;
-                if (ws.NowLine < 3)
+                if (Random.Range(1, 101) <= 3 && !ws.SpesialLineFlag)
                 {
-                    ws.NowLine += 2;
+                    ws.SpesialLineFlag = true;
+                    ws.AddString = ws.SpesialLine;
                 }
-                else
+                else if (ws.Dendrogram.Count > ws.NowLine)
                 {
-                    ws.NowLine = ws.NowLine * 2 - Random.Range(1, 3);
+                    Debug.Log(ws.NowLine * 2);
+                    ws.AddString = ws.Dendrogram[ws.NowLine];
+                    ws.NowLineCount = ws.NowLineCount + 1;
+                    if (ws.NowLine < 3)
+                    {
+                        ws.NowLine += 2;
+                    }
+                    else
+                    {
+                        ws.NowLine = ws.NowLine * 2 - Random.Range(1, 3);
+                    }
                 }
             }
+           
            
            
             cm.ComboCount++;
