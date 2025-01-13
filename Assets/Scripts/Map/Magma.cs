@@ -7,9 +7,7 @@ public class Magma : MonoBehaviour
     [SerializeField,Header("‚PƒuƒƒbƒN/Ý’è•b")] private float maxSpeed;
     [SerializeField] private float defSpeed;
     [SerializeField] private float speed;
-    [SerializeField] private string playerName;
-    private GameObject player;
-    private Vector3 playerPos;
+    [SerializeField] private GameObject player;
     private const int mapHeight = 13;
     private float oreEffectSpeedRate;
     private float timer;
@@ -18,8 +16,6 @@ public class Magma : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.Find(playerName);
-        playerPos = player.transform.position;
         speed = defSpeed;
         oreEffectSpeedRate = 1.0f;
         timer = 0.0f;
@@ -33,15 +29,19 @@ public class Magma : MonoBehaviour
         if (isMovable)
         {
             Vector3 spd = Vector3.zero;
-            float deff = Mathf.Abs(transform.position.y - playerPos.y);
-            if (deff >= mapHeight)
+            float dist = Mathf.Abs(transform.localPosition.y - player.transform.localPosition.y);
+            if (dist >= mapHeight)
+            {
+                speed = maxSpeed;
+            }
+            else
             {
                 speed = defSpeed;
             }
             spd.y = 1.0f / speed * oreEffectSpeedRate <= maxSpeed ?
-                1.0f / speed * oreEffectSpeedRate : 0.5f;
+                1.0f / speed * oreEffectSpeedRate : maxSpeed;
 
-            transform.position += spd;
+            transform.position += spd * Time.deltaTime;
         }
     }
 
