@@ -521,6 +521,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gauge
       objectReference: {fileID: 0}
+    - target: {fileID: 5321099857690839334, guid: e90d8b06ee5b4d44cb43b33248bd09e1, type: 3}
+      propertyPath: m_Name
+      value: MagmaIcon
+      objectReference: {fileID: 0}
     - target: {fileID: 9054310390016011326, guid: e90d8b06ee5b4d44cb43b33248bd09e1, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
@@ -2835,14 +2839,14 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1261378384}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2114344840}
   - {fileID: 1505647181}
   - {fileID: 1079299922}
-  m_Father: {fileID: 1711756299}
+  m_Father: {fileID: 1635815003}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3757,6 +3761,7 @@ Transform:
   m_Children:
   - {fileID: 1330678478}
   - {fileID: 1054242091}
+  - {fileID: 1261378389}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1635815004
@@ -3980,6 +3985,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Magma
       objectReference: {fileID: 0}
+    - target: {fileID: 3862763611036681592, guid: e9dd625bbce60b7409bd19b2d045efbc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5370548185979925795, guid: e9dd625bbce60b7409bd19b2d045efbc, type: 3}
       propertyPath: m_LocalScale.x
       value: 17.34
@@ -4147,7 +4156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b6d409126d91349895a0f8d2a1f001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dif: 1
+  dif: 3
   SpeedNeutralHop: 7.5
   SpeedNeutralStandard: 0
   SpeedNeutralTechnical: 0
@@ -4322,7 +4331,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1489015578}
-  - {fileID: 1261378389}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1711756300

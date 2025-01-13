@@ -83,10 +83,7 @@ public class WitchSpeak : MonoBehaviour
                 StartCoroutine(LineOperator());
             }
         }
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-            
-        }
+        Debug.Log(1);
        
     }
 

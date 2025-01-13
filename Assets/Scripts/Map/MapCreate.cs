@@ -139,6 +139,12 @@ public class MapCreate : MonoBehaviour
                     obj.transform.parent=canvas.transform;
 
                 }
+                else if (number == 5)
+                {
+                    angleS = angleS.Substring(2, angleS.Length - 2);
+                    angle = int.Parse(angleS)+90;
+                    GameObject obj = Instantiate(mapObjects[number], new Vector3(posX, posY, 0), Quaternion.AngleAxis(angle, Vector3.forward));
+                }
                 else
                 {
                        GameObject obj = Instantiate(mapObjects[number], new Vector3(posX,
@@ -200,13 +206,17 @@ public class MapCreate : MonoBehaviour
                     if (number == 2)
                     {
                         Ore ore = obj.GetComponent<Ore>();
-                      
-                       
-                        obj.transform.Rotate(new Vector3(0,0,obj.transform.rotation.z+angle));
+
+
+                        obj.transform.Rotate(new Vector3(0, 0, obj.transform.rotation.z + angle));
                         Ore.OreInfo Info=ore.Info;
                         Info.number = number-2;//çzêŒÇÃCSVÇÃî‘çÜÇ™2~ÇæÇ™ÅAçzêŒî‘çÜÇÕ0Ç©ÇÁÇ…ÇµÇΩÇ¢ÇÃÇ≈2Çà¯Ç≠
                         ore.Info = Info;
 
+                    }
+                    else if(number==5)
+                    {
+                        obj.transform.Rotate(new Vector3(0, 0, obj.transform.rotation.z + angle));
                     }
                 }
                 else
