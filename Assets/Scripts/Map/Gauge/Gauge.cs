@@ -10,8 +10,7 @@ public class Gauge : MonoBehaviour
     [SerializeField] private Text altitudeText;
     private const float revision = -6.5f;
     private const float goalHeight = 95.0f;
-    private const float gaugeHeight = 500;
-    private const float gaugeScale = 5.0f;
+    private const float gaugeHeight = 800;
     private float playerProgress;
     private float magmaProgress;
 
@@ -26,13 +25,13 @@ public class Gauge : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float pPosY = player.transform.position.y-revision >= 0.0f ? player.transform.position.y : 0.0f;
+        float pPosY = player.transform.position.y - revision >= 0.0f ? player.transform.position.y - revision : 0.0f;
         playerProgress = pPosY / goalHeight;
         altitudeText.text = "___" + (goalHeight - playerProgress * goalHeight) + "m";
-        playerIcon.transform.localPosition = new Vector3(0, gaugeHeight * playerProgress + 25, 0);
+        playerIcon.transform.localPosition = new Vector3(0, gaugeHeight * playerProgress);
 
-        float mPosY = magma.transform.position.y-revision >= 0.0f ? magma.transform.position.y-revision : 0.0f;
+        float mPosY = magma.transform.position.y - revision >= 0.0f ? magma.transform.position.y - revision : 0.0f;
         magmaProgress = mPosY / goalHeight;
-        magmaIcon.transform.localScale = new Vector3(1, 0.1f + magmaProgress * gaugeScale);
+        magmaIcon.transform.localPosition = new Vector3(20.0f, magmaProgress * gaugeHeight + 400.0f, 0.0f);
     }
 }
