@@ -4156,8 +4156,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b6d409126d91349895a0f8d2a1f001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dif: 3
-  SpeedNeutralHop: 7.5
+  dif: 1
+  SpeedNeutralHop: 20
   SpeedNeutralStandard: 0
   SpeedNeutralTechnical: 0
   SpeedUpHop: 10
@@ -4193,7 +4193,7 @@ MonoBehaviour:
   BackPos: 2
   knockbackDown: 0
   scoreUp: 0
-  visibilityUp: 0
+  visibilityUp: 1
   lavaSpeedDown: 0
   destroyWithOneHit: 0
   lavaSpeedUp: 0
@@ -4228,7 +4228,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &1711756297
 CircleCollider2D:

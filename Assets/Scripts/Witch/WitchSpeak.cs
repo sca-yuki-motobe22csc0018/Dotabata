@@ -28,6 +28,14 @@ public class WitchSpeak : MonoBehaviour
         "...ふぁあ。ん”っんん。今、どんな感じ？",
         " 鉱石がいっぱい...。帰って来たらパーティーね！"
     };
+
+    private List<string> noEntryLine=new List<string>
+    {
+        "なんだかすごいところにいない？",
+        "大丈夫？",
+        "ズルはダメよ。",
+        "・・・・・・。"
+    };
     [SerializeField] private GameObject speakWindow;
     const float sizeX=250;
     const float sizeY=25;
@@ -37,6 +45,13 @@ public class WitchSpeak : MonoBehaviour
     private bool specialLineFlag;
     private bool speaking;
     private bool canAddDendrogram;
+
+    private int noEntryCount;
+    private bool newNoEntry;
+    
+    public int NoEntryCount { get { return noEntryCount; } set{noEntryCount=value;} }
+    public bool NewNoEntry { get { return newNoEntry; } set { newNoEntry=value;} }
+
     public List<string> Dendrogram { get { return dendrogram ; }}
 
     public bool SpesialLineFlag {  get { return specialLineFlag; } set {  specialLineFlag = value; } }
@@ -59,6 +74,8 @@ public class WitchSpeak : MonoBehaviour
 
     private void Awake()
     {
+        noEntryCount=0;
+        NewNoEntry=false;
         callDendrogramLine = 0;
         canAddDendrogram=true;
         rect = speakWindow.transform as RectTransform;
@@ -83,7 +100,16 @@ public class WitchSpeak : MonoBehaviour
                 StartCoroutine(LineOperator());
             }
         }
-        Debug.Log(1);
+        if(noEntryCount<=noEntryLine.Count)
+        {
+            if (newNoEntry)
+            {
+                waitLines.Add(noEntryLine[noEntryCount-1]);
+                newNoEntry = false;
+            }
+            Debug.Log(1);
+        }
+       
        
     }
 
