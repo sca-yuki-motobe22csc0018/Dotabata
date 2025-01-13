@@ -27,7 +27,7 @@ public class Ore : MonoBehaviour
     private WitchSpeak ws;
 
     [SerializeField] private GameObject[] gradationObjects;
-     private GameObject magma;
+    [SerializeField]private GameObject magma;
      private float[] eventTimer=new float[4];
     //zÎ‚Ì‚Âî•ñ
     public struct OreInfo
@@ -128,7 +128,7 @@ public class Ore : MonoBehaviour
             {
                 TmpEventStart();
             }
-            if(PlayerManager.oreCount>=10&&PlayerManager.oreCount%5==0)
+            if(PlayerManager.oreCount>=10&&PlayerManager.oreCount%5==0&&PlayerManager.oreCount<36)
             {
                 ws.AddString = ws.FixedLine[ws.CallFixedLineCount];
                 ws.CallFixedLineCount++;

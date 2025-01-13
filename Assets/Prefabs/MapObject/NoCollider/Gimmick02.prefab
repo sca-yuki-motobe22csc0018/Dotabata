@@ -141,8 +141,7 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 20
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3027312126094242014, guid: 3e8dfc00feb22bc4f8c50fbca248e063, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
